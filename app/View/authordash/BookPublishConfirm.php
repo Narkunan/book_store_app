@@ -71,7 +71,7 @@ namespace App\View\authordash;
 <div id="wrapper">
   <div id="inner">
     <div id="header">
-      <h1 id="title">Engineering Book Store</h1>
+      <h1 id="title">Engineering Book Store <?php echo $_SESSION['authorname']??" ";?></h1>
       <nav> <a href="../../../public/assets/html/firsttwo.php"><button id="homebutton">Home</button></a> 
       <a href="../../Controller/AuthorRedirect.php"><button id="homebutton">Author Login</button></a> 
        

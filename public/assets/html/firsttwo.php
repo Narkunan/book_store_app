@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <html>
 <head>
 <title>Book Store</title>
@@ -57,17 +60,21 @@
     }
   </style>
 </head>
-<body>
+<body style ="width:100%;">
 <div id="wrapper">
   <div id="inner">
     <div id="header">
-      <h1 id="title">Engineering Book Store</h1>
+      <h1 id="title">Engineering Book Store <?php echo $_SESSION['authorname']??" ";?></h1>
+       
       <nav> <a href="firsttwo.php"><button id="homebutton">Home</button></a> 
       <a href="../../../app/Controller/AuthorRedirect.php"><button id="homebutton">Author Login</button></a> 
        
       <a href="user/login.html"><button id="homebutton">User Login</button></a>
+      
       </nav>
+      
     <dd class="last"></dd>
+    
   <center>
         <form action="../../../app/Controller/home/SearchByTitle.php" method="get" autocomplete="off">
           <div>

@@ -176,8 +176,8 @@ class AuthorDashModel extends authordashAbstract
      */
    public function publishBook():bool
    {
-    $sql="INSERT INTO book(authorname,title,price,stock,category,sub_category,authorid,coverpage,description,published_Date)
-    values(:authorname,:title,:price,:stock,:category,:sub_category,:authorid,:coverpage,:description,:date);";
+    $sql="INSERT INTO book(authorname,title,price,stock,category,sub_category,authorid,coverpage,description,published_Date,sales_count)
+    values(:authorname,:title,:price,:stock,:category,:sub_category,:authorid,:coverpage,:description,:date,0);";
     $stm=$this->connection->prepare($sql);
     $stm->bindParam("authorname",$this->authorname);
     $stm->bindParam("title",$this->title);

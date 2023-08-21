@@ -83,7 +83,7 @@
     <div id="wrapper">
   <div id="inner">
     <div id="header">
-      <h1 id="title">Engineering Book Store</h1>
+      <h1 id="title">Engineering Book Store <?php echo $_SESSION['authorname']??" ";?></h1>
       <nav> <a href="../firsttwo.php"><button id="homebutton">Home</button></a> 
       <a href="../../../../app/Controller/AuthorRedirect.php"><button id="homebutton">Author Login</button></a> 
       
