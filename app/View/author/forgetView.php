@@ -72,9 +72,9 @@ namespace App\View\author;
   <div id="inner">
     <div id="header">
       <h1 id="title">Engineering Book Store</h1>
-      <nav> <a href="../../../public/assets/html/firsttwo.php"><button id="homebutton">Home</button></a> 
+      <nav> <a href="../../../public/assets/html/first.php"><button id="homebutton">Home</button></a> 
       <a href="../../Controller/AuthorRedirect.php"><button id="homebutton">Author Login</button></a> 
-            <a href="../../../public/assets/html/user/login.html"><button id="homebutton">User Login</button></a>
+            <a href="../../Controller/UserRedirect.php"><button id="homebutton">User Login</button></a>
      </nav>
     <dd class="last"></dd>
   <center>

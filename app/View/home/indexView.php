@@ -1,5 +1,6 @@
 <?php
 namespace App\View\home;
+session_start();
 ?>    
 <html>
 <head>
@@ -40,15 +41,11 @@ namespace App\View\home;
       width: 15%;
       border:0px;
     }
-    form
-    {
-      background-color: red;
-      color:white;
-    }
+   
     #text
     {
       position: absolute;
-      top:0.7in;
+      top:78px;
       width:87%;
       left:0%;
     }
@@ -70,11 +67,12 @@ namespace App\View\home;
 <div id="wrapper">
   <div id="inner">
     <div id="header">
-      <h1 id="title">Engineering Book Store <?php echo $_SESSION['authorname']??" ";?></h1>
-      <nav> <a href="../../../public/assets/html/firsttwo.php"><button id="homebutton">Home</button></a> 
+      <h1 id="title">Engineering Book Store</h1>
+      <h1 style="background-color:red;color:white;"><?php echo $_SESSION['authorname']??$_SESSION['username']??"login ";?></h1>
+      <nav> <a href="../../../public/assets/html/first.php"><button id="homebutton">Home</button></a> 
       <a href="../../Controller/AuthorRedirect.php"><button id="homebutton">Author Login</button></a> 
        
-      <a href="../../../public/assets/html/user/login.html"><button id="homebutton">User Login</button></a>
+      <a href="../../Controller/UserRedirect.php"><button id="homebutton">User Login</button></a>
     </nav>
     <dd class="last"></dd>
   <center>
@@ -99,38 +97,40 @@ namespace App\View\home;
    {
     public function displayBook($product):void
     {
-    
+       if($_SESSION['userlogin']==1)
+       {
         $src="../../Model/upload/".$product->getCoverPage();
     
-
+        $url=$product->getBookId();
    echo" <div id='body'>
       <div class='inner'>
         <div class='leftbox'>";
-         
-          echo "<img src='$src' width='250' height='250' alt='photo 1' class='left' />";
-          echo "<div id='bookData'><h3>".$product->getBookTitle()."</h3><br>";
+         $_SESSION['price']=$product->getBookPrice();
+         $_SESSION['img']=$product->getCoverPage();
+         $_SESSION['title']=$product->getBookTitle();
+          echo "<img src='$src' width='250' height='150' alt='photo 1' class='left' />";
+          echo "<div id='bookData'><h3 style='text-align:left;'>".$product->getBookTitle()."</h3><br>";
           echo "<h2>Description<br>".$product->getBookDescription()."</h2><br>";
           echo "<h2>Category<br>".$product->getBookCategory()."</h2><br>";
           echo "<h2>Sub Category<br>".$product->getBooksubcategory()."</h2><br>";
-          echo "<n3>Author Name<br> </h3>  ".$product->getAuthorName(),"<br>";
-          echo "<p><b>Price:</b> <b>".$product->getBookPrice()."</b></p>
-         <p class='readmore'></p>
-        
-         <a href='#'><button style='background-color:red;color:white;border-radius:0px;'>BUY <b>NOW</b></button></a></div><div class='clear'></div>
-        </div>";
+          echo "<h3 style='text-align:left;color:black;'>Author Name<br>   ".$product->getAuthorName(),"<br></h3><br>";
+          echo "<h3 style='text-align:left;color:black;'>Price<br>".$product->getBookPrice()."<br></h3>
+         <p class='readmore'></p><br><br><br>
+         <form action='../../Controller/orders/orderController.php' method='POST'>
+         <tr><td>Quantity<br><br></td></tr>
+
+         <tr><td><select name='quantity'>
+         <option value=1>1</option>
+         <option value=2>2</option>
+         <option value=3>3</option>
+         <option value=4>4</option>
+         </select><br><br></td></tr>
+         <input type='hidden' value=$url name='bid'>
+         <button type='submit' style='background-color:red;color:white;border:0px;text-align:center;'>BUY NOW</button></div><div class='clear'></div>
+        </div>
+        </form>";
      echo" <!-- end .inner -->
-    </div>
-    <!-- end body -->
-    <div class='clear'></div>
-    <div id='footer'> Web design by <a href='http://www.freewebsitetemplates.com'>free website templates</a> &nbsp;
-      <div id='footnav'> <a href='#'>Legal</a> | <a href='#'>Home</a> </div>
-      <!-- end footnav -->
-    </div>
-    <!-- end footer -->
-  </div>
-  <!-- end inner -->
-</div>
-<!-- end wrapper -->
+    
 <script src='../../../public/assets/js/home/homeScripts.js'>
   </script>";
   //echo"<h1> TITLE : ".$product->getBookTitle()."</h1><br><br>";
@@ -140,7 +140,11 @@ namespace App\View\home;
         //echo "<img src='$src'><br>"
         //echo "<h3>Book Description :".$product->getBookDescription()."</h3>";
         //echo "<h2>PRICE :".$product->getBookPrice()."</h2>";
-
+       }
+       else
+       {
+        header("Location: ../../Controller/UserRedirect.php");
+       }
      }
     }
   ?>

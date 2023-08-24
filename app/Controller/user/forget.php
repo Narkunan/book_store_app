@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller\user;
 
 require_once "../../../vendor/autoload.php";
@@ -18,10 +17,12 @@ class Forget
      *
      * @param forgetModel $forgetModel
      */
-    private $forgetModel;
-    public function __construct($forgetModel)
+    private ForgetModel $forgetModel;
+    private  ForgetView $forgetView;
+    public function __construct($forgetModel,$forgetView)
     {
        $this->forgetModel=$forgetModel;
+       $this->forgetView=$forgetView;
     }
     
      /**
@@ -37,7 +38,7 @@ class Forget
         $password=$this->forgetModel->forgetPassword();
         if($password)
         {
-            ForgetView::displayPassword($this->forgetModel->getPassword());
+            $this->forgetView->displayPassword($this->forgetModel->getPassword());
         }
         else
         {
@@ -48,5 +49,6 @@ class Forget
 }
 
 $forgetModel=new ForgetModel();
-$forget=new Forget($forgetModel);
+$forgetView=new ForgetView();
+$forget=new Forget($forgetModel,$forgetView);
 $forget->forgetController();

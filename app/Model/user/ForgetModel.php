@@ -39,7 +39,7 @@ class ForgetModel
      *
      * @return  self
      */ 
-    public function setEmail($email):self
+    public function setEmail($email)
     {
         $this->email = $email;
     }

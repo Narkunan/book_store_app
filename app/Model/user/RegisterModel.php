@@ -107,7 +107,7 @@ class RegisterModel
          }
          else 
          {
-            die("some problem");
+            return false;
          }
 
         }

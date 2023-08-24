@@ -1,5 +1,6 @@
 <?php
 namespace App\View\home;
+session_start();
 ?>    
 <html>
 <head>
@@ -48,7 +49,7 @@ namespace App\View\home;
     #text
     {
       position: absolute;
-      top:0.7in;
+      top:78px;
       width:87%;
       left:0%;
     }
@@ -64,11 +65,12 @@ namespace App\View\home;
 <div id="wrapper">
   <div id="inner">
     <div id="header">
-      <h1 id="title">Engineering Book Store <?php echo $_SESSION['authorname']??" ";?></h1>
-      <nav> <a href="../../../public/assets/html/firsttwo.php"><button id="homebutton">Home</button></a> 
+      <h1 id="title">Engineering Book Store</h1>
+      <h1 style="background-color:red;color:white;"><?php echo $_SESSION['authorname']??$_SESSION['username']??"login ";?></h1>
+      <nav> <a href="../../../public/assets/html/first.php"><button id="homebutton">Home</button></a> 
       <a href="../../Controller/AuthorRedirect.php"><button id="homebutton">Author Login</button></a> 
        
-      <a href="../../../public/assets/html/user/login.html"><button id="homebutton">User Login</button></a>
+      <a href="../../Controller/UserRedirect.php"><button id="homebutton">User Login</button></a>
    </nav>
     <dd class="last"></dd>
   <center>

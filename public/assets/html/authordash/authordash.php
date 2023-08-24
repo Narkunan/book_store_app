@@ -1,3 +1,6 @@
+<?php 
+session_start();
+?>
 <html>
     <head>
         <title>AUTHORDASH</title>
@@ -52,7 +55,7 @@
     #text
     {
       position: absolute;
-      top:0.7in;
+      top:78px;
       width:87%;
       left:0%;
     }
@@ -83,11 +86,12 @@
     <div id="wrapper">
   <div id="inner">
     <div id="header">
-      <h1 id="title">Engineering Book Store <?php echo $_SESSION['authorname']??" ";?></h1>
-      <nav> <a href="../firsttwo.php"><button id="homebutton">Home</button></a> 
+      <h1 id="title">Engineering Book Store </h1>
+      <h1 style="background-color:red;color:white;"><?php echo $_SESSION['authorname']??"login ";?></h1>
+      <nav> <a href="../first.php"><button id="homebutton">Home</button></a> 
       <a href="../../../../app/Controller/AuthorRedirect.php"><button id="homebutton">Author Login</button></a> 
       
-      <a href="../user/login.html"><button id="homebutton">User Login</button></a>
+      <a href="../../../../app/Controller/UserRedirect.php"><button id="homebutton">User Login</button></a>
       </nav>
     <dd class="last"></dd>
   <center id="form">
@@ -116,7 +120,7 @@
     </dl>
         <center>
             <?php
-            session_start();
+           
              $authorname=$_SESSION["authorname"]??"login";
              
             echo "<h1 id='welcome'>welcome to Publish Dash <br>$authorname</h1>";

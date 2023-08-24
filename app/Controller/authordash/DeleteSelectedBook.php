@@ -23,6 +23,7 @@ class DeleteSelectedBook
       $path="../../Model/upload/".$this->deleteselectedbookmodel->getCoverPage();
        if(file_exists($path))
        {
+        echo "file exists";
          unlink($path);
        }
       

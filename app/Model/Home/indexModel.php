@@ -17,7 +17,7 @@ class IndexModel extends HomeAbstractModel implements FetchBookInterface
      */
     public function fetchBook():bool
     {
-        $sql="SELECT * FROM book LIMIT 5";
+        $sql="SELECT * FROM book ORDER BY sales_count DESC";
         $result=$this->conn->prepare($sql);
         $result->execute();
         if($result->rowCount()>0)

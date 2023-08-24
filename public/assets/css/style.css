@@ -34,8 +34,10 @@ padding: 0;
 }
 
 h2 {
-margin: 0 0 5px 0;
+margin: 0 0 0 0;
 padding: 0;
+text-align:left;
+font-size:10px;
 }
 
 h3 {
@@ -79,6 +81,7 @@ border-right: 2px solid #fff;
 background: white;
 color: black;
 margin-bottom: 10px;
+left:30%;
 }
 
 #header {
@@ -225,7 +228,7 @@ color: #f73838;
 }
 
 #body h3 {
-text-align:-webkit-right;
+text-align:right;
 font-family: "Keble Condensed", "KebleCondensed", "arial narrow", helvetica, arial, sans-serif;
 font-size: 13px;
 font-weight: normal;

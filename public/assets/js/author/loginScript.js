@@ -48,7 +48,7 @@ else
 function validateForm()
 {
     let valueLength=x.value
-    if(valueLength.length<=8)
+    if(valueLength.length<8)
     {
         y.style.color="red";
         y.innerHTML="Enter a Password";

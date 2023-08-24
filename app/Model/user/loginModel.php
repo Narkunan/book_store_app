@@ -57,7 +57,7 @@ class LoginModel
     {
         $this->password = $password;
     }
-    public function Loginuser()
+    public function loginUser()
     {
         $reult=$this->conn->prepare("SELECT * FROM user where email= :email and password=:password;");
         $reult->bindParam("email",$this->email);
