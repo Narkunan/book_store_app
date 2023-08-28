@@ -3,32 +3,32 @@ namespace   App\Controller\authordash;
 require "../../../vendor/autoload.php";
 session_start();
 use App\Model\authordash\EditBookModel;
-use App\View\authordash\EditBookView;
-class EditBook
+use App\Controller\authordash\AuthorDashBase;
+class EditBook extends AuthorDashBase
 {
-   private EditBookModel $editBookModel;
-   private EditBookView $editBookView;
-
-   public function __construct($editBookModel,$editBookView)
-   {
-     $this->editBookModel=$editBookModel;
-     $this->editBookView=$editBookView;
-   }
+   
    public function editBookManager()
    {
-     $this->editBookModel->setAuthorid($_SESSION['authorid']);
-     $bookFound=$this->editBookModel->fetchBooksByAuthorId();
-     if($bookFound)
-     {
-        $this->editBookView->displayBook($this->editBookModel->getFetchBook());
+      $this->model->setAuthorid(/**$_SESSION['Userid']**/1);
+      $bookFound=$this->model->fetchBooksByAuthorId();
+      if($bookFound)
+      {
+
+         $book=$this->model->getFetchBook();
+         $loggedUser = $_SESSION['loggedUser']??"no";
+         $name =$_SESSION['UserName']??"no";
+         $this->view->displayEditBookView($book,$loggedUser,$name);
+
      }
      else
      {
-        echo "<h1 font-size:30px> You Haven't Published </h1>";
+         $msg="You have not published yet";
+         $loggedUser=$_SESSION['loggedUser'];
+         $name =$_SESSION['UserName'];
+         $this->view->displayAuthorMessage($msg,$loggedUser,$name);
      }
    }
 }
 $editBookModel=new EditBookModel();
-$editBookView=new EditBookView();
-$EditBook=new EditBook($editBookModel,$editBookView);
+$EditBook=new EditBook($editBookModel);
 $EditBook->editBookManager();

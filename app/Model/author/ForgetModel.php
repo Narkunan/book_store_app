@@ -19,7 +19,7 @@ class ForgetModel extends abstarctModel
      */
     public function checkAccountExsits():bool
     {
-        $reult=$this->conn->prepare("SELECT * FROM author where email= :email");
+        $reult=$this->conn->prepare("SELECT * FROM users where email= :email");
         $reult->bindParam("email",$this->email);
         $reult->execute();
 

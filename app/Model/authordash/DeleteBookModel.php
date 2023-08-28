@@ -19,7 +19,7 @@ class DeleteBookModel
         $result=$this->conn->prepare($sql);
         $result->bindParam("authorid",$this->authorid);
         $result->execute();
-        if($result)
+        if($result->rowCount()>0)
         {
             $books=$result->fetchAll(\PDO::FETCH_ASSOC);
             $this->setFetchBook($books);

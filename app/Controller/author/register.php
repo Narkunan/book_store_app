@@ -34,6 +34,7 @@ class RegisterAuthor implements InputInterface
       $this->register->setName($_POST["name"]??"not passed");
       $this->register->setEmail($_POST["email"]??"not passed");
       $this->register->setPassword($_POST["password"]??"not passed");
+      $this->register->setRoleid($_POST["UserRole"]??"not passed");
     }
 
     /**
@@ -50,11 +51,11 @@ class RegisterAuthor implements InputInterface
           if($result)
           {
             header("Location: ../../../public/assets/html/author/login.php?msg=Account created Please Login");
-            echo "account created";
+            
           }
           else
           {
-            echo "redirectted to login.html user exists";
+            
             header("Location: ../../../public/assets/html/author/login.php?msg=Account already exists");
           }
           

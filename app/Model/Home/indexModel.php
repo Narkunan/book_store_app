@@ -8,7 +8,7 @@ use App\Model\Home\FetchBookInterface;
 /**
  *indexModel will Fetch Book detail
  */
-class IndexModel extends HomeAbstractModel implements FetchBookInterface
+class IndexModel extends HomeAbstractModel 
 {
     /**
      * FetchBook will fetch all book details.
@@ -22,7 +22,7 @@ class IndexModel extends HomeAbstractModel implements FetchBookInterface
         $result->execute();
         if($result->rowCount()>0)
         {
-           $this->FetchBook=$result->fetchAll(\PDO::FETCH_ASSOC);
+           $this->setFetchBook($result->fetchAll(\PDO::FETCH_ASSOC));
            return true;
         }
         else 

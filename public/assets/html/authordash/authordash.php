@@ -87,10 +87,9 @@ session_start();
   <div id="inner">
     <div id="header">
       <h1 id="title">Engineering Book Store </h1>
-      <h1 style="background-color:red;color:white;"><?php echo $_SESSION['authorname']??"login ";?></h1>
+      <h1 style="background-color:red;color:white;"><?php echo $_SESSION['UserName']??"login ";?></h1>
       <nav> <a href="../first.php"><button id="homebutton">Home</button></a> 
-      <a href="../../../../app/Controller/AuthorRedirect.php"><button id="homebutton">Author Login</button></a> 
-      
+           
       <a href="../../../../app/Controller/UserRedirect.php"><button id="homebutton">User Login</button></a>
       </nav>
     <dd class="last"></dd>
@@ -116,12 +115,14 @@ session_start();
     <dd style="font-size:16px;"> <a href="../../../../app/Controller/authordash/EditBook.php">Edit Book</a></dd>
     <dd style="font-size:16px;"> <a href="../../../../app/Controller/authordash/DeleteBook.php">Delete Book</a></dd>
     <dd style="font-size:16px;"> <a href="../../../../app/Controller/author/logout.php">logout</a></dd>
-      
+    <dd style="font-size:16px;"><p style="margin-top:0px;font-weight:bold;padding:3px 10px;color:white;font-size:16px" onclick="myfun()" id="become">Become User</p></dd>
+    <dd style="font-size:16px;"><p style="margin-top:0px;font-weight:bold;padding:3px 10px;color:white;font-size:16px" onclick="userRedirect()" id="redirect"></p></dd>
+               
     </dl>
         <center>
             <?php
            
-             $authorname=$_SESSION["authorname"]??"login";
+             $authorname=$_SESSION["UserName"]??"login";
              
             echo "<h1 id='welcome'>welcome to Publish Dash <br>$authorname</h1>";
             echo "<br>";?>
@@ -208,6 +209,7 @@ session_start();
         <tr><td><input type="submit" value="publish book" style="width:170px;"></td></tr>
         </form>
 </table>
+<input type='hidden' id='session' value="<?php echo $_SESSION['loggedUser']?>" >
         </center>
         </div>
         <!-- end .inner -->
@@ -226,6 +228,7 @@ session_start();
 <script src="../../js/home/homeScripts.js">
   </script>
         <script src="../../js/authordash/publishBook.js"></script>
+        <script src="../../js/authordash/authordash.js"></script>
     </body>
 </html>
 

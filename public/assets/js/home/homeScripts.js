@@ -1,7 +1,7 @@
 var textfield=document.getElementById("text");
-textfield.addEventListener("input",myfun);
+textfield.addEventListener("input",myfunn);
 var xhttp,result,input,suggestion,inputValue;
-function myfun()
+function myfunn()
 {
     var textlength=textfield.value;
     if(textlength.length>3)
@@ -42,3 +42,4 @@ function clickfun()
     }
     result.innerHTML="";
 }
+

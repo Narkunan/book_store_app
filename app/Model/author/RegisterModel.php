@@ -1,32 +1,13 @@
 <?php
 namespace App\Model\author;
 
-require_once "../../../vendor/autoload.php";
-
 use App\Model\author\abstarctModel;
-class RegisterModel extends abstarctModel
+use App\Model\author\AccountInterface;
+class RegisterModel extends abstarctModel implements AccountInterface
 {
-    private $name;   
-    /**
-     * Get the value of name
-     * 
-     * @return string
-     */ 
-    public function getName()
-    {
-        return $this->name;
-    }
-    /**
-     * Set the value of name.
-     *
-     * @param string $name
-     * 
-     * @return void
-     */ 
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
+     
+    private int $roleid;
+    
     
     /**
      * checkforaccountexsits for given user.
@@ -35,7 +16,7 @@ class RegisterModel extends abstarctModel
      */
     public function checkAccountExsits():bool
     {
-        $reult=$this->conn->prepare("SELECT * FROM author where email= :email;");
+        $reult=$this->conn->prepare("SELECT * FROM users where email= :email;");
         $reult->bindParam("email",$this->email);
         $reult->execute();
 
@@ -57,26 +38,30 @@ class RegisterModel extends abstarctModel
      */
     public function registerAuthor():bool
     {
-        
-        if($this->checkAccountExsits())
-        {
+         $account = $this->checkAccountExsits();
+        if($account)
+        {   
+             $createUser = $this->createUser();
 
-             $sql="INSERT INTO author (Author_name,email,password) values (:name,:email,:password);";
-             $stn=$this->conn->prepare($sql);
-             $stn->bindParam("name",$this->name);
-             $stn->bindParam("email",$this->email);
-             $stn->bindParam("password",$this->password);
-             $stn->execute();
-            if($stn)
-            {
-              
-              return true;
-            }
-            else 
-            {
-                 
+             if($createUser)
+             {
+               $updateRole = $this->updateRole();
+
+               if($updateRole)
+               {  
+                  echo "role also updated";
+                  return true;
+               }
+               else
+               {
                  return false;
-            }
+               }
+             }
+             else
+             {
+                return false;
+             }
+             
         }
         else 
         {
@@ -84,5 +69,50 @@ class RegisterModel extends abstarctModel
             return false;
         }
 
+    }
+
+    /**
+     * Set the value of roleid
+     *
+     * @return  self
+     */ 
+    public function setRoleid($roleid)
+    {
+        $this->roleid = $roleid;
+        
+        return $this;
+    }
+    public function createUser():bool
+    {
+        $sql="INSERT INTO users(name,email,password) values (:name,:email,:password);";
+        $stn=$this->conn->prepare($sql);
+        $stn->bindParam("name",$this->name);
+        $stn->bindParam("email",$this->email);
+        $stn->bindParam("password",$this->password);
+        $stn->execute();
+       if($stn)
+       {
+         return true;
+       }
+       else 
+       {
+            return false;
+       }
+    }
+    public function updateRole():bool
+    {
+        $sql="INSERT INTO user_role (user_id,roleid) VALUES ((SELECT user_id FROM users Where email=:email),:roleid)";
+        $stn = $this->conn->prepare($sql);
+        $stn->bindParam("email",$this->email);
+        $stn->bindParam("roleid",$this->roleid);
+        $stn->execute();
+        if($stn)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

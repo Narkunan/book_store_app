@@ -3,11 +3,11 @@ namespace App\Controller\orders;
 session_start();
 require "../../../vendor/autoload.php";
 use App\Model\orders\ordersModel;
-use App\View\orders\ordersConfirmView;
+use App\View\Home\displayHome;
 class OrderConfirm
 {
     private ordersModel $ordersModel;
-    private ordersConfirmView $orderConfirmView;
+    private displayHome $orderConfirmView;
 
     public function __construct($ordersModel,$orderConfirm)
     {
@@ -17,15 +17,19 @@ class OrderConfirm
     public function ordersConfirmController()
     {
         
-        $this->ordersModel->setBookid($_SESSION['bid']);
-        $this->ordersModel->setTotalPrice($_SESSION['tprice']);
-        $this->ordersModel->setUserid($_SESSION['userid']);
-        $this->ordersModel->setQuantity($_SESSION['quantity']);
+        $this->ordersModel->setBookid($_POST['bookid']);
+        $this->ordersModel->setTotalPrice($_POST['totalprice']);
+        $this->ordersModel->setUserid($_SESSION['Userid']);
+        $this->ordersModel->setQuantity($_POST['quantity']);
         $returnValue=$this->ordersModel->placeOrder();
         if($returnValue)
         {
-            $this->uninitializeSession();
-            $this->orderConfirmView->displayBook();
+            
+            //$this->orderConfirmView->displayBook();
+            $msg = "recent Order was successfully Placed";
+            $loggedUser = $_SESSION['loggedUser']??"no";
+            $name = $_SESSION['UserName']??"no";
+            $this->orderConfirmView->displayMessages($msg,$loggedUser,$name);
             
         }
         else
@@ -33,17 +37,9 @@ class OrderConfirm
             echo "ordernotplaced";
         }
     }
-    public function uninitializeSession()
-    {
-        unset($_SESSION['bid']);
-        unset($_SESSION['tprice']);
-        
-        unset($_SESSION['quantity']);
-        unset($_SESSION['img']);
-        unset($_SESSION['title']);
-    }
+    
 }
 $ordermodel=new ordersModel();
-$orderConfirmView = new ordersConfirmView();
+$orderConfirmView = new displayHome();
 $ordersconfirm = new OrderConfirm($ordermodel,$orderConfirmView);
 $ordersconfirm->ordersConfirmController();

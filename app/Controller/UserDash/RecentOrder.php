@@ -2,33 +2,28 @@
 namespace App\Controller\UserDash;
 require "../../../vendor/autoload.php";
 use App\Model\UserDash\RecentOrderModel;
-use App\View\UserDash\RecentOrderView;
+use App\Controller\UserDash\UserDashBase;
 session_start();
-class RecentOrder
+class RecentOrder extends UserDashBase
 {
-  private RecentOrderModel $recentorderModel;
-  private RecentOrderView $recentorderView;
-  public function __construct($recentorderModel,$recentorderView)
-  {
-     $this->recentorderModel=$recentorderModel;
-     $this->recentorderView=$recentorderView;
-  }
-  public function RecentOrder()
+  public function executeAction():void
   {
      
-     $this->recentorderModel->setUserid($_SESSION['userid']);
-     $returnValue=$this->recentorderModel->fetchRecentOrder();
+     $this->model->setUserid($_SESSION['Userid']);
+     $returnValue=$this->model->fetchRecentOrder();
      if($returnValue)
      {
-        $this->recentorderView->displayOrders($this->recentorderModel->getOrders());
+        $orders=$this->model->getOrders();
+        $this->view->recentOrders($orders,$this->loggeduser,$this->name);
      }
-     else
+   else
      {
-        echo "<h1 style='font-size:20px;text-align:center;'>no orders found :(</h1>";
+         $this->msg =" no orders were found";
+         $this->view->userMessage($this->msg,$this->loggeduser,$this->name);
+        
      }
   }
 }
 $recentorderModel= new RecentOrderModel();
-$recentorderView= new RecentOrderView();
-$recentorder= new RecentOrder($recentorderModel,$recentorderView);
-$recentorder->RecentOrder();
+$recentorder= new RecentOrder($recentorderModel);
+$recentorder->executeAction();

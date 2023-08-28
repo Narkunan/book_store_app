@@ -81,9 +81,7 @@
             <div id="inner">
               <div id="header">
                 <h1 id="title">Engineering Book Store</h1>
-                <nav> <a href="../first.php"><button id="homebutton">Home</button></a> 
-                <a href="../../../../app/Controller/AuthorRedirect.php"><button id="homebutton">Author Login</button></a> 
-                 
+                <nav> <a href="../first.php"><button id="homebutton">Home</button></a>  
                 <a href="../../../../app/Controller/UserRedirect.php"><button id="homebutton">User Login</button></a>
                </nav>
               <dd class="last"></dd>
@@ -110,11 +108,19 @@
                 $msg=$_GET['msg']??" ";
                 echo "<div id='msg' style='color:red;font-size:15px;'>".$msg."</div>";
                 ?><br><td></tr></td>
-               <tr><td> <label id="labels">Author Name</label><br></td></tr>
+               <tr><td> <label id="labels">Name</label><br></td></tr>
                
                <tr><td><input type="text" name="name" placeholder="Author name" id="names"><br></td></tr>
                 
                 <tr><td><div id="name"></div><br></td></tr>
+                <tr><td><label id="labels">Select Role</label>
+                <tr><td><select id = "roles" name = "UserRole">
+                  <option value = "0"> Select Role </option>
+                  <option value = "1"> Author </option>
+                  <option value = "2"> User </option> 
+                 </select>
+                 <br></td></tr>
+                 <tr><td><div id= "role"></div><br></td></tr>
                 <tr><td><label id="labels"> E-mail</label><br></td></tr>
                 
                 <tr><td><input type="email" name="email" placeholder="E-mail address" required><br></td></tr>

@@ -4,20 +4,24 @@ if(isset($_COOKIE['PHPSESSID']))
 {
     session_start();
     
-    if(isset($_SESSION['username'])&&empty($_SESSION['authorname']))
+    if($_SESSION["loggedUser"]=="user")
     {
-        header("Location: ../View/user/LoginView.php");
+        header("Location: ../View/UserDash/LoginView.php");
     }
-    else  if(isset($_SESSION['authorname'])&&empty($_SESSION['username']))
+    else  if($_SESSION["loggedUser"]=="author")
     {
-        header("Location: ../../public/assets/html/user/login.php?msg=Please Log out As Author and login as user");
+        header("Location: ../View/authordash/LoginView.php");
+    }
+    else if($_SESSION['loggedUser']=="Dual")
+    {
+        header("Location: ../../public/assets/html/author/chooseRole.html");
     }
     else
     {
-        header("Location: ../../public/assets/html/user/login.php");
+        header("Location: ../../public/assets/html/author/login.php");
     }
 }
 else
 {
-    header("Location: ../../public/assets/html/user/login.php?msg=Please Login");
+    header("Location: ../../public/assets/html/author/login.php?msg=Please Login");
 }

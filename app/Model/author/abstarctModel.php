@@ -8,7 +8,7 @@ abstract class abstarctModel
     public $email;
     public  $password;
     public $conn;
-
+    public string $name;
     /**
      * intialize the connection to the database.
      */
@@ -71,6 +71,25 @@ abstract class abstarctModel
      *
      * @return void
      */
-    abstract public function checkAccountExsits():bool;
+   /**
+     * Get the value of name
+     * 
+     * @return string
+     */ 
+    public function getName()
+    {
+        return $this->name;
+    }
+    /**
+     * Set the value of name.
+     *
+     * @param string $name
+     * 
+     * @return void
+     */ 
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
     
 }

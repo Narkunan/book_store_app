@@ -2,44 +2,44 @@
 namespace App\Controller\authordash;
 require "../../../vendor/autoload.php";
 use App\Model\authordash\DeleteSelectedBookModel;
-use App\View\authordash\BookPublishConfirm;
+use App\Controller\authordash\AuthorDashBase;
 
-class DeleteSelectedBook
+class DeleteSelectedBook extends AuthorDashBase
 {
-   private DeleteSelectedBookModel $deleteselectedbookmodel;
-
-   private BookPublishConfirm $bookpublishConfirm;
-   public function __construct($deleteSelectedBookModel,$bookpublishConfirm)
+ 
+   public function deleteBookImage()
    {
-     $this->deleteselectedbookmodel=$deleteSelectedBookModel;
-     $this->bookpublishConfirm=$bookpublishConfirm;
+      $this->model->setBookid($_GET['id']);
+      $coverimg=$this->model->deleteBookCoverPage();
+      if($coverimg)
+      {
+         $path="../../Model/upload/".$this->model->getCoverPage();
+         if(file_exists($path))
+         {
+           echo "file exists";
+           unlink($path);
+         }
+      }
    }
    public function deletedSelectedBookController()
    {
-     $this->deleteselectedbookmodel->setBookid($_GET['id']);
-     $coverimg=$this->deleteselectedbookmodel->deleteBookCoverPage();
-     if($coverimg)
-     {
-      $path="../../Model/upload/".$this->deleteselectedbookmodel->getCoverPage();
-       if(file_exists($path))
-       {
-        echo "file exists";
-         unlink($path);
-       }
-      
-     }
-     $reult=$this->deleteselectedbookmodel->deleteBook();
-     if($reult)
-     {
-        $this->bookpublishConfirm->displayBook("your Most Recent Request For Delete Book Was Accomplished");
-     }
-     else
-     {
+     
+     
+      $reult=$this->model->deleteBook();
+      if($reult)
+      {
+        $this->deleteBookImage();
+        $msg="your Most Recent Request For Delete Book Was Accomplished";
+        $loggedUser = $_SESSION['loggedUser']??"no";
+        $name = $_SESSION['UserName']??"no"; 
+        $this->view->displayAuthorMessage($msg,$loggedUser,$name);
+      }
+      else
+      {
         echo "<h1>encountred Problem With Deleting Book ";
-     }
-   }
+      }
+    }
 }
 $deleteSelectedBookModel = new DeleteSelectedBookModel();
-$bookpublishConfirm= new BookPublishConfirm();
-$DeleteSelectedBook= new DeleteSelectedBook($deleteSelectedBookModel,$bookpublishConfirm);
+$DeleteSelectedBook= new DeleteSelectedBook($deleteSelectedBookModel);
 $DeleteSelectedBook->deletedSelectedBookController();

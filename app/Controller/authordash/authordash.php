@@ -1,29 +1,16 @@
 <?php
-
 namespace App\Controller\authordash;
 session_start();
 require "../../../vendor/autoload.php";
 use App\Model\authordash\AuthorDashModel;
-use App\View\authordash\BookPublishConfirm;
+use App\Controller\authordash\AuthorDashBase;
 /***
  * Authordashconteoller for authordashboard
  * controller.
  */
-class AuthorDashController
+class AuthorDashController extends AuthorDashBase
 {
-    private authorDashModel $authordashmodel;
     
-    /**
-     * initialies authordashModel.
-     *
-     * @param authordashmodel $authorDashModel
-     */
-    public function __construct($authorDashModel)
-    {
-       $this->authordashmodel=$authorDashModel;
-    }
-
-
     /**
      * This authordash manager 
      * 
@@ -33,23 +20,27 @@ class AuthorDashController
      */
     public function AuthorDashManager()
     {
-        $authorname=$_SESSION["authorname"];
-        $authorId=$_SESSION["authorid"];
-        $this->authordashmodel->setAuthorid($authorId);
-        $this->authordashmodel->setAuthorname($authorname);
-        $this->authordashmodel->setTitle($_POST["booktitle"]);
-        $this->authordashmodel->setCategory($_POST["book_category"]);
-        $this->authordashmodel->setSubcategory($_POST["book_subcategory"]);
-        $this->authordashmodel->setDescription($_POST["description"]);
-        $this->authordashmodel->setStock($_POST["stock"]);
-        $this->authordashmodel->setPrice($_POST["price"]);
-        $this->authordashmodel->setCoverpage($_FILES["coverpage"]["name"]);
-        $result=$this->authordashmodel->publishBook();
+        $authorname=$_SESSION["UserName"];
+        $authorId=$_SESSION["Userid"];
+        $this->model->setAuthorid($authorId);
+        $this->model->setAuthorname($authorname);
+        $this->model->setTitle($_POST["booktitle"]);
+        $this->model->setCategory($_POST["book_category"]);
+        $this->model->setSubcategory($_POST["book_subcategory"]);
+        $this->model->setDescription($_POST["description"]);
+        $this->model->setStock($_POST["stock"]);
+        $this->model->setPrice($_POST["price"]);
+        $this->model->setCoverpage($_FILES["coverpage"]["name"]);
+        $result=$this->model->publishBook();
         if($result)
         {
-            move_uploaded_file($_FILES["coverpage"]["tmp_name"],"../../Model/upload/".$this->authordashmodel->getCoverpage());
-            $bookpublish=new BookPublishConfirm();
-            $bookpublish->displayBook("Your recent Book Was Published Sucessfully");
+            move_uploaded_file($_FILES["coverpage"]["tmp_name"],"../../Model/upload/".$this->model->getCoverpage());
+            //$bookpublish=new BookPublishConfirm();
+            //$bookpublish->displayBook("Your recent Book Was Published Sucessfully");
+            $msg="Your recent Book Was Published Sucessfully";
+            $loggeduser=$_SESSION['loggedUser'];
+            $name=$_SESSION['UserName'];
+            $this->view->displayAuthorMessage($msg,$loggeduser,$name);
         }
         else
         {

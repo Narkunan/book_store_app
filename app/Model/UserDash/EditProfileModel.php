@@ -1,22 +1,14 @@
 <?php
 namespace App\Model\UserDash;
-require "../../../vendor/autoload.php";
-use App\Model\Connection;
-class EditProfileModel
+use App\Model\UserDash\UserDashModelBase;
+class EditProfileModel extends UserDashModelBase
 {
-   use Connection;
-   private \PDO $conn;
-   
-   private int $userid;
+
    private array $userData;
-   public function __construct()
-   {
-     $this->conn=$this->getConnection();
-   }
    
    public function fetchUserProfile()
    {
-        $sql="SELECT * FROM USER where id=:userid;";
+        $sql="SELECT name,email,password FROM USERs where user_id=:userid;";
         $stm=$this->conn->prepare($sql);
         $stm->bindParam("userid",$this->userid);
         $stm->execute();
@@ -29,17 +21,6 @@ class EditProfileModel
         {
             return false;
         }
-   }
-   /**
-    * Set the value of userid
-    *
-    * @return  self
-    */ 
-   public function setUserid($userid)
-   {
-      $this->userid = $userid;
-
-      return $this;
    }
 
    /**

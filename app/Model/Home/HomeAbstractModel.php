@@ -5,7 +5,8 @@ use App\Model\Connection;
 class HomeAbstractModel
 {
     public \PDO $conn;
-    public array $FetchBook;
+    protected array $FetchBook;
+    
     use Connection;
 
     /**

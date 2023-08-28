@@ -1,0 +1,142 @@
+ <html>
+<head>
+<title>Book Store</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="../../../public/assets/css/style.css" rel="stylesheet" type="text/css" />
+<style>
+  nav {
+    position: absolute;
+    width:100%;
+    background-color:red;
+    color:white;
+    text-align: center;
+    }
+    #homebutton
+    {
+      background-color: red;
+      color:white;
+      font-size: 20px;
+      border: 0px;
+    }
+    #title
+    {
+      text-align: center;
+      background-color: red;
+      color: white;
+      font-size: 30px;
+      width:100%;
+      font-family: serif;
+    }
+    .softright
+    {
+      background-color:red;
+      color:white;
+      top: auto;
+      float: right;
+      text-align: center;
+      width: 15%;
+      border:0px;
+    }
+   
+    #text
+    {
+      position: absolute;
+      top:78px;
+      width:87%;
+      left:0%;
+    }
+    #search-result
+    {
+      background-color: red;
+      color:white;
+      font-size: 15px;
+    }
+    #bookData
+    {
+        float: right;
+
+
+    }
+  </style>
+</head>
+<body>
+<div id="wrapper">
+  <div id="inner">
+    <div id="header">
+      <h1 id="title">Engineering Book Store</h1>
+      <h1 style="background-color:red;color:white;">{{ name }}</h1>
+      <nav> <a href="../../../public/assets/html/first.php"><button id="homebutton">Home</button></a>  
+      <a href="../../Controller/UserRedirect.php"><button id="homebutton">User Login</button></a>
+    </nav>
+    <dd class="last"></dd>
+  <center>
+        <form action="../../../app/Controller/home/SearchByTitle.php" method="get" autocomplete="off">
+          <div>
+            <input name="bookname" type="text" placeholder="Search your book"id="text" />
+           <br> <br>
+            <input type="submit" value="search" class="softright">
+          </div>
+        </form>
+  </center>
+  <br>
+  
+  <div id="search-result" style="text-align:left;"></div>
+      <!-- end nav -->
+     <!-- end header -->  
+    </dl>
+   <input type="hidden" id="session" value="{{ session }}" >
+        {% if session == "user" or session == "Dual" %}
+        {% for book in data %}
+        {% set coverpage = book.coverpage%}
+        {% set path ="../../Model/upload/" ~ coverpage %}
+       
+    <div id='body'>
+      <div class='inner'>
+        <div class='leftbox'>
+          <img src='{{ path }}' width='250' height='150' alt='photo 1' class='left' />
+          <div id='bookData'><h3 style='text-align:left;'> {{ book.title }}</h3><br>
+          <h2>Description<br> {{ book.description }}</h2><br>
+          <h2>Category<br> {{ book.category}} </h2><br>
+          <h2>Sub Category<br> {{ book.sub_category }} </h2><br>
+          <h3 style='text-align:left;color:black;'>Author Name<br> {{ book.authorname }} <br></h3><br>
+          <h3 style='text-align:left;color:black;'>Price<br> {{ book.price }} <br></h3>
+         <p class='readmore'></p><br><br><br>
+         <form action='../../Controller/orders/orderController.php' method='POST'>
+         <tr><td>Quantity<br><br></td></tr>
+
+         <tr><td><select name='quantity'>
+         <option value=1>1</option>
+         <option value=2>2</option>
+         <option value=3>3</option>
+         <option value=4>4</option>
+         </select><br><br></td></tr>
+         <input type="hidden" value="{{ path }}" name="imagesource">
+         <input type="hidden" value="{{ book.title }}" name="btitle">
+         <input type="hidden" value="{{ book.price }}" name="bprice" >
+         <input type='hidden' value="{{ book.bookid }}" name='bid' id="bookid">
+         <button type='submit' style='background-color:red;color:white;border:0px;text-align:center;'>BUY NOW</button></div><div class='clear'></div>
+        </div>
+        </form>
+        {% endfor %}
+        {% endif %}
+       
+        
+   <script>
+   
+    function checklogin()
+    {
+      var session = document.getElementById("session");
+      console.log(session.value);
+      if(session.value == "user" || session.value == "Dual")
+      {
+        
+        //location.href = "../../Controller/UserRedirect.php";
+      }
+
+    }
+    checklogin();
+   </script>
+  <script src='../../../public/assets/js/home/homeScripts.js'>
+  </script>
+</body>
+</html>

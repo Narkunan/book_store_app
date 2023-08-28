@@ -34,7 +34,7 @@ class publishBookModel extends authordashAbstract
         return $this;
     }
 
-    public function fetchBooks()
+    public function fetchBooks():bool
     {
         $sql="SELECT * FROM book WHERE authorid=:authorid;";
         $stm=$this->connection->prepare($sql);
@@ -44,6 +44,11 @@ class publishBookModel extends authordashAbstract
         {
             $result=$stm->fetchAll(\PDO::FETCH_ASSOC);
             $this->setBook($result);
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 

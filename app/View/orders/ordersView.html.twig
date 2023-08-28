@@ -1,0 +1,116 @@
+<html>
+<head>
+<title>Book Store</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="../../../public/assets/css/style.css" rel="stylesheet" type="text/css" />
+<style>
+  nav {
+    position: absolute;
+    width:100%;
+    background-color:red;
+    color:white;
+    text-align: center;
+    }
+    #homebutton
+    {
+      background-color: red;
+      color:white;
+      font-size: 20px;
+      border: 0px;
+    }
+    #title
+    {
+      text-align: center;
+      background-color: red;
+      color: white;
+      font-size: 30px;
+      width:100%;
+      font-family: serif;
+    }
+    .softright
+    {
+      background-color:red;
+      color:white;
+      top: auto;
+      float: right;
+      text-align: center;
+      width: 15%;
+      border:0px;
+    }
+   
+    #text
+    {
+      position: absolute;
+      top:78px;
+      width:87%;
+      left:0%;
+    }
+    #search-result
+    {
+      background-color: red;
+      color:white;
+      font-size: 15px;
+    }
+    #bookData
+    {
+        float: left;
+
+
+    }
+  </style>
+</head>
+<body>
+<div id="wrapper">
+  <div id="inner">
+    <div id="header">
+      <h1 id="title">Engineering Book Store</h1>
+      <h1 style="background-color:red;color:white;">{{ name }}</h1>
+      <nav> <a href="../../../public/assets/html/first.php"><button id="homebutton">Home</button></a> 
+       
+      <a href="../../Controller/UserRedirect.php"><button id="homebutton">User Login</button></a>
+    </nav>
+    <dd class="last"></dd>
+  <center>
+        <form action="../../../app/Controller/home/SearchByTitle.php" method="get" autocomplete="off">
+          <div>
+            <input name="bookname" type="text" placeholder="Search your book"id="text" />
+           <br> <br>
+            <input type="submit" value="search" class="softright">
+          </div>
+        </form>
+  </center>
+  <br>
+  
+  <div id="search-result" style="text-align:left;"></div>
+      <!-- end nav -->
+     <!-- end header -->  
+    </dl>
+    {% set quantity = quantity%}
+    {% set price = price %}
+    {% set totalprice = price * quantity %}
+        
+   <div id='body'>
+      <div class='inner'>
+        <div class='leftbox'>
+          <img src= "{{ source }}" width='200' height='150' alt='photo 1' class='left' />
+         <div id='bookData'><h3 style='text-align:center;font-size:20px;'>{{ title }}</h3><br>
+         
+
+          <h3 style='text-align:center;color:black;font-size:20px;'> TOTAL PRICE :{{ totalprice }}<br></h3>
+         <p class='readmore'></p><br><br><br>
+         <form action="../../Controller/orders/orderConfirm.php" method="post">
+          <input type="hidden" name="totalprice" value= "{{ totalprice }}" >
+          <input type="hidden" name="bookid" value= "{{ bid }}" >
+          <input type= "hidden" name = "quantity" value = "{{ quantity }}"  >
+         <button type ="submit" style='background-color:red;color:white;border:0px;float:left; width:200px;'>Confirm Order</button>
+        </form>
+         </div><div class='clear'></div>
+        </div>
+        
+        
+ <!-- end .inner -->
+    
+<script src='../../../public/assets/js/home/homeScripts.js'>
+  </script>
+</body>
+</html>

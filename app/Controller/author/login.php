@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller\author;
 session_start();
 require_once "../../../vendor/autoload.php";
@@ -14,6 +13,8 @@ use App\Controller\author\InputInterface;
 class LoginAuthor implements InputInterface
 {
     private $loginModel;
+    private $result;
+    
     
     /**
      * initialies loginmodel object
@@ -47,20 +48,34 @@ class LoginAuthor implements InputInterface
      */
     public function LoginAuthorController():void
     {
-        $result=$this->loginModel->LoginAuthor();
-       
-       if($result)
-       {
+        $this->result=$this->loginModel->LoginAuthor();
+        if(!str_contains($this->result,"No"))
+        {
+            $this->manageCookie();
+        }
+        switch ($this->result) 
+        {
+            case "Dual" :
+                
+                header("Location: ../../../public/assets/html/author/chooseRole.html");
+                break;
 
-             $this->manageCookie();
-             echo "account exists cookies are also managed";
-       }
-       else
-       {
-         
-         header("Location: ../../../public/assets/html/author/register.php?msg='Accoutn Does Not Exist'");
-         echo "account does not exists";
-       }
+            case "user" :
+                
+                header("Location: ../../View/user/LoginView.php");
+                break;
+
+            case "author" :
+                
+                header("Location: ../../View/author/LoginView.php");
+                break;
+
+            default :
+                
+                header("Location: ../../../public/assets/html/author/register.php?msg=Account Does not exist");
+                break;
+        }
+      
     }
 
     /**
@@ -74,22 +89,22 @@ class LoginAuthor implements InputInterface
 
     public function manageCookie()
     {
-        if(isset($_COOKIE["PHPSESSID"]))
-        {
-            $_SESSION['authorname']=$this->loginModel->getName();
-            $_SESSION["authorid"]=$this->loginModel->getId();
+            if(str_contains($this->result,"user"))
+            {
+                $_SESSION['loggedUser']="user";
+            }
+            else if(str_contains($this->result,"author"))
+            {
+                $_SESSION['loggedUser']="author";
+            }
+            else
+            {
+                $_SESSION['loggedUser']="Dual";
+            }
+            $_SESSION['UserName']=$this->loginModel->getName();
+            $_SESSION["Userid"]=$this->loginModel->getId();
             echo "cookies are already set";
-            header("Location: ../../View/author/LoginView.php");  
-        }
-        else
-        {
-            $_SESSION['authorname']=$this->loginModel->getName();
-            $_SESSION["authorid"]=$this->loginModel->getId();
-            //setcookie("authorname",$this->loginModel->getName(),time()+(8600*10),"/");
-            //setcookie("authorid",$this->loginModel->getId(),time()+(8600*10),"/");
-            header("Location: ../../View/author/LoginView.php"); 
-            
-        }
+              
     }
 }
 

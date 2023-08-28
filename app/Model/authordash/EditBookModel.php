@@ -29,7 +29,7 @@ class EditBookModel
        $result=$this->conn->prepare($sql);
        $result->bindParam("authorID",$this->authorid);
        $result->execute();
-       if($result)
+       if($result->rowCount()>0)
        {
           $Book=$result->fetchAll(\PDO::FETCH_ASSOC);
           $this->setFetchBook($Book);

@@ -1,19 +1,9 @@
 <?php
 namespace App\Model\UserDash;
-require "../../../vendor/autoload.php";
-use App\Model\Connection;
-
-class RecentOrderModel
+use App\Model\UserDash\UserDashModelBase;
+class RecentOrderModel extends UserDashModelBase
 {
-    use Connection;
-    private \PDO $conn;
     private array $orders;
-
-    private int $userid;
-    public function __construct()
-    {
-       $this->conn=$this->getConnection();
-    }
     /**
      * Get the value of orders
      */ 
@@ -39,13 +29,8 @@ class RecentOrderModel
      *
      * @return  self
      */ 
-    public function setUserid($userid)
-    {
-        $this->userid = $userid;
 
-        return $this;
-    }
-    public function fetchRecentOrder()
+    public function fetchRecentOrder():bool
     {
         $sql="SELECT b.title as title , o.order_id ,o.ordervalue,b.coverpage FROM book b JOIN orders o on b.bookid=o.bookid where o.user_id=:userid;";
         $result=$this->conn->prepare($sql);

@@ -74,7 +74,6 @@
               <div id="header">
                 <h1 id="title">Engineering Book Store</h1>
                 <nav> <a href="../first.php"><button id="homebutton">Home</button></a> 
-                <a href="../../../../app/Controller/AuthorRedirect.php"><button id="homebutton">Author Login</button></a> 
                  
                 <a href="../../../../app/Controller/UserRedirect.php"><button id="homebutton">User Login</button></a>
                </nav>

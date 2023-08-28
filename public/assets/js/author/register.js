@@ -1,4 +1,6 @@
 var x=document.getElementById("pass");
+var role=document.getElementById("roles");
+var displayRoleError = document.getElementById("role");
 x.addEventListener("input",myFunction);
 function myFunction()
 {
@@ -43,10 +45,7 @@ function nameValidate()
 
 function validateForm()
 {
-
-    console.log("from validate function");
-    console.log(x.value.length);
-    console.log(x.value);
+    console.log(role.value);
     let length=x.value.length;
     if(names.value.length==0)
     { 
@@ -55,11 +54,17 @@ function validateForm()
         document.getElementById("name").innerHTML="please enter name";
         return false;
     }
-    else if(length<=8)
+    else if(length<8)
     {
          console.log("from else if");
          document.getElementById("passwordresult").style.color="red";
          document.getElementById("passwordresult").innerHTML="enter password";
+         return false;
+    }
+    else if(role.value==="0")
+    {
+         displayRoleError.style.color="red";
+         displayRoleError.innerHTML="please select role";
          return false;
     }
     else

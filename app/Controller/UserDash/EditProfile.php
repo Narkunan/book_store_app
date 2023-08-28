@@ -2,31 +2,23 @@
 namespace App\Controller\UserDash;
 require "../../../vendor/autoload.php";
 use App\Model\UserDash\EditProfileModel;
-use App\View\Userdash\EditProfileView;
+use App\Controller\UserDash\UserDashBase;
 session_start();
-class editprofile
+class editprofile extends UserDashBase
 {
-    private EditProfileModel $editprofileModel;
-    private EditProfileView $editProfileView;
-
-    public function __construct($editprofileModel,$editProfileView)
+    public function executeAction():void
     {
-        $this->editprofileModel=$editprofileModel;
-        $this->editProfileView=$editProfileView;
-    }
-    public function editProfileController()
-    {
-        $this->editprofileModel->setUserid($_SESSION['userid']);
-        $returnvalue=$this->editprofileModel->fetchUserProfile();
+        $this->model->setUserid($_SESSION['Userid']);
+        $returnvalue=$this->model->fetchUserProfile();
         if($returnvalue)
         {
 
+            $data=$this->model->getUserData();
+            $this->view->editProfile($data ,$this->loggeduser,$this->name);
             
-            $this->editProfileView->displayProfile($this->editprofileModel->getUserData());
         }
     }
 }
 $editprofileModel= new EditProfileModel();
-$editProfileView = new EditProfileView();
-$editprofile = new editprofile($editprofileModel,$editProfileView); 
-$editprofile->editProfileController();
+$editprofile = new editprofile($editprofileModel); 
+$editprofile->executeAction();

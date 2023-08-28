@@ -73,8 +73,6 @@ namespace App\View\Userdash;
       <h1 id="title">Engineering Book Store </h1>
       <h1 style="background-color:red;color:white;"><?php echo $_SESSION['userrname']??"login ";?></h1>
       <nav> <a href="../../../public/assets/html/first.php"><button id="homebutton">Home</button></a> 
-      <a href="../../Controller/AuthorRedirect.php"><button id="homebutton">Author Login</button></a> 
-       
       <a href="../../Controller/UserRedirect.php"><button id="homebutton">User Login</button></a>
      </nav>
     <dd class="last"></dd>
@@ -99,6 +97,9 @@ namespace App\View\Userdash;
     <dd style="font-size:16px;"> <a href="../../Controller/UserDash/EditProfile.php">
                     Edit Profile</a></dd> 
     <dd style="font-size:16px;"> <a href="../../Controller/user/logout.php">logout</a></dd>
+    <dd style="font-size:16px;"><p style="margin-top:0px;font-weight:bold;padding:3px 10px;color:white;font-size:16px" onclick="myFunction()" id="become">Become Author</p></dd>
+    <dd style="font-size:16px;"><p style="margin-top:0px;font-weight:bold;padding:3px 10px;color:white;font-size:16px" onclick="authorRedirect()" id="redirect"></p>
+    <input type='hidden' id='session' value='<?php echo $_SESSION['loggedUser']; ?>'>
     </dl>
    
 <center>
@@ -124,11 +125,13 @@ namespace App\View\Userdash;
       <!-- end inner -->
     </div>
     <!-- end wrapper -->
-    <script src='../../../public/assets/js/home/homeScripts.js'>
-      </script>";
+   ";
         }
     }
     ?>
-
+ <script src='../../../public/assets/js/home/homeScripts.js'>
+      </script>
+      <script src="../../../public/assets/js/Userdash/userdash.js">
+  </script>
 </body>
 </html>

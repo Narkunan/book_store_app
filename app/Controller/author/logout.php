@@ -1,6 +1,8 @@
 <?php
+
 session_start();
 session_unset();
 session_destroy();
 setcookie(session_name(),"",time()-3600,"/");
-header("Location: ../../../public/assets/html/author/login.php");
+
+header("Location: ../../../public/assets/html/first.php");

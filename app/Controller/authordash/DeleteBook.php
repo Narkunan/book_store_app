@@ -2,33 +2,32 @@
 namespace App\Controller\authordash;
 require "../../../vendor/autoload.php";
 use App\Model\authordash\DeleteBookModel;
-use App\View\authordash\DeleteBookView;
+use App\Controller\authordash\AuthorDashBase;
 session_start();
-class DeleteBook
+class DeleteBook extends AuthorDashBase
 {
-      private DeleteBookModel $deleteBookModel;
-      private DeleteBookView $deleteBookView; 
-      public function __construct($deleteBookModel,$deleteBookView)
-      {
-        $this->deleteBookModel=$deleteBookModel;
-        $this->deleteBookView=$deleteBookView;
-      }
       public function deleteBookController()
       {
-        
-        $this->deleteBookModel->setAuthorid($_SESSION['authorid']);
-        $returnValue=$this->deleteBookModel->fetchBook();
-        if($returnValue)
-        {
-            $this->deleteBookView->displayBook($this->deleteBookModel->getFetchBook());
-        }
-        else
-        {
-            echo "<h1> Nothing to Fetch</h1>";
-        }
+          
+          $this->model->setAuthorid($_SESSION['Userid']);
+          $returnValue=$this->model->fetchBook();
+          
+          if($returnValue)
+          {
+            $books=$this->model->getFetchBook();
+            $loggedUser = $_SESSION['loggedUser']??"no";
+            $name =$_SESSION['UserName']??"no";
+            $this->view->deleteBook($books,$loggedUser,$name);
+          }
+          else
+          {
+            $msg="You Have Not Published";
+            $loggedUser=$_SESSION['loggedUser'];
+            $name=$_SESSION['UserName'];
+            $this->view->displayAuthorMessage($msg,$loggedUser,$name);
+          }
       }
 }
 $deleteBookModel =new DeleteBookModel();
-$deleteBookView =new DeleteBookView();
-$deleteBook = new DeleteBook($deleteBookModel,$deleteBookView); 
+$deleteBook = new DeleteBook($deleteBookModel); 
 $deleteBook->deleteBookController();

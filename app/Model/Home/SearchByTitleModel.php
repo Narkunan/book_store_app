@@ -3,10 +3,10 @@ namespace App\Model\Home;
 use App\Model\Home\HomeAbstractModel;
 use App\Model\Home\FetchBookInterface;
 
-class SearchByTitleModel extends HomeAbstractModel implements FetchBookInterface
+class SearchByTitleModel extends HomeAbstractModel
 {
-    private array $bookTitle;
-    public string $title;
+
+    public string $title; 
     public function fetchBook():bool
     {
        $sql="SELECT * FROM book where title=:bookname;";
@@ -15,8 +15,8 @@ class SearchByTitleModel extends HomeAbstractModel implements FetchBookInterface
        $result->execute();
        if($result->rowCount()>0)
        {
-        $this->setFetchBook($result->fetchAll(\PDO::FETCH_ASSOC));
-        return true;
+         $this->setFetchBook($result->fetchAll(\PDO::FETCH_ASSOC));
+         return true;
        }
        else
        {

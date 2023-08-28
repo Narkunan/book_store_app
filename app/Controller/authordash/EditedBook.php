@@ -1,33 +1,29 @@
 <?php
 namespace App\Controller\authordash;
 require "../../../vendor/autoload.php";
-
 use App\Model\authordash\EditedBookModel;
-use App\View\authordash\BookPublishConfirm;
+use App\Controller\authordash\AuthorDashBase;
 
-class EditedBook
+class EditedBook extends AuthorDashBase
 {
-    private EditedBookModel $editedBookModel;
-    private BookPublishConfirm $bookpublishConfirm;
-    public function __construct($editedBookModel,$bookPublishConfirm)
-    {
-        $this->editedBookModel=$editedBookModel;
-        $this->bookpublishConfirm=$bookPublishConfirm;
-    }
+    
     public function editedBookController()
     {
-        $this->editedBookModel->setBookid($_POST['bookid']);
-        $this->editedBookModel->setBooktitle($_POST['booktitle']);
-        $this->editedBookModel->setCategory($_POST['book_category']);
-        $this->editedBookModel->setSub_category($_POST['book_subcategory']);
-        $this->editedBookModel->setDescription($_POST['description']);
-        $this->editedBookModel->setPrice($_POST['price']);
-        $this->editedBookModel->setStock($_POST['stock']);
-        $result=$this->editedBookModel->updateBook();
+        $this->model->setBookid($_POST['bookid']);
+        $this->model->setBooktitle($_POST['booktitle']);
+        $this->model->setCategory($_POST['book_category']);
+        $this->model->setSub_category($_POST['book_subcategory']);
+        $this->model->setDescription($_POST['description']);
+        $this->model->setPrice($_POST['price']);
+        $this->model->setStock($_POST['stock']);
+        $result=$this->model->updateBook();
         if($result)
         {
-           
-            $this->bookpublishConfirm->displayBook("your Recent Book Edit Request was accomplished");
+            $msg="your Recent Book Edit Request was accomplished";
+            $loggedUser=$_SESSION['loggedUser'];
+            $name =$_SESSION['UserName'];
+            $this->view->displayAuthorMessage($msg,$loggedUser,$name);
+            
         }
         else
         {
@@ -37,6 +33,5 @@ class EditedBook
     }
 }
 $editedBookModel= new EditedBookModel();
-$bookPublishConfirm= new BookPublishConfirm();
-$EditedBook = new EditedBook($editedBookModel,$bookPublishConfirm); 
+$EditedBook = new EditedBook($editedBookModel); 
 $EditedBook->editedBookController();
