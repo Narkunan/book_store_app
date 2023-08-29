@@ -62,12 +62,12 @@ class LoginAuthor implements InputInterface
 
             case "user" :
                 
-                header("Location: ../../View/user/LoginView.php");
+                header("Location: ../../View/userdash/LoginView.php");
                 break;
 
             case "author" :
                 
-                header("Location: ../../View/author/LoginView.php");
+                header("Location: ../../View/authordash/LoginView.php");
                 break;
 
             default :

@@ -3,6 +3,5 @@ namespace App\Controller\authordash;
 
 interface AuthorDashInterface
 {
-    public function bookFound():void;
-    public function bookNotFound():void;
+    public function displayData():void;
 }

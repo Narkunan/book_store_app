@@ -4,9 +4,8 @@ require "../../../vendor/autoload.php";
 use App\Model\authordash\EditedBookModel;
 use App\Controller\authordash\AuthorDashBase;
 
-class EditedBook extends AuthorDashBase
+class EditedBook extends AuthorDashBase 
 {
-    
     public function editedBookController()
     {
         $this->model->setBookid($_POST['bookid']);
@@ -19,10 +18,10 @@ class EditedBook extends AuthorDashBase
         $result=$this->model->updateBook();
         if($result)
         {
-            $msg="your Recent Book Edit Request was accomplished";
-            $loggedUser=$_SESSION['loggedUser'];
-            $name =$_SESSION['UserName'];
-            $this->view->displayAuthorMessage($msg,$loggedUser,$name);
+            $this->msg="your Recent Book Edit Request was accomplished";
+            $this->loggedUser=$_SESSION['loggedUser'];
+            $this->name =$_SESSION['UserName'];
+            $this->displayMessages();
             
         }
         else

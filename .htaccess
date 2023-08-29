@@ -1,7 +1,0 @@
-RewriteEngine On
-
-RewriteRule ^register public/assets/html/author/register.html [NC,L]
-
-RewriteRule ^login public/assets/html/author/login.html [NC,L]
-
-RewriteRule ^forgetpassword public/assets/html/author/forget.html [NC,L]

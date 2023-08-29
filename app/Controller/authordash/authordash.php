@@ -1,16 +1,18 @@
 <?php
 namespace App\Controller\authordash;
+use SebastianBergmann\Type\VoidType;
 session_start();
 require "../../../vendor/autoload.php";
 use App\Model\authordash\AuthorDashModel;
 use App\Controller\authordash\AuthorDashBase;
+use App\Controller\authordash\AuthorDashInterface;
 /***
  * Authordashconteoller for authordashboard
  * controller.
  */
-class AuthorDashController extends AuthorDashBase
+class AuthorDashController extends AuthorDashBase 
 {
-    
+
     /**
      * This authordash manager 
      * 
@@ -37,10 +39,10 @@ class AuthorDashController extends AuthorDashBase
             move_uploaded_file($_FILES["coverpage"]["tmp_name"],"../../Model/upload/".$this->model->getCoverpage());
             //$bookpublish=new BookPublishConfirm();
             //$bookpublish->displayBook("Your recent Book Was Published Sucessfully");
-            $msg="Your recent Book Was Published Sucessfully";
-            $loggeduser=$_SESSION['loggedUser'];
-            $name=$_SESSION['UserName'];
-            $this->view->displayAuthorMessage($msg,$loggeduser,$name);
+            $this->msg="Your recent Book Was Published Sucessfully";
+            $this->loggedUser=$_SESSION['loggedUser'];
+            $this->name=$_SESSION['UserName'];
+            $this->displayMessages();
         }
         else
         {

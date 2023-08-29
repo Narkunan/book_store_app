@@ -12,10 +12,10 @@ class BecomeUser extends AuthorDashBase
         $returnValue=$this->model->updateRole();
         if($returnValue)
         {
-           $msg="You Are now Become the User";
-           $loggedUser=$_SESSION['loggedUser'];
-           $name =$_SESSION['UserName'];
-           $this->view->displayAuthorMessage($msg,$loggedUser,$name);
+           $this->msg="You Are now Become the User";
+           $this->loggedUser=$_SESSION['loggedUser'];
+           $this->name =$_SESSION['UserName'];
+           $this->displayMessages();
         }
         else
         {

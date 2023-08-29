@@ -107,7 +107,7 @@ session_start();
   <div id="search-result"></div>
   <dl id="browse">
     <dt>Full Category Lists</dt>
-    <dd class="first"> <a href="../../../../app/View/author/LoginView.php">
+    <dd class="first"> <a href="../../../../app/View/authordash/LoginView.php">
                 Author Home </a></dd>
        <dd style="font-size:16px;"> <a href="authordash.php">
                 Publishing Book </a></dd>

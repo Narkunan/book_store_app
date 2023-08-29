@@ -3,7 +3,7 @@ namespace App\Controller\authordash;
 require "../../../vendor/autoload.php";
 use App\Model\authordash\EditSpecificBookModel;
 use App\Controller\authordash\AuthorDashBase;
-class EditSpecificBook extends AuthorDashBase
+class EditSpecificBook extends AuthorDashBase implements AuthorDashInterface
 {
   public function editSpecificBookController()
   {
@@ -11,21 +11,25 @@ class EditSpecificBook extends AuthorDashBase
     $returnValue=$this->model->fetchBookByBookId();
     if($returnValue)
     {   
-
-        $book=$this->model->getFetchBook();
-        $loggedUser = $_SESSION['$loggedUser']??"no";
-        $name =$_SESSION['UserName']??"no";
-        $this->view->displayEditSpecificBook($book,$loggedUser,$name);
+       
+        $this->displayData();
 
     }
     else
     {
-        $msg="Nothing to fetch";
-        $loggedUser=$_SESSION['loggedUser'];
-        $name =$_SESSION['UserName'];
-        $this->view->displayAuthorMessage($msg,$loggedUser,$name);
+        $this->msg="Nothing to fetch";
+        $this->loggedUser=$_SESSION['loggedUser'];
+        $this->name =$_SESSION['UserName'];
+        $this->view->displayAuthorMessage($this->msg,$this->loggedUser,$this->name);
     }
 
+  }
+  public function displayData()
+  {
+    $book=$this->model->getFetchBook();
+    $this->loggedUser = $_SESSION['$loggedUser']??"no";
+    $this->name =$_SESSION['UserName']??"no";
+    $this->view->displayEditSpecificBook($book,$this->loggedUser,$this->name);
   }
 }
 $editspecificBookModel=new EditSpecificBookModel();

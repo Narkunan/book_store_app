@@ -24,15 +24,12 @@ class DeleteSelectedBook extends AuthorDashBase
    public function deletedSelectedBookController()
    {
      
-     
       $reult=$this->model->deleteBook();
       if($reult)
       {
         $this->deleteBookImage();
-        $msg="your Most Recent Request For Delete Book Was Accomplished";
-        $loggedUser = $_SESSION['loggedUser']??"no";
-        $name = $_SESSION['UserName']??"no"; 
-        $this->view->displayAuthorMessage($msg,$loggedUser,$name);
+        $this->msg="your Most Recent Request For Delete Book Was Accomplished";
+        $this->displayMessages();
       }
       else
       {

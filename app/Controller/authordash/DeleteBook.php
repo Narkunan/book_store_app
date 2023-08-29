@@ -4,7 +4,7 @@ require "../../../vendor/autoload.php";
 use App\Model\authordash\DeleteBookModel;
 use App\Controller\authordash\AuthorDashBase;
 session_start();
-class DeleteBook extends AuthorDashBase
+class DeleteBook extends AuthorDashBase implements AuthorDashInterface
 {
       public function deleteBookController()
       {
@@ -14,18 +14,23 @@ class DeleteBook extends AuthorDashBase
           
           if($returnValue)
           {
-            $books=$this->model->getFetchBook();
-            $loggedUser = $_SESSION['loggedUser']??"no";
-            $name =$_SESSION['UserName']??"no";
-            $this->view->deleteBook($books,$loggedUser,$name);
+            $this->displayData();
+
           }
           else
           {
-            $msg="You Have Not Published";
-            $loggedUser=$_SESSION['loggedUser'];
-            $name=$_SESSION['UserName'];
-            $this->view->displayAuthorMessage($msg,$loggedUser,$name);
+            $this->msg="You Have Not Published";
+            $this->loggedUser=$_SESSION['loggedUser'];
+            $this->name=$_SESSION['UserName'];
+            $this->displayMessages();
           }
+      }
+      public function displayData():void
+      {
+         $books=$this->model->getFetchBook();
+         $this->loggedUser = $_SESSION['loggedUser']??"no";
+         $this->name =$_SESSION['UserName']??"no";
+         $this->view->deleteBook($books,$this->loggedUser,$this->name);
       }
 }
 $deleteBookModel =new DeleteBookModel();
