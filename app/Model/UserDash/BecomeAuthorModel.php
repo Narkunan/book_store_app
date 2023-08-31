@@ -1,8 +1,20 @@
 <?php
 namespace App\Model\UserDash;
 use App\Model\UserDash\UserDashModelBase;
+/**
+ * BecomeAuthorModel class will make 
+ * 
+ * user as author
+ */
 class BecomeAuthorModel extends UserDashModelBase
 {
+    /**
+     * UpdateRole function will update User Role
+     *
+     * @access public
+     * 
+     * @return boolean
+     */
     public function updateRole():bool
     {
         $sql="INSERT INTO user_role (user_id,roleid) VALUES (:user_id,1);";

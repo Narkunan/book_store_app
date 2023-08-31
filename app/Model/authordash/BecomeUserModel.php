@@ -1,34 +1,26 @@
 <?php
 namespace App\Model\authordash;
-use App\Model\Connection;
-class BecomeUserModel
+use App\Model\authordash\authordashAbstract;
+/**
+ * BecomeUserModel will 
+ * 
+ * assign Author as User
+ */
+class BecomeUserModel extends authordashAbstract
 {
-    private int $userid;
-    
-    use Connection;
-    private \PDO $conn;
+   /**
+    * update Role Will UserRole
+    *
+    * @access public
+    *
+    *@return bool
+    */
 
-    public function __construct()
-    {
-        $this->conn = $this->getConnection();
-    }
-
-    /**
-     * Set the value of userid
-     *
-     * @return  self
-     */ 
-    public function setUserid($userid)
-    {
-        $this->userid = $userid;
-
-        return $this;
-    }
     public function updateRole():bool
     {
          $sql="INSERT INTO user_role (user_id,roleid) VALUES (:userid , 2);";
-         $stm=$this->conn->prepare($sql);
-         $stm->bindParam("userid",$this->userid);
+         $stm=$this->connection->prepare($sql);
+         $stm->bindParam("userid",$this->authorid);
          $stm->execute();
          if($stm)
          {

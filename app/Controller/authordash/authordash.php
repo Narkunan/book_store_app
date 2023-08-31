@@ -1,14 +1,14 @@
 <?php
 namespace App\Controller\authordash;
-use SebastianBergmann\Type\VoidType;
 session_start();
 require "../../../vendor/autoload.php";
 use App\Model\authordash\AuthorDashModel;
 use App\Controller\authordash\AuthorDashBase;
-use App\Controller\authordash\AuthorDashInterface;
 /***
- * Authordashconteoller for authordashboard
- * controller.
+ * Authordash controller is for 
+ * 
+ * publishing book platform.
+ * 
  */
 class AuthorDashController extends AuthorDashBase 
 {
@@ -16,11 +16,11 @@ class AuthorDashController extends AuthorDashBase
     /**
      * This authordash manager 
      * 
-     * it process publish book edit book delete book etc..
+     * it will publish book.
      *
      * @return void
      */
-    public function AuthorDashManager()
+    public function AuthorDashManager():void
     {
         $authorname=$_SESSION["UserName"];
         $authorId=$_SESSION["Userid"];

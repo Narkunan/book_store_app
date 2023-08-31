@@ -1,7 +1,11 @@
 <?php
 namespace App\Model\Home;
-require_once "../../../vendor/autoload.php";
 use App\Model\Home\HomeAbstractModel;
+/**
+ * HomeModel will fetchBooks
+ * 
+ * by bookid
+ */
 class HomeModel extends HomeAbstractModel 
 {
   
@@ -10,9 +14,11 @@ class HomeModel extends HomeAbstractModel
     /**
      * Set the value of bookId
      *
+     * @param int $bookId
+     * 
      * @return  self
      */ 
-    public function setBookId($bookId):self
+    public function setBookId(int $bookId):self
     {
         $this->bookId = $bookId;
 
@@ -20,9 +26,11 @@ class HomeModel extends HomeAbstractModel
     }
 
     /**
-     * setting value for the book
+     * fetchBook will fetchbook by bookid.
      *
-     * @return void
+     * @access public
+     * 
+     * @return bool
      */
     public function fetchBook():bool
     {

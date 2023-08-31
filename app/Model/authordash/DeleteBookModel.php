@@ -1,28 +1,31 @@
 <?php
 namespace App\Model\authordash;
-require "../../../vendor/autoload.php";
-use App\Model\Connection;
-class DeleteBookModel
+use App\Model\authordash\authordashAbstract;
+/**
+ * deleteBookModel will fetch books
+ * 
+ * those who are Available to delete
+ */
+class DeleteBookModel extends authordashAbstract
 {
-    use Connection;
-    private \PDO $conn;
-    private int $authorid;
-    private array $fetchBook;
-    public function __construct()
-    {
-        $this->conn=$this->getConnection();
-    }
-
+    /**
+     * fetchBook function will fetchBook
+     * 
+     * for deletion.
+     * 
+     * @access public
+     *
+     * @return boolean
+     */
     public function fetchBook():bool
     {
         $sql="SELECT * from book where authorid=:authorid";
-        $result=$this->conn->prepare($sql);
+        $result=$this->connection->prepare($sql);
         $result->bindParam("authorid",$this->authorid);
         $result->execute();
         if($result->rowCount()>0)
         {
-            $books=$result->fetchAll(\PDO::FETCH_ASSOC);
-            $this->setFetchBook($books);
+            $this->book=$result->fetchAll(\PDO::FETCH_ASSOC);
             return true;
         }
         else
@@ -31,35 +34,4 @@ class DeleteBookModel
         }
     }
 
-    /**
-     * Set the value of authorid
-     *
-     * @return  self
-     */ 
-    public function setAuthorid($authorid)
-    {
-        $this->authorid = $authorid;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of fetchBook
-     */ 
-    public function getFetchBook()
-    {
-        return $this->fetchBook;
-    }
-
-    /**
-     * Set the value of fetchBook
-     *
-     * @return  self
-     */ 
-    public function setFetchBook($fetchBook)
-    {
-        $this->fetchBook = $fetchBook;
-
-        return $this;
-    }
 }

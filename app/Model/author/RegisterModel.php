@@ -1,8 +1,10 @@
 <?php
 namespace App\Model\author;
-
 use App\Model\author\abstarctModel;
 use App\Model\author\AccountInterface;
+/**
+ * RegisterModel is responsible for register User
+ */
 class RegisterModel extends abstarctModel implements AccountInterface
 {
      
@@ -11,6 +13,8 @@ class RegisterModel extends abstarctModel implements AccountInterface
     
     /**
      * checkforaccountexsits for given user.
+     * 
+     * @access public
      *
      * @return boolean
      */
@@ -32,8 +36,18 @@ class RegisterModel extends abstarctModel implements AccountInterface
     }
 
     /**
-     * registerAuthor will registerAuthor.
+     * registerUser will registerUser
+     * 
+     * based on the return value from 
+     * 
+     * checkaccountexists if account already found 
+     * 
+     * it will return false 
+     * 
+     * else will return true
      *
+     * @access public
+     * 
      * @return bool
      */
     public function registerAuthor():bool
@@ -73,15 +87,22 @@ class RegisterModel extends abstarctModel implements AccountInterface
 
     /**
      * Set the value of roleid
+     * 
+     * @param int
      *
      * @return  self
      */ 
-    public function setRoleid($roleid)
+    public function setRoleid(int $roleid):self
     {
         $this->roleid = $roleid;
         
         return $this;
     }
+    /**
+     * create User will create Acoount for user
+     *
+     * @return boolean
+     */
     public function createUser():bool
     {
         $sql="INSERT INTO users(name,email,password) values (:name,:email,:password);";

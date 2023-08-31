@@ -3,60 +3,8 @@
 <title>Book Store</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="../../../public/assets/css/style.css" rel="stylesheet" type="text/css" />
-<style>
-  nav {
-    position: absolute;
-    width:100%;
-    background-color:red;
-    color:white;
-    text-align: center;
-    }
-    #homebutton
-    {
-      background-color: red;
-      color:white;
-      font-size: 20px;
-      border: 0px;
-    }
-    #title
-    {
-      text-align: center;
-      background-color: red;
-      color: white;
-      font-size: 30px;
-      width:100%;
-      font-family: serif;
-    }
-    .softright
-    {
-      background-color:red;
-      color:white;
-      top: auto;
-      float: right;
-      text-align: center;
-      width: 15%;
-      border:0px;
-    }
-   
-    #text
-    {
-      position: absolute;
-      top:78px;
-      width:87%;
-      left:0%;
-    }
-    #search-result
-    {
-      background-color: red;
-      color:white;
-      font-size: 15px;
-    }
-    #bookData
-    {
-        float: left;
+  <style>
 
-
-    }
   </style>
 </head>
 <body>
@@ -84,7 +32,17 @@
   <div id="search-result" style="text-align:left;"></div>
       <!-- end nav -->
      <!-- end header -->  
-    </dl>
+     <dl id="browse">
+      <dt>Full Category Lists</dt>
+      <dd class="first"></dd>
+    
+          {% for categorys in category %}
+          {% set cate = categorys %}
+          {% set path = "../../../app/Controller/home/categoryController.php?category="~cate %}
+          <dd><a href= "{{ path }}" >{{ cate }}</a></dd>
+          {% endfor %}
+        
+      </dl>
     {% set quantity = quantity%}
     {% set price = price %}
     {% set totalprice = price * quantity %}
@@ -92,22 +50,61 @@
    <div id='body'>
       <div class='inner'>
         <div class='leftbox'>
-          <img src= "{{ source }}" width='200' height='150' alt='photo 1' class='left' />
-         <div id='bookData'><h3 style='text-align:center;font-size:20px;'>{{ title }}</h3><br>
+          <table id="similarboook">
+         <tr><td><img src= "{{ source }}" width='100' height='150' alt='photo 1' class='left' /></td>
+        <td><div id='bookData'><h3 style='text-align:center;font-size:15px;width:100px;'>{{ title }}</h3></td>
          
 
-          <h3 style='text-align:center;color:black;font-size:20px;'> TOTAL PRICE :{{ totalprice }}<br></h3>
-         <p class='readmore'></p><br><br><br>
+          <td><h3 style='text-align:center;color:black;font-size:15px;width:150px;'> TOTAL PRICE :{{ totalprice }}<br></h3></td>
+         <td><p class='readmore'></p><br><br><br>
          <form action="../../Controller/orders/orderConfirm.php" method="post">
           <input type="hidden" name="totalprice" value= "{{ totalprice }}" >
           <input type="hidden" name="bookid" value= "{{ bid }}" >
           <input type= "hidden" name = "quantity" value = "{{ quantity }}"  >
-         <button type ="submit" style='background-color:red;color:white;border:0px;float:left; width:200px;'>Confirm Order</button>
+        <button type ="submit" style='background-color:red;color:white;border:0px;float:left; text-align:center;width:100px;'>Confirm Order</button></td></tr>
         </form>
+      </table>
          </div><div class='clear'></div>
         </div>
-        
-        
+        <br>
+        <br>
+        <br>
+        <br>
+        <h3 style="text-align:center;font-size:14px;">Books You May Like</h3>
+        <br>
+        {% set i = 0 %}
+        {% for similars in similar %}
+
+        {% set path = "../../../app/Controller/home/indexController.php?id=" ~ similars.bookid %}
+         
+        {% set imagepath = "../../model/upload/" ~ similars.coverpage %}
+        {% set price = similars.price %}
+        {% set title = similars.title %}
+
+      {% if i%2 == 0 %}
+        <div id='body'>
+          <div class='inner'>
+            <div class='leftbox'>
+              <h3>{{ title }}</h3>
+              <img src="{{ imagepath }}" width='93' height='95' alt='photo 1' class='left' />
+              <p><b>Price:</b> <b>{{ price }}</b></p>
+             <p class='readmore'><a href="{{ path }}"><button style='background-color:red;color:white;border:0px;'>BUY NOW</button></a></p>
+              <div class='clear'></div>
+            </div>
+            {% endif %}
+            {% if i%2 == 1 %}
+            <div class='rightbox'>
+              <h3>{{ title }} </h3>
+              <img src= "{{ imagepath }}" width='107' height='91' alt='photo 4' class='left' />
+              <p><b>Price:</b> <b>{{ price }}</b> </p>
+              <p class='readmore'><a href="{{ path }}"><button style='background-color:red;color:white;border:0px;'>BUY NOW</button></a></p>
+                <div class='clear'></div>
+              </div>
+              <div class='clear'></div>
+            </div><div class='clear br'></div>
+            {% endif %}
+            {% set i = i+1 %}
+            {% endfor %}
  <!-- end .inner -->
     
 <script src='../../../public/assets/js/home/homeScripts.js'>

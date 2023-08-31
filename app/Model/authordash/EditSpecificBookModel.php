@@ -1,18 +1,16 @@
 <?php
 namespace App\Model\authordash;
-require "../../../vendor/autoload.php";
-use App\Model\Connection;
-
-class EditSpecificBookModel
+use App\Model\authordash\authordashAbstract;
+/**
+ * EditedspecificBookmodel class will fetch the 
+ * 
+ * specific Book Data By bookid.
+ * 
+ */
+class EditSpecificBookModel extends authordashAbstract
 {
-    use Connection;
-    private \PDO $conn;
-    private array $fetchBook;
+
     private int $bookid;
-    public function __construct()
-    {
-        $this->conn=$this->getConnection();
-    }
     /**
      * fetchBookByBookId will fetch specific Book Data
      * 
@@ -21,18 +19,20 @@ class EditSpecificBookModel
      * if Book is available Return True
      *
      * else Book is Not Found Return False
+     * 
+     * @access public
+     * 
      * @return boolean
      */
     public function fetchBookByBookId():bool
     {
        $sql="SELECT * FROM BOOK where bookid=:bookID;";
-       $result=$this->conn->prepare($sql);
+       $result=$this->connection->prepare($sql);
        $result->bindParam("bookID",$this->bookid);
        $result->execute();
        if($result)
        {
-         $book=$result->fetchAll(\PDO::FETCH_ASSOC);
-         $this->setFetchBook($book);
+         $this->book=$result->fetchAll(\PDO::FETCH_ASSOC);
          return true;
        }
        else
@@ -44,33 +44,17 @@ class EditSpecificBookModel
     
     /**
      * Set the value of bookid
+     * 
+     * @param int $bookid
      *
      * @return  self
      */ 
-    public function setBookid($bookid)
+    public function setBookid($bookid):self
     {
         $this->bookid = $bookid;
 
         return $this;
     }
 
-    /**
-     * Get the value of fetchBook
-     */ 
-    public function getFetchBook()
-    {
-        return $this->fetchBook;
-    }
-
-    /**
-     * Set the value of fetchBook
-     *
-     * @return  self
-     */ 
-    public function setFetchBook($fetchBook)
-    {
-        $this->fetchBook = $fetchBook;
-
-        return $this;
-    }
+    
 }

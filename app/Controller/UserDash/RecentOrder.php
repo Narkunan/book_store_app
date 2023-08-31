@@ -4,8 +4,23 @@ require "../../../vendor/autoload.php";
 use App\Model\UserDash\RecentOrderModel;
 use App\Controller\UserDash\UserDashBase;
 session_start();
+
+/**
+ * RecentOrder will display Orders recently Placed 
+ * 
+ * by user.
+ */
 class RecentOrder extends UserDashBase
 {
+  /**
+   * executeAction(= function will fetchRecentOrder by 
+   * 
+   * user Id
+   * 
+   * @access public
+   *
+   * @return void
+   */
   public function executeAction():void
   {
      

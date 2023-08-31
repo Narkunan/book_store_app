@@ -1,56 +1,62 @@
 <?php
 namespace App\Controller\authordash;
-
 require "../../../vendor/autoload.php";
 session_start();
 use App\Model\authordash\publishBookModel;
-use App\View\authordash\DisplayMessageAuthor;
+use App\Controller\authordash\AuthorDashBase;
 /**
  * PublishedBook class is responsible for getReport of
  * 
- * author PublishedBook
+ * author PublishedBook.
  */
-class PublishedBook
+class PublishedBook extends AuthorDashBase implements AuthorDashInterface
 {
-  private publishBookModel $publishedBookModel;
- 
-  private DisplayMessageAuthor $displayMessageAuthor;
-
-  public function __construct($publishedBookModel,$becomeUserView)
-  {
-    $this->publishedBookModel=$publishedBookModel;
-    $this->displayMessageAuthor=$becomeUserView;
-  }
   
+  /**
+   * publishedBookController will fetch 
+   * 
+   * books from Database by authorId.
+   *
+   * @access public
+   * 
+   * @return void
+   */
   public function publishedBookController():void
   {
        $authorname=$_SESSION["UserName"]??"  ";
        $authorId=$_SESSION["Userid"]??" ";
-       $this->publishedBookModel->setAuthorName($authorname);
-       $this->publishedBookModel->setAuthorId($authorId);
-       $returnValue=$this->publishedBookModel->fetchBooks();
+       $this->model->setAuthorName($authorname);
+       $this->model->setAuthorId($authorId);
+       $returnValue=$this->model->fetchBooks();
        if($returnValue)
        {
-          $msg=$this->publishedBookModel->getBook();
-          $loggedUser=$_SESSION['loggedUser'];
-          $name =$_SESSION['UserName'];
-          $this->displayMessageAuthor->publishedBook($msg,$loggedUser,$name);
+          $this->displayData();
        }
        else
        {
-          $msg="You haven't Published";
-          $loggedUser=$_SESSION['loggedUser'];
-          $name =$_SESSION['UserName'];
-          $this->displayMessageAuthor->displayAuthorMessage($msg,$loggedUser,$name);
+          $this->msg="You haven't Published";
+         
+          $this->displayMessages();
           
        }
   }
-  
+
+  /**
+   * displayData Function will display Book 
+   * 
+   * published by Author 
+   *
+   * @return void
+   */
+  public function displayData():void
+  {
+    $book=$this->model->getBook();
+    $this->view->publishedBook($book,$this->loggedUser,$this->name);
+  }  
 }
 
 $publishedBookModel=new publishBookModel();
-$publishBookView = new DisplayMessageAuthor();
-$publishedBook=new PublishedBook($publishedBookModel,$publishBookView);
+$publishedBook=new PublishedBook($publishedBookModel);
 $publishedBook->publishedBookController();
 
 

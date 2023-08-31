@@ -2,44 +2,99 @@
 namespace App\View\authordash;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
+/**
+ * displaymessageauthor will
+ * 
+ * handle all view related for authordash
+ */
 class DisplayMessageAuthor
 {
-   public function displayAuthorMessage($msg,$loggedUser,$name)
-   {
-      $loader = new FilesystemLoader('../../view/display');
-      $twig=new Environment($loader);
-      $template=$twig->load('AuthorMessage.html.twig');
-      echo $template->render(['data'=>$msg,'session'=>$loggedUser,'name'=>$name]);
-   }
-   public function displayEditBookView($book,$loggedUser,$name)
+   private Environment $twig;
+
+   private $template;
+   public function __construct()
    {
       $loader = new FilesystemLoader('../../view/authordash');
-      $twig=new Environment($loader);
-      $template=$twig->load('EditBookView.html.twig');
-      echo $template->render(['data'=>$book,'session'=>$loggedUser,'name'=>$name]);
+      $this->twig=new Environment($loader);
    }
-   public function displayEditSpecificBook($book,$loggedUser,$name)
+   /**
+    * displayAuthorMessage will displayMessages 
+    *
+    * to the author
+    *
+    * @param string $msg
+    * @param string $loggedUser
+    * @param string $name
+    * @return void
+    */
+   public function displayAuthorMessage(string $msg,string $loggedUser,string $name)
    {
       
-      $loader = new FilesystemLoader('../../view/authordash');
-      $twig=new Environment($loader);
-      $template=$twig->load('EditSpecificBookView.html.twig');
-      echo $template->render(['data'=>$book,'session'=>$loggedUser,'name'=>$name]);
+      $this->template=$this->twig->load('AuthorMessage.html.twig');
+      echo $this->template->render(['data'=>$msg,'session'=>$loggedUser,'name'=>$name]);
    }
-   public function deleteBook($book,$loggedUser,$name)
+   /**
+    * displayEditBookView will display books to edit
+    *
+    *
+    * @param array $book
+    * @param string $loggedUser
+    * @param string  $name
+    * @return void
+    */
+   public function displayEditBookView(array $book,string $loggedUser,string $name)
    {
       
-      $loader = new FilesystemLoader('../../view/authordash');
-      $twig=new Environment($loader);
-      $template=$twig->load('DeleteBookView.html.twig');
-      echo $template->render(['data'=>$book,'session'=>$loggedUser,'name'=>$name]);
+      $this->template=$this->twig->load('EditBookView.html.twig');
+      echo $this->template->render(['data'=>$book,'session'=>$loggedUser,'name'=>$name]);
    }
-   public function publishedBook($book,$loggedUser,$name)
+   /**
+    * displayEditSpecificBook will display
+    * 
+    * user choosen book data
+    *
+    * @param array $book
+    * @param string $loggedUser
+    * @param string  $name
+    * @return void
+    */
+   public function displayEditSpecificBook(array $book,string $loggedUser,string $name)
    {
-      $loader = new FilesystemLoader('../../view/authordash');
-      $twig=new Environment($loader);
-      $template=$twig->load('PublishedBookView.html.twig');
-      echo $template->render(['data'=>$book,'session'=>$loggedUser,'name'=>$name]);
+      
+      $this->template=$this->twig->load('EditSpecificBookView.html.twig');
+      echo $this->template->render(['data'=>$book,'session'=>$loggedUser,'name'=>$name]);
+   }
+   /**
+    * deleteBook will display
+    *
+    * books can delete
+    *
+    * @param array $book
+    * @param string $loggedUser
+    * @param string $name
+    * @return void
+    */
+   public function deleteBook(array $book,string $loggedUser,string $name)
+   {
+      
+      $this->template=$this->twig->load('DeleteBookView.html.twig');
+      echo $this->template->render(['data'=>$book,'session'=>$loggedUser,'name'=>$name]);
+   }
+   /**
+    * publishBook will display the report of
+    *
+    * published Books
+    *
+    * @param array $book
+    * @param string $loggedUser
+    * @param string $name
+    * @return void
+    */
+   public function publishedBook(array $book,string $loggedUser,string $name)
+   {
+   
+      $this->template=$this->twig->load('PublishedBookView.html.twig');
+      echo $this->template->render(['data'=>$book,'session'=>$loggedUser,'name'=>$name]);
    }
 
 }

@@ -104,7 +104,7 @@ namespace App\View\author;
             echo "$pass
             <strong><br> </td></tr>
         <tr><td>please use this to login 
-        </h1><br><br><a href='../../../public/assets/html/author/login.php'>Login</a></td></tr></table>";
+        </h1><br><br><a href='../../../public/assets/html/accounts/login.php'>Login</a></td></tr></table>";
        echo "</center>
        <!-- end body -->
         <div class='clear'></div>

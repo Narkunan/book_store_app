@@ -3,13 +3,31 @@ namespace App\Controller\authordash;
 require "../../../vendor/autoload.php";
 use App\Model\authordash\DeleteSelectedBookModel;
 use App\Controller\authordash\AuthorDashBase;
+session_start();
 
+/**
+ * DeleteSelectedBook is responsible For 
+ * 
+ * delete Selected Book from database based on the 
+ * 
+ * BookId
+ * 
+ */
 class DeleteSelectedBook extends AuthorDashBase
 {
  
-   public function deleteBookImage()
+  /**
+   * deleteBookImage function will 
+   * 
+   * delete BookImage Locally Stored 
+   * 
+   * @access public
+   * 
+   * @return void
+   */
+   public function deleteBookImage():void
    {
-      $this->model->setBookid($_GET['id']);
+      
       $coverimg=$this->model->deleteBookCoverPage();
       if($coverimg)
       {
@@ -21,13 +39,24 @@ class DeleteSelectedBook extends AuthorDashBase
          }
       }
    }
-   public function deletedSelectedBookController()
+
+   /**
+    * deleteselectedBookController will Delete Book from
+    * 
+    * Database Based on the BookID
+    *
+    * @access public
+    *
+    * @return void
+    */
+   public function deletedSelectedBookController():void
    {
-     
+      $this->model->setBookid($_GET['id']);
+      $this->deleteBookImage();
       $reult=$this->model->deleteBook();
       if($reult)
       {
-        $this->deleteBookImage();
+        
         $this->msg="your Most Recent Request For Delete Book Was Accomplished";
         $this->displayMessages();
       }

@@ -4,9 +4,22 @@ require "../../../vendor/autoload.php";
 session_start();
 use App\Model\UserDash\EditProfileConfirmModel;
 use App\Controller\UserDash\UserDashBase;
+
+/**
+ * editedprofileConfirm class will update userData
+ * 
+ * With changes made by the user.
+ */
 class EditedProfileConfirm extends UserDashBase
 {
 
+    /**
+     * executeAction will Update changes Made by the User
+     * 
+     * @access public
+     *
+     * @return void
+     */
     public function executeAction():void
     {
         $this->model->setUserid($_SESSION['Userid']);

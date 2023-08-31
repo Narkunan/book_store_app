@@ -14,14 +14,14 @@ if(isset($_COOKIE['PHPSESSID']))
     }
     else if($_SESSION['loggedUser']=="Dual")
     {
-        header("Location: ../../public/assets/html/author/chooseRole.html");
+        header("Location: ../../public/assets/html/accounts/chooseRole.html");
     }
     else
     {
-        header("Location: ../../public/assets/html/author/login.php");
+        header("Location: ../../public/assets/html/accounts/login.php");
     }
 }
 else
 {
-    header("Location: ../../public/assets/html/author/login.php?msg=Please Login");
+    header("Location: ../../public/assets/html/accounts/login.php?msg=Please Login");
 }

@@ -1,24 +1,23 @@
 <?php
-
 namespace App\Model\author;
-
-//require_once "../../../vendor/autoload.php";
-
 use App\Model\author\abstarctModel;
 
 /**
- * LoginModel class is responsible for getters and setters
+ * LoginModel class is responsible for login user.
  * 
- * to LoginModel.
+ * 
  */
 class LoginModel extends abstarctModel
 {
 
     private $id;
     
-
     /**
-     * check for account exsits for given user.
+     * checkdualuser function will check the 
+     * 
+     * user has dual role .
+     * 
+     * @access public
      *
      * @return boolean
      */
@@ -32,7 +31,7 @@ class LoginModel extends abstarctModel
         $reult->bindParam("email",$this->email);
         $reult->bindParam("password",$this->password);
         $reult->execute();
-
+        
         if($reult->rowCount()==2)
         {   
             $details = $reult->fetchAll(\PDO::FETCH_ASSOC);
@@ -50,10 +49,16 @@ class LoginModel extends abstarctModel
     /**
      * loginauthor() will call checkaccountexsits 
      * 
-     * if user exists return true
+     * if user has Dual return dual
      * 
-     * else return false.
-     *
+     * if user has one role as user it will return user
+     * 
+     * if user has one role as Author it will return Author
+     * 
+     * if account not found it will return no.
+     * 
+     * @access public
+     * 
      * @return boolean
      */
     public function LoginAuthor():string
@@ -81,9 +86,18 @@ class LoginModel extends abstarctModel
         }
 
     }
+    /**
+     * checkUser function will check the
+     * 
+     * given user is user
+     * 
+     * @access public 
+     *
+     * @return boolean
+     */
     public function checkUser():bool
     {
-        echo "check user";
+        
         $sql = "select us.name ,us.user_id from users as us join user_role as ur
                      on ur.user_id = us.user_id 
                         where us.email = :email and us.password = :password and ur.roleid=2;";
@@ -93,6 +107,7 @@ class LoginModel extends abstarctModel
         $stm->execute();
         if($stm->rowCount()==1)
         {  
+           
            $details=$stm->fetchAll(\PDO::FETCH_ASSOC);
            $this->setId($details[0]['user_id']);
            $this->setName($details[0]['name']);
@@ -103,9 +118,19 @@ class LoginModel extends abstarctModel
             return false;
         }
     }
+
+    /**
+     * checkAuthor function will check 
+     * 
+     * user is Author or not
+     *
+     * @access public 
+     * 
+     * @return boolean
+     */
     public function checkAuthor():bool
     {
-        echo "check author";
+        
         $sql = "select us.name ,us.user_id from users as us join user_role as ur
                  on ur.user_id = us.user_id 
                     where us.email = :email and us.password = :password and ur.roleid=1;";
@@ -115,6 +140,7 @@ class LoginModel extends abstarctModel
         $stm->execute();
         if($stm->rowCount()==1)
         {  
+            
            $details=$stm->fetchAll(\PDO::FETCH_ASSOC);
            $this->setId($details[0]['user_id']);
            $this->setName($details[0]['name']);
@@ -142,7 +168,7 @@ class LoginModel extends abstarctModel
      *
      * @return  void
      */ 
-    public function setId($id)
+    public function setId(string $id):void
     {
         $this->id = $id;
     }

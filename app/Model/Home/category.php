@@ -1,7 +1,20 @@
 <?php 
 namespace App\Model\Home;
+/**
+ * category class will return category 
+ * 
+ * or 
+ * 
+ * subcategory.
+ */
 class category
 {
+
+/**
+ * category function will return category.
+ *
+ * @return array
+ */
 function category():array
 {
     $category=array(
@@ -16,6 +29,11 @@ function category():array
         "AutoMobile Engineering");
  return $category;
 }
+/**
+ * subcategory function will return subCategory.
+ *
+ * @return array
+ */
 function subCategory():array
 {
     $sub_category=array("programming","java","Web development","C++","database","MYSQL","DataStructure and algorithm","network","Mobile Computing","git hub",

@@ -4,9 +4,28 @@ require "../../../vendor/autoload.php";
 use App\Model\authordash\DeleteBookModel;
 use App\Controller\authordash\AuthorDashBase;
 session_start();
+
+/**
+ * DeleteBook is will display books available to delete .
+ * 
+ */
 class DeleteBook extends AuthorDashBase implements AuthorDashInterface
 {
-      public function deleteBookController()
+
+      /**
+       * DeleteBookController Function Will 
+       * 
+       * display Book Available to delete 
+       * 
+       * if Author Have not published any book
+       * 
+       * we will display Message You Haven't Published.
+       * 
+       * @access public
+       *
+       * @return void
+       */
+      public function deleteBookController():void
       {
           
           $this->model->setAuthorid($_SESSION['Userid']);
@@ -25,9 +44,16 @@ class DeleteBook extends AuthorDashBase implements AuthorDashInterface
             $this->displayMessages();
           }
       }
+      /**
+       * Display Function will display 
+       * 
+       * available Books To delete
+       *
+       * @return void
+       */
       public function displayData():void
       {
-         $books=$this->model->getFetchBook();
+         $books=$this->model->getBook();
          $this->loggedUser = $_SESSION['loggedUser']??"no";
          $this->name =$_SESSION['UserName']??"no";
          $this->view->deleteBook($books,$this->loggedUser,$this->name);

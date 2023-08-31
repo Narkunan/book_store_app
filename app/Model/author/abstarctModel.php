@@ -1,7 +1,12 @@
 <?php 
 namespace App\Model\author;
-require_once "../../../vendor/autoload.php";
 use App\Model\Connection;
+
+/**
+ * abstract Model class will common variables and function 
+ * 
+ * to be used across accounts folder classes.
+ */
 abstract class abstarctModel
 {
     use Connection;
@@ -34,7 +39,7 @@ abstract class abstarctModel
      * 
      *@return void
      */ 
-    public function setEmail($email):void
+    public function setEmail(string $email):void
     {
         $this->email = $email;
 
@@ -60,7 +65,7 @@ abstract class abstarctModel
      * 
      * @return void
      */ 
-    public function setPassword($password):void
+    public function setPassword(string $password):void
     {
         $this->password = $password;
 
@@ -76,7 +81,7 @@ abstract class abstarctModel
      * 
      * @return string
      */ 
-    public function getName()
+    public function getName():string
     {
         return $this->name;
     }
@@ -87,7 +92,7 @@ abstract class abstarctModel
      * 
      * @return void
      */ 
-    public function setName($name)
+    public function setName(string $name):void
     {
         $this->name = $name;
     }

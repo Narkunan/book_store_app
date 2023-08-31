@@ -2,7 +2,13 @@
 namespace App\Controller\authordash;
 require "../../../vendor/autoload.php";
 use App\View\authordash\DisplayMessageAuthor;
-
+/**
+ * AuthorDashBase contains all commonly
+ * 
+ * used variables
+ * 
+ *  and function.
+ */
 abstract class AuthorDashBase
 {
     protected $model;
@@ -15,8 +21,8 @@ abstract class AuthorDashBase
     {
         $this->model = $model;
         $this->view =new DisplayMessageAuthor();
-        $name = $_SESSION['UserName'];
-        $loggedUser = $_SESSION['loggedUser'];
+        $this->name = $_SESSION['UserName'];
+        $this->loggedUser = $_SESSION['loggedUser'];
     }
     public function displayMessages():void
     {

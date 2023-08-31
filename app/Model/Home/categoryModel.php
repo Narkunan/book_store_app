@@ -1,10 +1,28 @@
 <?php
 namespace App\Model\Home;
 use App\Model\Home\HomeAbstractModel;
+/**
+ * categoryModel will fetch books
+ * 
+ * by category 
+ * 
+ */
 class CategoryModel extends HomeAbstractModel
 {
     private string $category;
-    public function fetchBookByCategory()
+
+    /**
+     * 
+     * fetchBookBycategory function will fetch
+     * 
+     * books By category.
+     * 
+     * @access public
+     * 
+     * @return bool
+     */
+
+    public function fetchBookByCategory():bool
     {
         $sql="SELECT * FROM book where category='$this->category';";
         $result=$this->conn->query($sql);
@@ -21,9 +39,11 @@ class CategoryModel extends HomeAbstractModel
     /**
      * Set the value of category
      *
+     * @param string $category
+     * 
      * @return  self
      */ 
-    public function setCategory($category)
+    public function setCategory(string $category):self
     {
         $this->category = $category;
 

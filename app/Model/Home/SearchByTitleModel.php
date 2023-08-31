@@ -2,11 +2,23 @@
 namespace App\Model\Home;
 use App\Model\Home\HomeAbstractModel;
 use App\Model\Home\FetchBookInterface;
-
+/**
+ * searchByTitleModel will fetch Books by title.
+ */
 class SearchByTitleModel extends HomeAbstractModel
 {
 
     public string $title; 
+
+    /**
+     * fetchBook will fetch Books 
+     * 
+     * by title
+     * 
+     * @access public
+     *
+     * @return boolean
+     */
     public function fetchBook():bool
     {
        $sql="SELECT * FROM book where title=:bookname;";

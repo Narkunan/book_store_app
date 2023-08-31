@@ -1,6 +1,11 @@
 <?php
 namespace App\Model\UserDash;
 use App\Model\UserDash\UserDashModelBase;
+/**
+ * EditProfileModel function will
+ * 
+ * update user data in user table.
+ */
 class EditProfileConfirmModel extends UserDashModelBase
 {
 
@@ -11,9 +16,11 @@ class EditProfileConfirmModel extends UserDashModelBase
     /**
      * Set the value of password
      *
+     * @param string $password
+     * 
      * @return  self
      */ 
-    public function setPassword($password)
+    public function setPassword(string $password)
     {
         $this->password = $password;
 
@@ -22,10 +29,12 @@ class EditProfileConfirmModel extends UserDashModelBase
 
     /**
      * Set the value of name
+     * 
+     * @param string $name
      *
      * @return  self
      */ 
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
 
@@ -35,9 +44,10 @@ class EditProfileConfirmModel extends UserDashModelBase
     /**
      * Set the value of email
      *
+     * @param string $email
      * @return  self
      */ 
-    public function setEmail($email)
+    public function setEmail(string $email)
     {
         $this->email = $email;
 
@@ -45,9 +55,9 @@ class EditProfileConfirmModel extends UserDashModelBase
     }
 
     /**
-     * Set the value of address
+     * upadteuserprofile will update user profile .
      *
-     * @return  self
+     * @return  bool
      */ 
     
     public function updateUserProfile():bool

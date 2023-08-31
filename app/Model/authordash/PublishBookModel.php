@@ -1,39 +1,22 @@
 <?php
 namespace App\Model\authordash;
-
-require_once "../../../vendor/autoload.php";
-
 use App\Model\authordash\authordashAbstract;
-
+/**
+ * publishBookModel will fetch all the Book
+ * 
+ * published by author 
+ * 
+ */
 class publishBookModel extends authordashAbstract
 {
    
-    private array $Book;
-
     /**
-     * Get the value of Report
+     * fetchBook function will fetch all the books 
      * 
-     * @return array
-     */ 
-    public function getBook():array
-    {
-        return $this->Book;
-    }
-
-    /**
-     * Set the value of Report
+     * and associated data published by the author.
      *
-     * @param array $Report
-     * 
-     * @return  self
-     */ 
-    public function setBook($Book)
-    {
-        $this->Book = $Book;
-
-        return $this;
-    }
-
+     * @return boolean
+     */
     public function fetchBooks():bool
     {
         $sql="SELECT * FROM book WHERE authorid=:authorid;";
@@ -42,8 +25,7 @@ class publishBookModel extends authordashAbstract
         $stm->execute();
         if($stm->rowCount()>0)
         {
-            $result=$stm->fetchAll(\PDO::FETCH_ASSOC);
-            $this->setBook($result);
+            $this->book=$stm->fetchAll(\PDO::FETCH_ASSOC);
             return true;
         }
         else

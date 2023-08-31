@@ -1,19 +1,11 @@
 <?php
 namespace App\Model\authordash;
-require "../../../vendor/autoload.php";
-use App\Model\Connection;
+use App\Model\authordash\authordashAbstract;
 
-class EditBookModel
+class EditBookModel extends authordashAbstract
 {
-    private int $authorid;
-    private array $fetchBook;
-    use Connection;
     
-    private \PDO $conn;
-    public function __construct()
-    {
-        $this->conn=$this->getConnection();
-    }
+    
     /**
      * fetchBooksByAuthorId function will fetch Books
      * 
@@ -26,13 +18,13 @@ class EditBookModel
     public function fetchBooksByAuthorId():bool
     {
        $sql="SELECT * FROM BOOK WHERE authorid=:authorID;";
-       $result=$this->conn->prepare($sql);
+       $result=$this->connection->prepare($sql);
        $result->bindParam("authorID",$this->authorid);
        $result->execute();
        if($result->rowCount()>0)
        {
-          $Book=$result->fetchAll(\PDO::FETCH_ASSOC);
-          $this->setFetchBook($Book);
+          $this->book=$result->fetchAll(\PDO::FETCH_ASSOC);
+          
           return true;
        }
        else
@@ -40,35 +32,5 @@ class EditBookModel
          return false;
        }
     }
-    /**
-     * Set the value of authorid
-     *
-     * @return  self
-     */ 
-    public function setAuthorid($authorid)
-    {
-        $this->authorid = $authorid;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of fetchBook
-     */ 
-    public function getFetchBook()
-    {
-        return $this->fetchBook;
-    }
-
-    /**
-     * Set the value of fetchBook
-     *
-     * @return  self
-     */ 
-    public function setFetchBook($fetchBook)
-    {
-        $this->fetchBook = $fetchBook;
-
-        return $this;
-    }
+   
 }

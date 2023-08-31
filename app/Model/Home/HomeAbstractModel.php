@@ -2,6 +2,11 @@
 namespace App\Model\Home;
 use App\Model\Connection;
 
+/**
+ * HomeAbstractModel have common variables and function 
+ * 
+ * to be used across the classes.
+ */
 class HomeAbstractModel
 {
     public \PDO $conn;
@@ -28,10 +33,12 @@ class HomeAbstractModel
 
     /**
      * Set the value of ProductData
+     * 
+     * @param array $productdata
      *
      * @return  self
      */ 
-    public function setFetchBook($ProductData):self
+    public function setFetchBook(array $ProductData):self
     {
         $this->FetchBook = $ProductData;
 

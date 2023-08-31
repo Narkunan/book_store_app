@@ -2,13 +2,27 @@
 namespace App\Model\ajax;
 require_once "../../../vendor/autoload.php";
 use App\Model\Connection;
+
+/**
+ * ajaxModel will fetchBook title Based 
+ * 
+ * on title Provided by user
+ * 
+ */
 class ajaxModel
 {
   use Connection;
 
   private array $book;
   
-  public function fetchBook()
+  /**
+   * fetchBook will retrieve Book
+   * 
+   * title from Book table.
+   *
+   * @return void
+   */
+  public function fetchBook():void
   {
      $conn=$this->getConnection();
      $result=$conn->query("SELECT title FROM book");

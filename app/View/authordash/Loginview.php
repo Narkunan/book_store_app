@@ -7,85 +7,6 @@
         <title>Author</title>
         
           <link href="../../../public/assets/css/style.css" rel="stylesheet" type="text/css" />
-<style>
-    table
-    {
-        font-size: 20px;
-    }
-    #names
-    {
-        padding: auto;
-        
-    }
-   #register
-   {
-         
-        background-color: white;
-        color:black;
-        border: 3px;
-        font-size: 15px;
-    }
-   nav 
-   {
-    position: absolute;
-    width:100%;
-    background-color:red;
-    color:white;
-    text-align: center;
-    }
-    #homebutton
-    {
-      background-color: red;
-      color:white;
-      font-size: 20px;
-      border: 0px;
-    }
-    #title
-    {
-      text-align: center;
-      background-color: red;
-      color: white;
-      font-size: 30px;
-      width:100%;
-      font-family: serif;
-    }
-    .softright
-    {
-      background-color:red;
-      color:white;
-      top: auto;
-      float: right;
-      text-align: center;
-      width: 15%;
-      border:0px;
-    }
-    #form
-    {
-      background-color: red;
-      color:white;
-    }
-    #text
-    {
-      position: absolute;
-      top:78px;
-      width:87%;
-      left:0%;
-    }
-    #search-result
-    {
-      text-align: left;
-      background-color: red;
-      color:white;
-      font-size: 15px;
-    }
-    #welcomes
-    {
-        font-size: 20px;
-        font-family: 'Times New Roman', Times, serif;
-    }
-   
-  </style>
-
     </head>
     <body>
     <div id="wrapper">
@@ -116,12 +37,12 @@
     <dt>Options</dt>
     <dd class="first"> <a href="../../view/authordash/LoginView.php">
                 Author Home </a></dd>
-    <dd style="font-size:16px;"> <a href="../../../public/assets/html/authordash/authordash.php">
+    <dd style="font-size:16px;"> <a href="../../view/authordash/authordash.php">
                 Publishing Book </a></dd>
                 <dd style="font-size:16px;">   <a href="../../Controller/authordash/PublishedBook.php">For Report</a></dd>
                 <dd style="font-size:16px;"> <a href="../../Controller/authordash/EditBook.php">Edit Book</a></dd>
                 <dd style="font-size:16px;"> <a href="../../Controller/authordash/DeleteBook.php">Delete Book</a></dd>
-                <dd style="font-size:16px;"> <a href="../../Controller/author/logout.php">logout</a></dd>
+                <dd style="font-size:16px;"> <a href="../../Controller/accounts/logout.php">logout</a></dd>
                 <dd style="font-size:16px;"><p style="margin-top:0px;font-weight:bold;padding:3px 10px;color:white;font-size:16px" onclick="myFunction()" id="become">Become User</p></dd>
                 <dd style="font-size:16px;"><p style="margin-top:0px;font-weight:bold;padding:3px 10px;color:white;font-size:16px" onclick="userRedirect()" id="redirect"></p></dd>
               </dl>

@@ -1,6 +1,11 @@
 <?php
 namespace App\Model\UserDash;
 use App\Model\UserDash\UserDashModelBase;
+/**
+ * RecentOrderModel will fetch
+ * 
+ * Recently Placed Orders.
+ */
 class RecentOrderModel extends UserDashModelBase
 {
     private array $orders;
@@ -14,10 +19,12 @@ class RecentOrderModel extends UserDashModelBase
 
     /**
      * Set the value of orders
+     * 
+     * @param array $orders
      *
      * @return  self
      */ 
-    public function setOrders($orders)
+    public function setOrders(array $orders)
     {
         $this->orders = $orders;
 
@@ -25,9 +32,13 @@ class RecentOrderModel extends UserDashModelBase
     }
 
     /**
-     * Set the value of userid
+     * fetchRecentOrder will fetch recent placed by 
+     * 
+     * user.
+     * 
+     * @access public
      *
-     * @return  self
+     * @return bool
      */ 
 
     public function fetchRecentOrder():bool

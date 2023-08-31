@@ -1,35 +1,47 @@
 <?php
 namespace App\Model\authordash;
-require "../../../vendor/autoload.php";
-use App\Model\Connection;
-
-class DeleteSelectedBookModel
+use App\Model\authordash\authordashAbstract;
+/**
+ * deleteSelectedBookModel will delete Seleceted
+ * 
+ * Book in DataBase.
+ */
+class DeleteSelectedBookModel extends authordashAbstract
 {
-    use Connection;
-    private \PDO $conn;
     private int $bookid;
 
     private string $coverPage;
-    public function __construct()
-    {
-      $this->conn=$this->getConnection();
-    }
 
     /**
      * Set the value of bookid
      *
+     * @param int $bookid
+     * 
      * @return  self
      */ 
-    public function setBookid($bookid)
+    public function setBookid(int $bookid):self
     {
         $this->bookid = $bookid;
 
         return $this;
     }
-    public function deleteBookCoverPage()
+    /**
+     * deleteBookCoverPage will
+     * 
+     * fetch Coverpage file name 
+     * 
+     * to delete locally befor delete form
+     * 
+     * database.
+     *
+     * @access public
+     * 
+     * @return boolean
+     */
+    public function deleteBookCoverPage():bool
     {
         $sql="SELECT coverpage FROM book WHERE bookid=:bookid;";
-        $result=$this->conn->prepare($sql);
+        $result=$this->connection->prepare($sql);
         $result->bindParam("bookid",$this->bookid);
         $result->execute();
         if($result->rowCount()>0)
@@ -44,10 +56,18 @@ class DeleteSelectedBookModel
         }
         
     }
-    public function deleteBook()
+
+    /**
+     * deleteBook function will delete selected Book from database.
+     *
+     * @access public 
+     * 
+     * @return boolean
+     */
+    public function deleteBook():bool
     {
         $sql="DELETE FROM book where bookid=:bookid;";
-        $result=$this->conn->prepare($sql);
+        $result=$this->connection->prepare($sql);
         $result->bindParam("bookid",$this->bookid);
         $result->execute();
         if($result)
@@ -63,7 +83,7 @@ class DeleteSelectedBookModel
     /**
      * Get the value of coverPage
      */ 
-    public function getCoverPage()
+    public function getCoverPage():string
     {
         return $this->coverPage;
     }
@@ -71,9 +91,11 @@ class DeleteSelectedBookModel
     /**
      * Set the value of coverPage
      *
+     * @param string $coverpage
+     * 
      * @return  self
      */ 
-    public function setCoverPage($coverPage)
+    public function setCoverPage( string $coverPage):self
     {
         $this->coverPage = $coverPage;
 

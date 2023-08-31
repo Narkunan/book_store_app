@@ -5,8 +5,23 @@ use App\Controller\UserDash\UserDashBase;
 use App\Model\UserDash\BecomeAuthorModel;
 session_start();
 
+/**
+ * BecomeAuthor will make 
+ * 
+ * user as Author.
+ * 
+ */
 class BecomeAuthor extends UserDashBase
 {
+    /**
+     * executeAction will assign user 
+     * 
+     * with author privilleges.
+     * 
+     * @access public
+     *
+     * @return void
+     */
     public function executeAction():void
     {
         $this->model->setUserId($_SESSION['Userid']);

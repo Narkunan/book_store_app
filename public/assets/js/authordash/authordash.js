@@ -33,7 +33,7 @@ function userRedirect()
     if(window.confirm(x)==true)
     {
         console.log("clicked confirm");
-        window.location.href = "../../../../book_store/app/View/user/LoginView.php" ;
+        window.location.href = "../../../../book_store/app/View/userdash/LoginView.php" ;
     }
     else
     {

@@ -1,12 +1,26 @@
 <?php
 namespace App\Model\UserDash;
 use App\Model\UserDash\UserDashModelBase;
+/**
+ * editProfileModel will retrieve 
+ * 
+ * existing values of user 
+ */
 class EditProfileModel extends UserDashModelBase
 {
 
    private array $userData;
    
-   public function fetchUserProfile()
+   /**
+    * fetchUserProfile function will
+    *
+    * get User Profile
+    *
+    * @access public
+    *
+    * @return bool
+    */
+   public function fetchUserProfile():bool
    {
         $sql="SELECT name,email,password FROM USERs where user_id=:userid;";
         $stm=$this->conn->prepare($sql);
@@ -33,6 +47,8 @@ class EditProfileModel extends UserDashModelBase
 
    /**
     * Set the value of userData
+    *
+    *@param array $userdata
     *
     * @return  self
     */ 

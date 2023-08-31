@@ -259,3 +259,64 @@ right: 10px;
 top: 0px;
 padding: 8px 0 5px 0;
 }
+nav {
+    position: absolute;
+    width:100%;
+    background-color:red;
+    color:white;
+    text-align: center;
+    }
+    #homebutton
+    {
+      background-color: red;
+      color:white;
+      font-size: 20px;
+      border: 0px;
+    }
+    #title
+    {
+      text-align: center;
+      background-color: red;
+      color: white;
+      font-size: 30px;
+      width:100%;
+      font-family: serif;
+    }
+    .softright
+    {
+      background-color:red;
+      color:white;
+      top: auto;
+      float: right;
+      text-align: center;
+      width: 15%;
+      border:0px;
+    }
+    /**form
+    {
+      background-color: red;
+      color:white;
+    }**/
+    #text
+    {
+      position: absolute;
+      top:78px;
+      width:87%;
+      left:0%;
+    }
+    #search-result
+    {
+      background-color: red;
+      color:white;
+      font-size: 15px;
+      text-align: left;
+    }
+   #welcomes
+   {
+     text-align: center;
+     font-size: 20px;
+   }
+   label
+    {
+        font-size: 15px;
+    }

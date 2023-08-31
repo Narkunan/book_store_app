@@ -1,14 +1,11 @@
 <?php
 namespace App\Model\Home;
-
-require_once "../../../vendor/autoload.php";
-
 use App\Model\Home\HomeAbstractModel;
 use App\Model\Home\FetchBookInterface;
 /**
  *indexModel will Fetch Book detail
  */
-class IndexModel extends HomeAbstractModel 
+class IndexModel extends HomeAbstractModel  
 {
     /**
      * FetchBook will fetch all book details.

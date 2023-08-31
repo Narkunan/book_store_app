@@ -3,61 +3,7 @@
 <title>Book Store</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="../../../public/assets/css/style.css" rel="stylesheet" type="text/css" />
-<style>
-  nav {
-    position: absolute;
-    width:100%;
-    background-color:red;
-    color:white;
-    text-align: center;
-    }
-    #homebutton
-    {
-      background-color: red;
-      color:white;
-      font-size: 20px;
-      border: 0px;
-    }
-    #title
-    {
-      text-align: center;
-      background-color: red;
-      color: white;
-      font-size: 30px;
-      width:100%;
-      font-family: serif;
-    }
-    .softright
-    {
-      background-color:red;
-      color:white;
-      top: auto;
-      float: right;
-      text-align: center;
-      width: 15%;
-      border:0px;
-    }
-   
-    #text
-    {
-      position: absolute;
-      top:78px;
-      width:87%;
-      left:0%;
-    }
-    #search-result
-    {
-      background-color: red;
-      color:white;
-      font-size: 15px;
-    }
-    #bookData
-    {
-        float: right;
 
-
-    }
-  </style>
 </head>
 <body>
 <div id="wrapper">
@@ -85,7 +31,7 @@
      <!-- end header -->  
     </dl>
    <input type="hidden" id="session" value="{{ session }}" >
-        {% if session == "user" or session == "Dual" %}
+       
         {% for book in data %}
         {% set coverpage = book.coverpage%}
         {% set path ="../../Model/upload/" ~ coverpage %}
@@ -114,11 +60,12 @@
          <input type="hidden" value="{{ book.title }}" name="btitle">
          <input type="hidden" value="{{ book.price }}" name="bprice" >
          <input type='hidden' value="{{ book.bookid }}" name='bid' id="bookid">
+         <input type="hidden" value="{{ book.category }}" name="category">
          <button type='submit' style='background-color:red;color:white;border:0px;text-align:center;'>BUY NOW</button></div><div class='clear'></div>
         </div>
         </form>
         {% endfor %}
-        {% endif %}
+        
        
         
    <script>
@@ -130,7 +77,11 @@
       if(session.value == "user" || session.value == "Dual")
       {
         
-        //location.href = "../../Controller/UserRedirect.php";
+         console.log("you can proceed further");
+      }
+      else
+      {
+        location.href = "../../../public/assets/html/accounts/login.php?msg=login with user credential";
       }
 
     }

@@ -1,16 +1,13 @@
 <?php
 
 namespace App\Model\author;
-
-require_once "../../../vendor/autoload.php";
-
 use App\Model\author\abstarctModel;
-
+use App\Model\author\AccountInterface;
 /**
  * forgetmodel class is reponsible for using getters and setters
  *  
  */
-class ForgetModel extends abstarctModel
+class ForgetModel extends abstarctModel implements AccountInterface
 {
     /**
      * checkforaccountexsits for given user.

@@ -4,11 +4,27 @@ require "../../../vendor/autoload.php";
 use App\Model\authordash\BecomeUserModel;
 use App\Controller\authordash\AuthorDashBase;
 session_start();
+
+/**
+ * BecomeUser class is responsible will author
+ * 
+ * the user privilleges that means they can bought book. 
+ * 
+ */
 class BecomeUser extends AuthorDashBase
 {
-    public function becomeUserController()
+    /**
+     * BecomeUserController method will take 
+     * 
+     * care of making Author as User
+     * 
+     * @access public
+     *
+     * @return void
+     */
+    public function becomeUserController():void
     {
-        $this->model->setUserId($_SESSION['Userid']);
+        $this->model->setAuthorId($_SESSION['Userid']);
         $returnValue=$this->model->updateRole();
         if($returnValue)
         {

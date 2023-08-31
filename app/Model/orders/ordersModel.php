@@ -1,8 +1,11 @@
 <?php
 namespace App\Model\orders;
-require "../../../vendor/autoload.php";
 use App\Model\Connection;
-
+/**
+ * orderModel is responsible for create order record. 
+ * 
+ * 
+ */
 class ordersModel
 {
     use connection;
@@ -23,10 +26,12 @@ class ordersModel
 
     /**
      * Set the value of userid
+     * 
+     * @param int $userid
      *
      * @return  self
      */ 
-    public function setUserid($userid)
+    public function setUserid(int $userid):self
     {
        
         $this->userid = $userid;
@@ -36,10 +41,12 @@ class ordersModel
 
     /**
      * Set the value of bookid
+     * 
+     * @param int $bookid
      *
      * @return  self
      */ 
-    public function setBookid($bookid)
+    public function setBookid(int $bookid):self
     {
         
         $this->bookid = $bookid;
@@ -50,17 +57,27 @@ class ordersModel
     /**
      * Set the value of totalPrice
      *
+     * @param float $totalprice
+     * 
      * @return  self
      */ 
-    public function setTotalPrice($totalPrice)
+    public function setTotalPrice(float $totalPrice):self
     {
         
         $this->totalPrice = $totalPrice;
 
         return $this;
     }
-
-    public function placeOrder()
+    /**
+     * placeorder will create order
+     * 
+     * record.
+     *
+     * @access public 
+     * 
+     * @return boolean
+     */
+    public function placeOrder():bool
     {
         if($this->createOrder())
         {
@@ -94,6 +111,14 @@ class ordersModel
         }
     }
     
+    /**
+     * updatestockcount function will update stock count.
+     * 
+     * @access public
+     * 
+     *
+     * @return boolean
+     */
     public function updateStockCount():bool
     {
         $sql="UPDATE book SET stock=stock-:quantity where bookid=:bookid;";
@@ -110,6 +135,13 @@ class ordersModel
             return false;
         }
     }
+    /**
+     * createOrder will create order record in order table.
+     * 
+     * @access public
+     *
+     * @return boolean
+     */
     public function createOrder():bool
     {
         
@@ -130,6 +162,15 @@ class ordersModel
             return false;
         }
     }
+    /**
+     * updatesalescount function will upadte 
+     * 
+     * sale Count in boook table.
+     * 
+     * @access public 
+     *
+     * @return boolean
+     */
     public function updateSaleCount():bool
     {
        $sql="UPDATE book SET sales_count=sales_count+:quantity where bookid=:bookid;";
@@ -152,9 +193,11 @@ class ordersModel
     /**
      * Set the value of quantity
      *
+     * @param int $quantity
+     * 
      * @return  self
      */ 
-    public function setQuantity($quantity)
+    public function setQuantity(int $quantity):self
     {
         $this->quantity = $quantity;
 
