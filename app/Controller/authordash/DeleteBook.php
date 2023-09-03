@@ -6,59 +6,66 @@ use App\Controller\authordash\AuthorDashBase;
 session_start();
 
 /**
- * DeleteBook is will display books available to delete .
+ * DeleteSelectedBook is responsible For 
+ * 
+ * delete Selected Book from database based on the 
+ * 
+ * BookId
  * 
  */
-class DeleteBook extends AuthorDashBase implements AuthorDashInterface
+class DeleteBook extends AuthorDashBase
 {
-
-      /**
-       * DeleteBookController Function Will 
-       * 
-       * display Book Available to delete 
-       * 
-       * if Author Have not published any book
-       * 
-       * we will display Message You Haven't Published.
-       * 
-       * @access public
-       *
-       * @return void
-       */
-      public function deleteBookController():void
+ 
+  /**
+   * deleteBookImage function will 
+   * 
+   * delete BookImage Locally Stored 
+   * 
+   * @access public
+   * 
+   * @return void
+   */
+   public function deleteBookImage():void
+   {
+      
+      $coverimg=$this->model->deleteBookCoverPage();
+      if($coverimg)
       {
-          
-          $this->model->setAuthorid($_SESSION['Userid']);
-          $returnValue=$this->model->fetchBook();
-          
-          if($returnValue)
-          {
-            $this->displayData();
+         $path="../../Model/upload/".$this->model->getCoverPage();
+         if(file_exists($path))
+         {
+           
+           unlink($path);
+         }
+      }
+   }
 
-          }
-          else
-          {
-            $this->msg="You Have Not Published";
-            $this->loggedUser=$_SESSION['loggedUser'];
-            $this->name=$_SESSION['UserName'];
-            $this->displayMessages();
-          }
-      }
-      /**
-       * Display Function will display 
-       * 
-       * available Books To delete
-       *
-       * @return void
-       */
-      public function displayData():void
+   /**
+    * deleteselectedBookController will Delete Book from
+    * 
+    * Database Based on the BookID
+    *
+    * @access public
+    *
+    * @return void
+    */
+   public function deletedBookController():void
+   {
+      $this->model->setBookid($_GET['id']);
+      $this->deleteBookImage();
+      $reult=$this->model->deleteBook();
+      if($reult)
       {
-         $books=$this->model->getBook();
-         $this->loggedUser = $_SESSION['loggedUser']??"no";
-         $this->name =$_SESSION['UserName']??"no";
-         $this->view->deleteBook($books,$this->loggedUser,$this->name);
+        
+        $this->msg="your Most Recent Request For Delete Book Was Accomplished";
+        $this->displayMessages();
       }
+      else
+      {
+        echo "<h1>encountred Problem With Deleting Book ";
+      }
+    }
 }
-$deleteBookModel =new DeleteBookModel();
-$deleteBook = new DeleteBook($deleteBookModel); 
-$deleteBook->deleteBookController();
+$deleteSelectedBookModel = new DeleteBookModel();
+$DeleteSelectedBook= new DeleteBook($deleteSelectedBookModel);
+$DeleteSelectedBook->deletedBookController();

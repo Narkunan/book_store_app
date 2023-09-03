@@ -84,9 +84,7 @@ final class TestRunner
         $risky      = false;
         $skipped    = false;
 
-        if ($this->shouldErrorHandlerBeUsed($test)) {
-            ErrorHandler::instance()->enable();
-        }
+        ErrorHandler::instance()->enable();
 
         $collectCodeCoverage = CodeCoverage::instance()->isActive() &&
                                $shouldCodeCoverageBeCollected;
@@ -196,8 +194,7 @@ final class TestRunner
 
         ErrorHandler::instance()->disable();
 
-        if (!$error &&
-            !$incomplete &&
+        if (!$incomplete &&
             !$skipped &&
             $this->configuration->reportUselessTests() &&
             !$test->doesNotPerformAssertions() &&
@@ -213,9 +210,8 @@ final class TestRunner
             Event\Facade::emitter()->testConsideredRisky(
                 $test->valueObjectForEvents(),
                 sprintf(
-                    'This test is not expected to perform assertions but performed %d assertion%s',
+                    'This test is not expected to perform assertions but performed %d assertions',
                     $test->numberOfAssertionsPerformed(),
-                    $test->numberOfAssertionsPerformed() > 1 ? 's' : '',
                 ),
             );
         }
@@ -455,14 +451,5 @@ final class TestRunner
         }
 
         return $path;
-    }
-
-    private function shouldErrorHandlerBeUsed(TestCase $test): bool
-    {
-        if (MetadataRegistry::parser()->forMethod($test::class, $test->name())->isWithoutErrorHandler()->isNotEmpty()) {
-            return false;
-        }
-
-        return true;
     }
 }

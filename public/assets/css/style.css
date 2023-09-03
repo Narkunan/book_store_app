@@ -297,13 +297,7 @@ nav {
       background-color: red;
       color:white;
     }**/
-    #text
-    {
-      position: absolute;
-      top:78px;
-      width:87%;
-      left:0%;
-    }
+   
     #search-result
     {
       background-color: red;

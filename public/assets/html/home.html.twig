@@ -4,17 +4,23 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="../../../public/assets/css/style.css" rel="stylesheet" type="text/css" />
 <style>
-  
-  </style>
+  #text
+  {
+    position: absolute;
+    top:70px;
+    width:87%;
+    left:0%;
+  }
+</style>
 </head>
 <body>
 <div id="wrapper">
   <div id="inner">
     <div id="header">
       <h1 id="title">Engineering Book Store</h1>
-      <h1 style="background-color:red;color:white;">{{ name }}</h1>
+      <h1 style="background-color:red;color:white;" id="userloginss">{{ name }}</h1>
       <nav> <a href="../../../public/assets/html/first.php"><button id="homebutton">Home</button></a>  
-      <a href="../../../app/Controller/UserRedirect.php"><button id="homebutton">User Login</button></a>
+      <a href="../../../app/Controller/UserRedirect.php"><button style="background-color:red;border:0px;color:white;font-size:20px;"id="homebuttons">User Login</button></a>
    </nav>
     <dd class="last"></dd>
   <center>
@@ -80,20 +86,22 @@
        {% set i=i+1 %}
     
         {% endfor %}
+        <input type="hidden" id="userlogin" value="{{ name }}">
+        <h1>{{ name }}</h1>
     
  <!-- end .inner -->
     </div>
     <!-- end body -->
     <div class='clear'></div>
-    <div id='footer'> Web design by <a href='http://www.freewebsitetemplates.com'>free website templates</a> &nbsp;
-      <div id='footnav'> <a href='#'>Legal</a> | <a href='#'>Home</a> </div>
-      <!-- end footnav -->
-    </div>
-    <!-- end footer -->
+    <footer style="background-color:red;color:white;left:300px;">Engineering Book store Phone:044 567890 Email:engineering@bookstore.in</footer>
+    
   </div>
   <!-- end inner -->
 </div>
 <!-- end wrapper -->
+<script>
+  
+</script>
 <script src='../../../public/assets/js/home/homeScripts.js'>
   </script>
 </body>

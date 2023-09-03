@@ -71,7 +71,7 @@
       <h1 style="background-color:red;color:white;">{{ name }}</h1>
       <nav> <a href="../../../public/assets/html/first.php"><button id="homebutton">Home</button></a> 
        
-      <a href="../Controller/UserRedirect.php"><button id="homebutton">User Login</button></a>
+      <a href="../Controller/UserRedirect.php"><button style="background-color:red;border:0px;color:white;font-size:20px;" id="homebuttons">User Login</button></a>
      </nav>
     <dd class="last"></dd>
   <center>
@@ -90,14 +90,12 @@
      <!-- end header -->  
      <dl id="browse">
     <dt>Options</dt>
-    <dd class="first"><a href="../../view/authordash/LoginView.php">
+    <dd class="first"><a href="../../controller/accounts/AuthorWelcomePage.php">
                 Author Home </a></dd>
-    <dd style="font-size:16px;"> <a href="../../view/authordash/authordash.php">
-                Publishing Book </a></dd> 
-    <dd style="font-size:16px;"> <a href="../../Controller/authordash/PublishedBook.php">For Report</a> </dd>
-    <dd style="font-size:16px;"> <a href="../../Controller/authordash/EditBook.php">Edit Book</a></dd>
-    <dd style="font-size:16px;"> <a href="../../Controller/authordash/DeleteBook.php">Delete Book</a></dd>
-    
+    <dd style="font-size:16px;"> <a href="../../view/authordash/PublishPlatform.php">
+                Create Book </a></dd> 
+    <dd style="font-size:16px;"> <a href="../../Controller/authordash/SalesReport.php">Report</a> </dd>
+    <dd style="font-size:16px;"> <a href="../../Controller/authordash/ListBook.php">List Book</a></dd>
     <dd style="font-size:16px;"> <a href="../../Controller/accounts/logout.php">logout</a></dd>
     <dd style="font-size:16px;"><p style="margin-top:0px;font-weight:bold;padding:3px 10px;color:white;font-size:16px" onclick="myfun()" id="become">Become User</p></dd>
                 <dd style="font-size:16px;"><p style="margin-top:0px;font-weight:bold;padding:3px 10px;color:white;font-size:16px" onclick="userRedirect()" id="redirect"></p></dd>
@@ -113,10 +111,11 @@
         </table>
         
       </center>
+      <input type="hidden" id="userlogin" value="{{ name }}">
        <!-- end body -->
         <div class='clear'></div>
-        <div id='footer'> Web design by <a href='http://www.freewebsitetemplates.com'>free website templates</a> &nbsp;
-          <div id='footnav'> <a href='#'>Legal</a> | <a href='#'>Home</a> </div>
+        <div id='footer'> Engineering Book store Phone:044 567890 Email:engineering@bookstore.in &nbsp;
+          <div id='footnav'>  </div>
           <!-- end footnav -->
           
         </div>

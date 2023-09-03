@@ -10,7 +10,7 @@ if(isset($_COOKIE['PHPSESSID']))
     }
     else  if($_SESSION["loggedUser"]=="author")
     {
-        header("Location: ../View/authordash/Loginview.php");
+        header("Location: accounts/AuthorWelcomePage.php");
     }
     else if($_SESSION['loggedUser']=="Dual")
     {

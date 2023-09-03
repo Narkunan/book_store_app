@@ -31,7 +31,7 @@ function authorRedirect()
     if(window.confirm(x)==true)
     {
         console.log("clicked confirm");
-        window.location.href = "../../../../book_store/app/View/authordash/LoginView.php" ;
+        window.location.href = "../../../../book_store/app/controller/accounts/LoginView.php" ;
     }
     else
     {

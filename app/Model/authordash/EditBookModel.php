@@ -1,36 +1,68 @@
 <?php
 namespace App\Model\authordash;
 use App\Model\authordash\authordashAbstract;
-
+/**
+ * EditedspecificBookmodel class will fetch the 
+ * 
+ * specific Book Data By bookid.
+ * 
+ */
 class EditBookModel extends authordashAbstract
 {
+
+    private int $bookid;
+    /**
+     * fetchBookByBookId will fetch specific Book Data
+     * 
+     * Based on the Book Id
+     * 
+     * if Book is available Return True
+     *
+     * else Book is Not Found Return False
+     * 
+     * @access public
+     * 
+     * @return boolean
+     */
+    public function fetchBookByBookId():bool
+    {
+       try
+       {
+          $sql="SELECT * FROM BOOK where bookid=:bookID;";
+          $result=$this->connection->prepare($sql);
+          $result->bindParam("bookID",$this->bookid);
+          $result->execute();
+          if($result)
+          {
+            $this->book=$result->fetchAll(\PDO::FETCH_ASSOC);
+            return true;
+          }
+          else
+          {
+            return false;
+          }
+      }
+      catch(\PDOException $e)
+      {
+          echo $e->getMessage();
+          return false;
+      }
+    }
     
     
     /**
-     * fetchBooksByAuthorId function will fetch Books
+     * Set the value of bookid
      * 
-     * that are Published By author and return true if any book is available
-     * 
-     * else return false if no book is found
+     * @param int $bookid
      *
-     * @return boolean
-     */
-    public function fetchBooksByAuthorId():bool
+     * @return  self
+     */ 
+    public function setBookid($bookid):self
     {
-       $sql="SELECT * FROM BOOK WHERE authorid=:authorID;";
-       $result=$this->connection->prepare($sql);
-       $result->bindParam("authorID",$this->authorid);
-       $result->execute();
-       if($result->rowCount()>0)
-       {
-          $this->book=$result->fetchAll(\PDO::FETCH_ASSOC);
-          
-          return true;
-       }
-       else
-       {
-         return false;
-       }
+        $this->bookid = $bookid;
+
+        return $this;
     }
-   
+
+    
 }

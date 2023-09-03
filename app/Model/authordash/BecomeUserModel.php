@@ -18,17 +18,26 @@ class BecomeUserModel extends authordashAbstract
 
     public function updateRole():bool
     {
-         $sql="INSERT INTO user_role (user_id,roleid) VALUES (:userid , 2);";
-         $stm=$this->connection->prepare($sql);
-         $stm->bindParam("userid",$this->authorid);
-         $stm->execute();
-         if($stm)
-         {
-            return true;
-         }
-         else
-         {
-            return false;
-         }
+
+       try
+       {
+            $sql="INSERT INTO user_role (user_id,roleid) VALUES (:userid , 2);";
+            $stm=$this->connection->prepare($sql);
+            $stm->bindParam("userid",$this->authorid);
+            $stm->execute();
+            if($stm)
+            {
+                return true;
+            }
+            else
+            {
+               return false;
+            }
+      }
+      catch(\PDOException $e)
+      {
+         echo $e->getMessage();
+         return false;
+      }
     }
 }

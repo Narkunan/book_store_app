@@ -1,65 +1,59 @@
 <?php
-namespace   App\Controller\authordash;
+namespace App\Controller\authordash;
 require "../../../vendor/autoload.php";
-session_start();
 use App\Model\authordash\EditBookModel;
 use App\Controller\authordash\AuthorDashBase;
+session_start();
 
 /**
- * EditBook will displayBooks Available to delete.
+ * Edit Specific Book will Display value fetched from 
  * 
+ * database to display Author existing Value 
  */
 class EditBook extends AuthorDashBase implements AuthorDashInterface
 {
-   
-   /**
-    * EditBookManager is responsible for 
-    * 
-    * display book available to edit 
-    *
-    * author have not published any Book 
-    *
-    * display Message to the author that
-    *
-    * You Havenot Published yet
-    *
-    * @access public
-    *
-    * @return void
-    */
-   public function editBookManager():void
-   {
-      $this->model->setAuthorid($_SESSION['Userid']);
-      $bookFound=$this->model->fetchBooksByAuthorId();
-      if($bookFound)
-      {
-         $this->displayData();  
-     }
-     else
-     {
-         $this->msg="You have not published yet";
-         $this->loggedUser=$_SESSION['loggedUser'];
-         $this->name =$_SESSION['UserName'];
-         $this->view->displayAuthorMessage($this->msg,$this->loggedUser,$this->name);
-     }
-   }
-   /**
-    * displayData Function will Display 
-    *
-    * available to Delete
-    * 
-    * @access public
-    *
-    * @return void
-    */
-   public function displayData():void
-   {
-      $book=$this->model->getBook();
-      $this->loggedUser = $_SESSION['loggedUser']??"no";
-      $this->name =$_SESSION['UserName']??"no";
-      $this->view->displayEditBookView($book,$this->loggedUser,$this->name);
-   }
+
+  /**
+   * EditspecificBookController will fetch Book From
+   * 
+   * Database  and it will display exsiting values
+   *    
+   * @access public 
+   *
+   * @return void
+   */
+  public function editBookController():void
+  {
+    $this->model->setBookid($_GET['id']);
+    $returnValue=$this->model->fetchBookByBookId();
+    if($returnValue)
+    {   
+       
+        $this->displayData();
+
+    }
+    else
+    {
+        $this->msg="Nothing to fetch";
+        $this->loggedUser=$_SESSION['loggedUser'];
+        $this->name =$_SESSION['UserName'];
+        $this->view->displayAuthorMessage($this->msg,$this->loggedUser,$this->name);
+    }
+
+  }
+  /**
+   * DisplayData will book
+   *
+   * @return void
+   */
+  public function displayData():void
+  {
+    $book=$this->model->getBook();
+    $this->loggedUser = $_SESSION['$loggedUser']??"no";
+    $this->name =$_SESSION['UserName']??"no";
+    $this->view->displayEditSpecificBook($book,$this->loggedUser,$this->name);
+  }
 }
-$editBookModel=new EditBookModel();
-$EditBook=new EditBook($editBookModel);
-$EditBook->editBookManager();
+$editspecificBookModel=new EditBookModel();
+$editspecificBook= new EditBook($editspecificBookModel);
+$editspecificBook->editBookController();

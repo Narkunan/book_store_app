@@ -3,7 +3,15 @@
 <title>Book Store</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="../../../public/assets/css/style.css" rel="stylesheet" type="text/css" />
-
+<style>
+  #text
+  {
+    position: absolute;
+    top:78px;
+    width:87%;
+    left:0%;
+  }
+</style>
 </head>
 <body>
 <div id="wrapper">
@@ -12,7 +20,7 @@
       <h1 id="title">Engineering Book Store</h1>
       <h1 style="background-color:red;color:white;">{{ name }}</h1>
       <nav> <a href="../../../public/assets/html/first.php"><button id="homebutton">Home</button></a>  
-      <a href="../../Controller/UserRedirect.php"><button id="homebutton">User Login</button></a>
+      <a href="../../Controller/UserRedirect.php"><button style="background-color:red;border:0px;color:white;font-size:20px;" id="homebuttons">Login</button></a>
     </nav>
     <dd class="last"></dd>
   <center>
@@ -65,6 +73,7 @@
         </div>
         </form>
         {% endfor %}
+        <input type="hidden" id="userlogin" value="{{ name }}">
         
        
         

@@ -1,10 +1,9 @@
 <?php
 namespace App\Controller\orders;
-use App\Model\Home\category;
 session_start();
 require "../../../vendor/autoload.php";
 use App\Model\orders\ordersModel;
-use App\View\Home\displayHome;
+use App\View\Home\HomeView;
 /**
  * orderConfirm will Create new order record in the database.
  * 
@@ -12,9 +11,9 @@ use App\View\Home\displayHome;
 class OrderConfirm
 {
     private ordersModel $ordersModel;
-    private displayHome $orderConfirmView;
+    private HomeView $orderConfirmView;
     
-    public function __construct(ordersModel $ordersModel,displayHome $orderConfirm)
+    public function __construct(ordersModel $ordersModel,HomeView $orderConfirm)
     {
         $this->ordersModel=$ordersModel;
         $this->orderConfirmView=$orderConfirm;
@@ -54,6 +53,6 @@ class OrderConfirm
     
 }
 $ordermodel=new ordersModel();
-$orderConfirmView = new displayHome();
+$orderConfirmView = new HomeView();
 $ordersconfirm = new OrderConfirm($ordermodel,$orderConfirmView);
 $ordersconfirm->ordersConfirmController();

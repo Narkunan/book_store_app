@@ -1,8 +1,8 @@
 <?php
 namespace App\Controller\orders;
 require "../../../vendor/autoload.php";
-use App\View\orders\displayOrder;
 use App\Model\Home\CategoryModel;
+use App\View\orders\OrderView;
 session_start();
 
 /**
@@ -13,8 +13,8 @@ session_start();
  */
 class orderController
 {
-    private displayOrder $orderView;
-    public function __construct(displayOrder $orderView)
+    private OrderView $orderView;
+    public function __construct(OrderView $orderView)
     {
       $this->orderView=$orderView;
     }
@@ -40,6 +40,6 @@ class orderController
         $this->orderView->displayOrders($loggeduser,$name,$_POST,$categoryBooks);
     }
 }
-$ordersview= new displayOrder();
+$ordersview= new OrderView();
 $orderController = new orderController($ordersview);
 $orderController->ordersController();

@@ -130,8 +130,8 @@
     </div>
     <!-- end body -->
     <div class="clear"></div>
-    <div id="footer"> Engineering <a href="http://www.freewebsitetemplates.com">BookStore</a> &nbsp;
-      <div id="footnav"> <a href="#">Legal</a> | <a href="../firsttwo.php">Home</a> </div>
+    <div id="footer">Engineering Book store Phone:044 567890 Email:engineering@bookstore.in</a> &nbsp;
+      <div id="footnav">  </div>
       <!-- end footnav -->
     </div>
     <!-- end footer -->

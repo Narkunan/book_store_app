@@ -6,7 +6,15 @@
         <title>Author</title>
         
           <link href="../../../public/assets/css/style.css" rel="stylesheet" type="text/css" />
-    
+    <style>
+       #text
+  {
+    position: absolute;
+    top:78px;
+    width:87%;
+    left:0%;
+  }
+      </style>
     </head>
     <body>
     <div id="wrapper">
@@ -16,7 +24,7 @@
                 <h1 style="background-color:red;color:white;"><?php echo $_SESSION['UserName']??"login ";?></h1>
                 <nav> <a href="../../../public/assets/html/first.php"><button id="homebutton">Home</button></a> 
                  
-                <a href="../../Controller/UserRedirect.php"><button id="homebutton">User Login</button></a>
+                <a href="../../Controller/UserRedirect.php"><button style="background-color:red;border:0px;color:white;font-size:20px;" id="homebuttons">User Login</button></a>
                </nav>
               <dd class="last"></dd>
             <center id="form">
@@ -60,10 +68,11 @@
            <tr><td> <h1 id="welcomes"></h1><br><br><br></td></tr>
          </table>
          </center>
+         <input type="hidden" id="userlogin" value="<?php echo $_SESSION['UserName'];?>">
          <!-- end body -->
 <div class="clear"></div>
-<div id="footer"> Engineering <a href="http://www.freewebsitetemplates.com">BookStore</a> &nbsp;
- <div id="footnav"> <a href="#">Legal</a> | <a href="../firsttwo.php">Home</a> </div>
+<div id="footer"> Engineering Book store Phone:044 567890 Email:engineering@bookstore.in &nbsp;
+ <div id="footnav">  </div>
  <!-- end footnav -->
 </div>
 <!-- end footer -->

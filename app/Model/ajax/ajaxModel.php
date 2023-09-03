@@ -24,10 +24,18 @@ class ajaxModel
    */
   public function fetchBook():void
   {
-     $conn=$this->getConnection();
-     $result=$conn->query("SELECT title FROM book");
-     $book=$result->fetchAll(\PDO::FETCH_ASSOC);
-     $this->setBook($book);
+     try
+     {
+        $conn=$this->getConnection();
+        $result=$conn->query("SELECT title FROM book");
+        $book=$result->fetchAll(\PDO::FETCH_ASSOC);
+        $this->setBook($book);
+     }
+     catch(\PDOException $e)
+     {
+        echo $e->getMessage();
+        
+     }
      
   }
 

@@ -43,18 +43,29 @@ class RecentOrderModel extends UserDashModelBase
 
     public function fetchRecentOrder():bool
     {
-        $sql="SELECT b.title as title , o.order_id ,o.ordervalue,b.coverpage FROM book b JOIN orders o on b.bookid=o.bookid where o.user_id=:userid;";
+        try
+        {
+        $sql="SELECT b.title, o.order_id ,o.ordervalue,b.coverpage FROM book as b JOIN orders as o on b.bookid=o.bookid where o.user_id=:userid;";
         $result=$this->conn->prepare($sql);
         $result->bindParam("userid",$this->userid);
         $result->execute();
+         echo $result->rowCount();
         if($result->rowCount()>0)
         {
+           
             $this->setOrders($result->fetchAll(\PDO::FETCH_ASSOC));
             return true;
         }
         else
         {
+            
             return false;
         }
+      }
+      catch(\PDOException $e)
+      {
+        echo $e->getMessage();
+        return false;
+      }
     }
 }

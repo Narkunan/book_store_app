@@ -22,6 +22,8 @@ class EditProfileModel extends UserDashModelBase
     */
    public function fetchUserProfile():bool
    {
+      try
+      {
         $sql="SELECT name,email,password FROM USERs where user_id=:userid;";
         $stm=$this->conn->prepare($sql);
         $stm->bindParam("userid",$this->userid);
@@ -35,6 +37,12 @@ class EditProfileModel extends UserDashModelBase
         {
             return false;
         }
+      }
+      catch(\PDOException $e)
+      {
+         echo $e->getMessage();
+         return false;
+      }
    }
 
    /**

@@ -2,7 +2,7 @@
 namespace App\Controller\accounts;
 session_start();
 require_once "../../../vendor/autoload.php";
-use App\Model\author\LoginModel;
+use App\Model\accounts\LoginModel;
 use App\Controller\accounts\InputInterface;
 
 
@@ -84,7 +84,7 @@ class LoginUser implements InputInterface
 
             case "author" :
                 
-                header("Location: ../../View/authordash/LoginView.php");
+                header("Location: loginview.php");
                 break;
 
             default :

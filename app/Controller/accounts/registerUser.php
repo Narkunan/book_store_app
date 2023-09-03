@@ -2,7 +2,7 @@
 namespace App\Controller\accounts;
 require_once "../../../vendor/autoload.php";
 
-use App\Model\author\RegisterModel;
+use App\Model\accounts\RegisterModel;
 use App\Controller\accounts\InputInterface;
 
 /**

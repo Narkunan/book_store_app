@@ -173,21 +173,29 @@ class ordersModel
      */
     public function updateSaleCount():bool
     {
-       $sql="UPDATE book SET sales_count=sales_count+:quantity where bookid=:bookid;";
-       $stm=$this->conn->prepare($sql);
-       $quantity=$this->quantity;
-       $bookid=$this->bookid;
-       $stm->bindParam("quantity",$quantity);
-       $stm->bindParam("bookid",$bookid);
-       $stm->execute();
-       if($stm)
-       {
-         return true;
-       }
-       else
-       {
-         return false;
-       }
+        try
+        {
+            $sql="UPDATE book SET sales_count=sales_count+:quantity where bookid=:bookid;";
+            $stm=$this->conn->prepare($sql);
+            $quantity=$this->quantity;
+            $bookid=$this->bookid;
+            $stm->bindParam("quantity",$quantity);
+            $stm->bindParam("bookid",$bookid);
+            $stm->execute();
+            if($stm)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch(\PDOException $e)
+        {
+            echo $e->getMessage();
+            return false;
+        }
     }
 
     /**

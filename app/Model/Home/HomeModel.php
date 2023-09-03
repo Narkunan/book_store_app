@@ -34,17 +34,25 @@ class HomeModel extends HomeAbstractModel
      */
     public function fetchBook():bool
     {
-        $sql ="SELECT * FROM book where bookid='$this->bookId';";
-        $book=$this->conn->prepare($sql);
-        $book->execute();
-        if($book->rowCount()>0)
+        try
         {
-           $books=$book->fetchAll(\PDO::FETCH_ASSOC);
-            $this->setFetchBook($books);
-            return true;
+            $sql ="SELECT * FROM book where bookid='$this->bookId';";
+            $book=$this->conn->prepare($sql);
+            $book->execute();
+            if($book->rowCount()>0)
+            {
+                $books=$book->fetchAll(\PDO::FETCH_ASSOC);
+                $this->setFetchBook($books);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
-        else
+        catch(\PDOException $e)
         {
+            echo $e->getMessage();
             return false;
         }
     }

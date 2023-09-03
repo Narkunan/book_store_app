@@ -22,8 +22,8 @@ class home
     }
 }
 $home =new home();
-$loggeduser = $_SESSION['loggedUser']??" login please";
-$name = $_SESSION['UserName']??" login please";
+$loggeduser = $_SESSION['loggedUser']??" ";
+$name = $_SESSION['UserName']??" ";
 $home->displayBook($loggeduser,$name);
       
     

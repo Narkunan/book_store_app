@@ -3,8 +3,8 @@ namespace App\Controller\accounts;
 session_start();
 require_once "../../../vendor/autoload.php";
 
-use App\Model\author\ForgetModel;
-use App\View\author\forgetView;
+use App\Model\accounts\ForgetModel;
+use App\View\accounts\forgetView;
 use App\Controller\accounts\InputInterface;
 
 

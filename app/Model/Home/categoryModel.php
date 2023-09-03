@@ -24,16 +24,24 @@ class CategoryModel extends HomeAbstractModel
 
     public function fetchBookByCategory():bool
     {
-        $sql="SELECT * FROM book where category='$this->category';";
-        $result=$this->conn->query($sql);
-        if($result->rowCount()>0)
+        try
         {
-          $this->setFetchBook($result->fetchAll(\PDO::FETCH_ASSOC));
-          return true;
+            $sql="SELECT * FROM book where category='$this->category';";
+            $result=$this->conn->query($sql);
+            if($result->rowCount()>0)
+            {
+                $this->setFetchBook($result->fetchAll(\PDO::FETCH_ASSOC));
+                return true;
+            }
+            else 
+            {
+                return false; 
+            }
         }
-        else 
+        catch(\PDOException $e)
         {
-           return false; 
+            echo $e->getMessage();
+            return false;
         }
     }
     /**

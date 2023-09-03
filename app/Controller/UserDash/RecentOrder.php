@@ -26,9 +26,11 @@ class RecentOrder extends UserDashBase
      
      $this->model->setUserid($_SESSION['Userid']);
      $returnValue=$this->model->fetchRecentOrder();
+     
      if($returnValue)
      {
         $orders=$this->model->getOrders();
+        
         $this->view->recentOrders($orders,$this->loggeduser,$this->name);
      }
    else

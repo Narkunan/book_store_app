@@ -21,19 +21,27 @@ class SearchByTitleModel extends HomeAbstractModel
      */
     public function fetchBook():bool
     {
-       $sql="SELECT * FROM book where title=:bookname;";
-       $result=$this->conn->prepare($sql);
-       $result->bindParam("bookname",$this->title);
-       $result->execute();
-       if($result->rowCount()>0)
-       {
-         $this->setFetchBook($result->fetchAll(\PDO::FETCH_ASSOC));
-         return true;
-       }
-       else
-       {
+      try
+      {
+        $sql="SELECT * FROM book where title=:bookname;";
+        $result=$this->conn->prepare($sql);
+        $result->bindParam("bookname",$this->title);
+        $result->execute();
+        if($result->rowCount()>0)
+        {
+          $this->setFetchBook($result->fetchAll(\PDO::FETCH_ASSOC));
+          return true;
+        }
+        else
+        {
            return false;
-       }
+        }
+      }
+      catch(\PDOException $e)
+      {
+        echo $e->getMessage();
+        return false;
+      }
     }
 
 

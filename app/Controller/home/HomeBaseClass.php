@@ -3,6 +3,7 @@ namespace App\Controller\home;
 use App\Model\Home\category;
 use App\View\home\displayHome;
 use App\Controller\home\HomeBase;
+use App\View\home\HomeView;
 session_start();
 /**
  * HomeBaseClass will have commonly used
@@ -23,7 +24,7 @@ abstract class HomeBaseClass implements HomeBase
    public function __construct($model)
    {
       $this->model = $model;
-      $this->view = new displayHome();
+      $this->view = new HomeView();
       $this->loggedUser = $_SESSION["loggedUser"]??"login please";
       $this->name = $_SESSION["UserName"]??"login please";
       $category = new category();

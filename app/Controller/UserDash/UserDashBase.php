@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller\UserDash;
 use App\View\Userdash\DisplayMessage;
+use App\View\Userdash\UserDashView;
 
 /**
  * UserDashBase class will have Common Variables
@@ -18,7 +19,7 @@ abstract class UserDashBase
     public function __construct($model)
     {
         $this->model = $model;
-        $this->view = new DisplayMessage(); 
+        $this->view = new UserDashView(); 
         $this->name = $_SESSION['UserName'];
         $this->loggeduser = $_SESSION['loggedUser'];
     }

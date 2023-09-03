@@ -2,30 +2,83 @@
 namespace App\Model\authordash;
 use App\Model\authordash\authordashAbstract;
 /**
- * deleteBookModel will fetch books
+ * deleteSelectedBookModel will delete Seleceted
  * 
- * those who are Available to delete
+ * Book in DataBase.
  */
 class DeleteBookModel extends authordashAbstract
 {
+    private int $bookid;
+
+    private string $coverPage;
+
     /**
-     * fetchBook function will fetchBook
-     * 
-     * for deletion.
-     * 
-     * @access public
+     * Set the value of bookid
      *
+     * @param int $bookid
+     * 
+     * @return  self
+     */ 
+    public function setBookid(int $bookid):self
+    {
+        $this->bookid = $bookid;
+
+        return $this;
+    }
+    /**
+     * deleteBookCoverPage will
+     * 
+     * fetch Coverpage file name 
+     * 
+     * to delete locally befor delete form
+     * 
+     * database.
+     *
+     * @access public
+     * 
      * @return boolean
      */
-    public function fetchBook():bool
+    public function deleteBookCoverPage():bool
     {
-        $sql="SELECT * from book where authorid=:authorid";
-        $result=$this->connection->prepare($sql);
-        $result->bindParam("authorid",$this->authorid);
-        $result->execute();
-        if($result->rowCount()>0)
+        try
         {
-            $this->book=$result->fetchAll(\PDO::FETCH_ASSOC);
+            $sql="SELECT coverpage FROM book WHERE bookid=:bookid;";
+            $result=$this->connection->prepare($sql);
+            $result->bindParam("bookid",$this->bookid);
+            $result->execute();
+            if($result->rowCount()>0)
+            {
+                $coverpage=$result->fetch(\PDO::FETCH_COLUMN);
+                $this->setCoverPage($coverpage);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+       }
+       catch(\PDOException $e)
+       {
+            echo $e->getMessage();
+            return false;
+       }
+    }
+
+    /**
+     * deleteBook function will delete selected Book from database.
+     *
+     * @access public 
+     * 
+     * @return boolean
+     */
+    public function deleteBook():bool
+    {
+        $sql="DELETE FROM book where bookid=:bookid;";
+        $result=$this->connection->prepare($sql);
+        $result->bindParam("bookid",$this->bookid);
+        $result->execute();
+        if($result)
+        {
             return true;
         }
         else
@@ -34,4 +87,25 @@ class DeleteBookModel extends authordashAbstract
         }
     }
 
+    /**
+     * Get the value of coverPage
+     */ 
+    public function getCoverPage():string
+    {
+        return $this->coverPage;
+    }
+
+    /**
+     * Set the value of coverPage
+     *
+     * @param string $coverpage
+     * 
+     * @return  self
+     */ 
+    public function setCoverPage( string $coverPage):self
+    {
+        $this->coverPage = $coverPage;
+
+        return $this;
+    }
 }
