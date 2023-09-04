@@ -21,7 +21,7 @@ class SearchByTitle extends HomeBaseClass
      */
     public function findBook():void
     {
-        $this->model->title=$_GET["bookname"];
+        $this->model->setTitle($_GET["bookname"]);
         $exists= $this->model->fetchBook();
         if($exists)
         {

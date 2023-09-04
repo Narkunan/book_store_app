@@ -8,7 +8,7 @@ use App\Model\Home\FetchBookInterface;
 class SearchByTitleModel extends HomeAbstractModel
 {
 
-    public string $title; 
+    private string $title; 
 
     /**
      * fetchBook will fetch Books 
@@ -45,4 +45,24 @@ class SearchByTitleModel extends HomeAbstractModel
     }
 
 
+
+    /**
+     * Get the value of title
+     */ 
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set the value of title
+     *
+     * @return  self
+     */ 
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
 }
