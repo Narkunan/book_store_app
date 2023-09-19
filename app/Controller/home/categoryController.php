@@ -1,8 +1,6 @@
 <?php
-require_once "../../../vendor/autoload.php";
+namespace App\Controller\home;
 use App\Controller\home\HomeBaseClass;
-use App\Model\Home\CategoryModel;
-
 /**
  * categoryController class will  fetch Book 
  * 
@@ -23,14 +21,15 @@ class categoryController extends HomeBaseClass
      * 
      * @return void
      */
-    public function findBook():void
+    public function findBook(array $value):void
     {
 
-        $this->model->setCategory($_GET['category']);
-        $exists=$this->model->fetchBookByCategory();
+        $this->homeDTO->setCategory($value['id']);
+        echo $value["id"];
+        $exists=$this->model->fetchBookByCategory($this->homeDTO);
         if($exists)
         { 
-            $this->books=$this->model->getFetchBook();
+            $this->books=$this->homeDTO->getFetchBook();
             $this->bookFound();
              
         }
@@ -41,6 +40,3 @@ class categoryController extends HomeBaseClass
         }
     }
 }
-$category=new CategoryModel();
-$categoryController=new categoryController($category);
-$categoryController->findBook();

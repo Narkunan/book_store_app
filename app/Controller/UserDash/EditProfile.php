@@ -1,9 +1,7 @@
 <?php
 namespace App\Controller\UserDash;
-require "../../../vendor/autoload.php";
 use App\Model\UserDash\EditProfileModel;
 use App\Controller\UserDash\UserDashBase;
-session_start();
 /**
  * editprofile class will fetch already existing
  * 
@@ -21,19 +19,17 @@ class editprofile extends UserDashBase
      *
      * @return void
      */
-    public function executeAction():void
+    public function executeAction(array $value):void
     {
-        $this->model->setUserid($_SESSION['Userid']);
-        $returnvalue=$this->model->fetchUserProfile();
+        echo "from editprofile.php";
+        $this->userdashDTO->setUserid($_SESSION['Userid']);
+        $returnvalue=$this->model->fetchUserProfile($this->userdashDTO);
         if($returnvalue)
         {
-
-            $data=$this->model->getUserData();
+            echo "from query executed successfully";
+            $data=$this->userdashDTO->getUserData();
             $this->view->editProfile($data ,$this->loggeduser,$this->name);
             
         }
     }
 }
-$editprofileModel= new EditProfileModel();
-$editprofile = new editprofile($editprofileModel); 
-$editprofile->executeAction();

@@ -2,7 +2,7 @@
 <head>
 <title>Book Store</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="../../../public/assets/css/style.css" rel="stylesheet" type="text/css" />
+<link href="public/assets/css/style.css" rel="stylesheet" type="text/css" />
   <style>
 
   </style>
@@ -12,10 +12,10 @@
   <div id="inner">
     <div id="header">
       <h1 id="title">Engineering Book Store</h1>
-      <h1 style="background-color:red;color:white;">{{ name }}</h1>
+      <h1 id="userloginss">{{ name }}</h1>
       <nav> <a href="../../../public/assets/html/first.php"><button id="homebutton">Home</button></a> 
        
-      <a href="../../Controller/UserRedirect.php"><button id="homebutton">User Login</button></a>
+      <a href="../../Controller/UserRedirect.php"><button id="homebuttons"></button></a>
     </nav>
     <dd class="last"></dd>
   <center>
@@ -29,9 +29,8 @@
   </center>
   <br>
   
-  <div id="search-result" style="text-align:left;"></div>
-      <!-- end nav -->
-     <!-- end header -->  
+  <div id="search-result"></div>
+     
      <dl id="browse">
       <dt>Full Category Lists</dt>
       <dd class="first"></dd>
@@ -43,25 +42,22 @@
           {% endfor %}
         
       </dl>
-    {% set quantity = quantity%}
-    {% set price = price %}
-    {% set totalprice = price * quantity %}
-        
+    
    <div id='body'>
       <div class='inner'>
         <div class='leftbox'>
           <table id="similarboook">
          <tr><td><img src= "{{ source }}" width='100' height='150' alt='photo 1' class='left' /></td>
-        <td><div id='bookData'><h3 style='text-align:center;font-size:15px;width:100px;'>{{ title }}</h3></td>
+        <td><div id='bookData'><h3 id='titles'>{{ title }}</h3></td>
          
 
-          <td><h3 style='text-align:center;color:black;font-size:15px;width:150px;'> TOTAL PRICE :{{ totalprice }}<br></h3></td>
+          <td><h3 id="bookprice"> TOTAL PRICE :{{ price }}<br></h3></td>
          <td><p class='readmore'></p><br><br><br>
-         <form action="../../Controller/orders/orderConfirm.php" method="post">
-          <input type="hidden" name="totalprice" value= "{{ totalprice }}" >
+         <form action="index.php?action=orderconfirm" method="post">
+          <input type="hidden" name="totalprice" value= "{{ price }}" >
           <input type="hidden" name="bookid" value= "{{ bid }}" >
           <input type= "hidden" name = "quantity" value = "{{ quantity }}"  >
-        <button type ="submit" style='background-color:red;color:white;border:0px;float:left; text-align:center;width:100px;'>Confirm Order</button></td></tr>
+        <button type ="submit" id="buynow">Confirm Order</button></td></tr>
         </form>
       </table>
          </div><div class='clear'></div>
@@ -70,14 +66,16 @@
         <br>
         <br>
         <br>
-        <h3 style="text-align:center;font-size:14px;">Books You May Like</h3>
+        <div id="similarbook">Books You May Like</div>
+        <br>
+        <br>{{ quantity }}
         <br>
         {% set i = 0 %}
         {% for similars in similar %}
 
         {% set path = "../../../app/Controller/home/indexController.php?id=" ~ similars.bookid %}
          
-        {% set imagepath = "../../model/upload/" ~ similars.coverpage %}
+        {% set imagepath = "app/model/upload/" ~ similars.coverpage %}
         {% set price = similars.price %}
         {% set title = similars.title %}
 
@@ -88,7 +86,7 @@
               <h3>{{ title }}</h3>
               <img src="{{ imagepath }}" width='93' height='95' alt='photo 1' class='left' />
               <p><b>Price:</b> <b>{{ price }}</b></p>
-             <p class='readmore'><a href="{{ path }}"><button style='background-color:red;color:white;border:0px;'>BUY NOW</button></a></p>
+             <p class='readmore'><a href="{{ path }}"><button id="buynow">BUY NOW</button></a></p>
               <div class='clear'></div>
             </div>
             {% endif %}
@@ -97,7 +95,7 @@
               <h3>{{ title }} </h3>
               <img src= "{{ imagepath }}" width='107' height='91' alt='photo 4' class='left' />
               <p><b>Price:</b> <b>{{ price }}</b> </p>
-              <p class='readmore'><a href="{{ path }}"><button style='background-color:red;color:white;border:0px;'>BUY NOW</button></a></p>
+              <p class='readmore'><a href="{{ path }}"><button id="buynow">BUY NOW</button></a></p>
                 <div class='clear'></div>
               </div>
               <div class='clear'></div>
@@ -105,9 +103,12 @@
             {% endif %}
             {% set i = i+1 %}
             {% endfor %}
- <!-- end .inner -->
+            <input type="hidden" id="userlogin" value="{{ name }}">
+            <input type='hidden' id='session' value='{{ session }}'>
+    
     
 <script src='../../../public/assets/js/home/homeScripts.js'>
   </script>
+  <script src="../../../public/assets/js/home/home.js"></script>
 </body>
 </html>

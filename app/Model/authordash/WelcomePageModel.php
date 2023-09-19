@@ -12,17 +12,17 @@ use App\model\authordash\authordashAbstract;
  */
 class WelcomePageModel extends authordashAbstract
 {
-      public function fetchBookByCategory():bool
+      public function fetchBookByCategory(AuthordashDTO $authordashDTO):bool
       {
           try
           {
           $stm = $this->connection->prepare("SELECT category,COUNT(*) as total FROM book where authorid = :authorid group by category;");
-          $stm->bindParam("authorid",$this->authorid);
+          $stm->bindParam("authorid",$authordashDTO->authorid);
           $stm->execute();
           if($stm->rowCount()>0)
           {
              
-             $this->book=$stm->fetchAll(\PDO::FETCH_ASSOC);
+             $authordashDTO->book=$stm->fetchAll(\PDO::FETCH_ASSOC);
              return true;
           }
           else

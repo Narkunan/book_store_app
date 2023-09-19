@@ -1,7 +1,5 @@
 <?php
 namespace App\Controller\home;
-require "../../../vendor/autoload.php";
-use App\Model\Home\SearchByTitleModel;
 use App\Controller\home\HomeBaseClass;
 /**
  * searchBytitle Will display book Based on the Book Title
@@ -19,13 +17,14 @@ class SearchByTitle extends HomeBaseClass
      *
      * @return void
      */
-    public function findBook():void
+    public function findBook(array $value):void
     {
-        $this->model->setTitle($_GET["bookname"]);
-        $exists= $this->model->fetchBook();
+
+        $this->homeDTO->setTitle($value["bookname"]);
+        $exists= $this->model->fetchBook($this->homeDTO);
         if($exists)
         {
-            $this->books=$this->model->getFetchBook();
+            $this->books=$this->homeDTO->getFetchBook();
             $this->bookFound();
             
         }
@@ -39,7 +38,5 @@ class SearchByTitle extends HomeBaseClass
     }
 }
 
-$searchModel= new SearchByTitleModel();
-$searchbytitle=new SearchByTitle($searchModel);
-$searchbytitle->findBook();
+
 
