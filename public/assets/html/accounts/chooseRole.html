@@ -5,42 +5,58 @@
 <link href="../../css/style.css" rel="stylesheet" type="text/css" />
 </head>
 <style>
+  #text{
+    position: absolute;
+    top:68px;
+    width:87%;
+    left:0%;
+  }
 </style>
 <body>
 <div id="wrapper">
   <div id="inner">
     <div id="header">
       <h1 id="title">Engineering Book Store </h1>
-      <h1 id="userloginss"></h1>
+      <h1 style="background-color:red;color:white;"></h1>
       <nav> <a href="../first.php"><button id="homebutton">Home</button></a> 
-      <a href="../../../../app/Controller/UserRedirect.php"><button id="homebuttons">Author Login</button></a> 
+      <a href="../../../../app/Controller/UserRedirect.php"><button id="homebutton">Author Login</button></a> 
        
       
      </nav>
     <dd class="last"></dd>
-  
+  <center>
+        <form action="../../../../app/Controller/home/SearchByTitle.php" method="get" autocomplete="off">
+          <div>
+            <input name="bookname" type="text" placeholder="Search your book"id="text" />
+           <br> <br>
+            <input type="submit" value="search" class="softright">
+          </div>
+        </form>
+  </center>
   <br>
-   <br>
-   <br>
+  
+  <div id="search-result" style="text-align:left;"></div>
+
+   
 <center>
             <table>
-            <tr><td><h1 id="published"> <strong>Please Choose Your Role
+            <tr><td><h1 style='font-size:20px;'> <strong>Please Choose Your Role
             </strong></h1><br><br><br> </td></tr>
-            <tr><td><a href="../../../../index.php?action=AuthorWelcome"><button id="homebutton"> Author</button></a><br><br></td></tr>
-            <tr><td><a href="../../../../index.php?action=userwelcomepage"><button id="homebutton"> User</button></a></td></tr>
+            <tr><td><a href="../../../../app/Controller/accounts/AuthorWelcomePage.php"><button id="homebutton"> Author</button></a><br><br></td></tr>
+            <tr><td><a href="../../../../app/View/userdash/Loginview.php"><button id="homebutton"> User</button></a></td></tr>
         </table>
        </center>
-       
+       <!-- end body -->
         <div class='clear'></div>
         <div id='footer'> Engineering Book store Phone:044 567890 Email:engineering@bookstore.in</a> &nbsp;
   
-          
+          <!-- end footnav -->
         </div>
-         
+        <!-- end footer -->
       </div>
-       
+      <!-- end inner -->
     </div>
+    <!-- end wrapper -->
     
-    <script src="../../js/home/home.js"></script>
 </body>
 </html>

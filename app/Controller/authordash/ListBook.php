@@ -1,12 +1,15 @@
 <?php
-namespace App\Controller\authordash;
+namespace   App\Controller\authordash;
+require "../../../vendor/autoload.php";
+session_start();
+use App\Model\authordash\ListBookModel;
 use App\Controller\authordash\AuthorDashBase;
 
 /**
  * EditBook will displayBooks Available to delete.
  * 
  */
-class ListBook extends AuthorDashBase implements AuthorDashInterface
+class EditBook extends AuthorDashBase implements AuthorDashInterface
 {
    
    /**
@@ -24,10 +27,10 @@ class ListBook extends AuthorDashBase implements AuthorDashInterface
     *
     * @return void
     */
-   public function listBookManager():void
+   public function editBookManager():void
    {
-      $this->AuthorDashDTO->setAuthorid($_SESSION['Userid']);
-      $bookFound=$this->model->fetchBooksByAuthorId($this->AuthorDashDTO);
+      $this->model->setAuthorid($_SESSION['Userid']);
+      $bookFound=$this->model->fetchBooksByAuthorId();
       if($bookFound)
       {
          $this->displayData();  
@@ -51,9 +54,12 @@ class ListBook extends AuthorDashBase implements AuthorDashInterface
     */
    public function displayData():void
    {
-      $book=$this->AuthorDashDTO->getBook();
+      $book=$this->model->getBook();
       $this->loggedUser = $_SESSION['loggedUser']??"no";
       $this->name =$_SESSION['UserName']??"no";
       $this->view->displayEditBookView($book,$this->loggedUser,$this->name);
    }
 }
+$editBookModel=new ListBookModel();
+$EditBook=new EditBook($editBookModel);
+$EditBook->editBookManager();

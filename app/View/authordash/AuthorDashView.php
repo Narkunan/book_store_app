@@ -14,7 +14,7 @@ class AuthorDashView
    private $template;
    public function __construct()
    {
-      $loader = new FilesystemLoader('app/view/authordash');
+      $loader = new FilesystemLoader('../../view/authordash');
       $this->twig=new Environment($loader);
    }
    /**

@@ -4,7 +4,69 @@
             login Author
         </title>
         <link href="../../css/style.css" rel="stylesheet" type="text/css" />
-
+<style>
+#login
+{
+     background-color: white;
+     color:black;
+     border: 3px;
+     font-size: 15px;
+ }
+ #text
+    {
+      position: absolute;
+      top:66px;
+      width:87%;
+      left:0%;
+    }
+   nav 
+   {
+    position: absolute;
+    width:100%;
+    background-color:red;
+    color:white;
+    text-align: center;
+    }
+    #homebutton
+    {
+      background-color: red;
+      color:white;
+      font-size: 20px;
+      border: 0px;
+    }
+    #title
+    {
+      text-align: center;
+      background-color: red;
+      color: white;
+      font-size: 30px;
+      width:100%;
+      font-family: serif;
+    }
+    .softright
+    {
+      background-color:red;
+      color:white;
+      top: auto;
+      float: right;
+      text-align: center;
+      width: 15%;
+      border:0px;
+    }
+    #form
+    {
+      background-color: red;
+      color:white;
+    }
+    
+    #search-result
+    {
+      text-align: left;
+      background-color: red;
+      color:white;
+      font-size: 15px;
+    }
+  </style>
 
     </head>
     <body>
@@ -14,22 +76,30 @@
                 <h1 id="title">Engineering Book Store</h1>
                 <nav> <a href="../first.php"><button id="homebutton">Home</button></a> 
                  
-                <a href="../../../../app/Controller/UserRedirect.php"><button id="homebuttons">User Login</button></a>
+                <a href="../../../../app/Controller/UserRedirect.php"><button id="homebutton">User Login</button></a>
                </nav>
               <dd class="last"></dd>
-           
+            <center id="form">
+                  <form action="../../../../app/Controller/home/SearchByTitle.php" method="get" autocomplete="off">
+                    <div>
+                      <input name="bookname" type="text" placeholder="Search your book"id="text" />
+                     <br> <br>
+                      <input type="submit" value="search" class="softright">
+                    </div>
+                  </form>
+            </center>
             <br>
+            
+            <div id="search-result"></div>
           <div>
         <center id="login">
           <table>
             
-            <form action="../../../../index.php?action=loginuser" method="POST" autocomplete="off" onsubmit="return validateForm()">
+            <form action="../../../../../book_store/app/Controller/accounts/loginuser.php" method="POST" autocomplete="off" onsubmit="return validateForm()">
                 <br>
                 <tr><td><?php
-                session_start();
-                $msg=$_SESSION['msg']??" ";
-                unset($_SESSION['msg']);
-                echo "<div id='msg'>".$msg."</div>";
+                $msg=$_GET['msg']??" ";
+                echo "<div id='msg' style='color:red;font-size:15px;'>".$msg."</div>";
                 ?><br><td></tr></td>
                 <tr><td><label>Email</label><br></tr></td>
                 
@@ -50,26 +120,27 @@
                 <tr><td><input type="submit" name="submit" placeholder="Login"><br></td></tr>
             </form>
             <tr><td>
-            <a href="forget.php">Forget Password</a></td></tr>
+            <a href="forget.html">Forget Password</a></td></tr>
             <tr><td>
             Don't have create a new one <a href="register.php">create</a></td></tr>
   </table>
         </center>
         </div>
-            
+         <!-- end .inner -->
     </div>
-    
+    <!-- end body -->
     <div class="clear"></div>
     <div id="footer">Engineering Book store Phone:044 567890 Email:engineering@bookstore.in</a> &nbsp;
       <div id="footnav">  </div>
-        
+      <!-- end footnav -->
     </div>
-     
+    <!-- end footer -->
   </div>
-   
+  <!-- end inner -->
 </div>
- 
-
-        <script src="../../js/accounts/loginScript.js"></script>
+<!-- end wrapper -->
+<script src="../../js/home/homeScripts.js">
+  </script>
+        <script src="../../js/author/loginScript.js"></script>
     </body>
 </html>

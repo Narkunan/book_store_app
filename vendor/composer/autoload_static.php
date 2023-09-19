@@ -25,7 +25,6 @@ class ComposerStaticInitcc1d4aeee780fa6e46ab2b7bf800e9fc
         ),
         'P' => 
         array (
-            'Psr\\Container\\' => 14,
             'PhpParser\\' => 10,
         ),
         'D' => 
@@ -50,10 +49,6 @@ class ComposerStaticInitcc1d4aeee780fa6e46ab2b7bf800e9fc
         'Symfony\\Polyfill\\Ctype\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
-        ),
-        'Psr\\Container\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/container/src',
         ),
         'PhpParser\\' => 
         array (

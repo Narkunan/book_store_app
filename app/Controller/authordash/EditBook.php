@@ -1,6 +1,10 @@
 <?php
 namespace App\Controller\authordash;
+require "../../../vendor/autoload.php";
+use App\Model\authordash\EditBookModel;
 use App\Controller\authordash\AuthorDashBase;
+session_start();
+
 /**
  * Edit Specific Book will Display value fetched from 
  * 
@@ -18,10 +22,10 @@ class EditBook extends AuthorDashBase implements AuthorDashInterface
    *
    * @return void
    */
-  public function editBookController(int $id):void
+  public function editBookController():void
   {
-    $this->AuthorDashDTO->setBookid($id);
-    $returnValue=$this->model->fetchBookByBookId($this->AuthorDashDTO);
+    $this->model->setBookid($_GET['id']);
+    $returnValue=$this->model->fetchBookByBookId();
     if($returnValue)
     {   
        
@@ -44,9 +48,12 @@ class EditBook extends AuthorDashBase implements AuthorDashInterface
    */
   public function displayData():void
   {
-    $book=$this->AuthorDashDTO->getBook();
-    $this->loggedUser = $_SESSION['loggedUser']??"no";
+    $book=$this->model->getBook();
+    $this->loggedUser = $_SESSION['$loggedUser']??"no";
     $this->name =$_SESSION['UserName']??"no";
     $this->view->displayEditSpecificBook($book,$this->loggedUser,$this->name);
   }
 }
+$editspecificBookModel=new EditBookModel();
+$editspecificBook= new EditBook($editspecificBookModel);
+$editspecificBook->editBookController();

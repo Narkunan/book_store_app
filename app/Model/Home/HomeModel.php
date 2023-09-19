@@ -6,9 +6,24 @@ use App\Model\Home\HomeAbstractModel;
  * 
  * by bookid
  */
-class bookdetailsModel extends HomeAbstractModel 
+class HomeModel extends HomeAbstractModel 
 {
-   
+  
+    private int $bookId;
+    
+    /**
+     * Set the value of bookId
+     *
+     * @param int $bookId
+     * 
+     * @return  self
+     */ 
+    public function setBookId(int $bookId):self
+    {
+        $this->bookId = $bookId;
+
+        return $this;
+    }
 
     /**
      * fetchBook will fetchbook by bookid.
@@ -17,19 +32,17 @@ class bookdetailsModel extends HomeAbstractModel
      * 
      * @return bool
      */
-    public function fetchBook(HomeDTO $homeDTO):bool
+    public function fetchBook():bool
     {
-        
         try
         {
-            
-            $sql ="SELECT * FROM book where bookid='$homeDTO->bookId';";
+            $sql ="SELECT * FROM book where bookid='$this->bookId';";
             $book=$this->conn->prepare($sql);
             $book->execute();
             if($book->rowCount()>0)
             {
                 $books=$book->fetchAll(\PDO::FETCH_ASSOC);
-                $homeDTO->setFetchBook($books);
+                $this->setFetchBook($books);
                 return true;
             }
             else

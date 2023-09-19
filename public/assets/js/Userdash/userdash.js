@@ -15,7 +15,7 @@ function myFunction()
 function checkBecome()
 {
     let some= document.getElementById("session").value;
-    console.log(some+"value of loggedUser");
+    console.log(some);
     if(some=="Dual")
     {
         console.log(some);
@@ -31,7 +31,7 @@ function authorRedirect()
     if(window.confirm(x)==true)
     {
         console.log("clicked confirm");
-        window.location.href = "../../../../book_store/app/controller/accounts/AuthorWelcomePage.php" ;
+        window.location.href = "../../../../book_store/app/controller/accounts/LoginView.php" ;
     }
     else
     {

@@ -15,7 +15,7 @@ class UserDashView
      public function __construct()
      {
         
-       $loader = new FilesystemLoader('app/view/UserDash');
+       $loader = new FilesystemLoader('../../view/UserDash');
        $this->twig=new Environment($loader);
 
      }
@@ -47,7 +47,6 @@ class UserDashView
       
       $this->template=$this->twig->load('EditProfileView.html.twig');
       echo $this->template->render(['data'=>$data,'session'=>$loggedUser,'name'=>$name]);
-      
       
     }
     /**

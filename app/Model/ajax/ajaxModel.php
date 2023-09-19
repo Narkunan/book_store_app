@@ -11,7 +11,7 @@ use App\Model\Connection;
  */
 class ajaxModel
 {
-  private  $conn;
+  use Connection;
 
   private array $book;
   
@@ -26,9 +26,8 @@ class ajaxModel
   {
      try
      {
-        $this->conn = Connection::getInstance();
-        $this->conn=$this->conn->getConnection();
-        $result=$this->conn->query("SELECT title FROM book");
+        $conn=$this->getConnection();
+        $result=$conn->query("SELECT title FROM book");
         $book=$result->fetchAll(\PDO::FETCH_ASSOC);
         $this->setBook($book);
      }

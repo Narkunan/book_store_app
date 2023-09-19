@@ -1,13 +1,48 @@
 <?php
 namespace App\Model\accounts;
 use App\Model\accounts\abstarctModel;
-
+use App\Model\accounts\AccountInterface;
 /**
  * RegisterModel is responsible for register User
  */
-class RegisterModel extends abstarctModel 
-{   
+class RegisterModel extends abstarctModel implements AccountInterface
+{
+     
+    private int $roleid;
     
+    
+    /**
+     * checkforaccountexsits for given user.
+     * 
+     * @access public
+     *
+     * @return boolean
+     */
+    public function checkAccountExsits():bool
+    {
+        try
+        {
+            $reult=$this->conn->prepare("SELECT * FROM users where email= :email;");
+            $reult->bindParam("email",$this->email);
+            $reult->execute();
+
+            if($reult->rowCount()>0)
+            {
+                echo "<center><h1>user already exists</h1></center>";
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        catch(\PDOException $e)
+        {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
     /**
      * registerUser will registerUser
      * 
@@ -23,21 +58,20 @@ class RegisterModel extends abstarctModel
      * 
      * @return bool
      */
-    public function registerAuthor(AccountsDTO $accountsDTO):bool
+    public function registerAuthor():bool
     {
-         $account = $this->checkAccountExsits($accountsDTO);
+         $account = $this->checkAccountExsits();
         if($account)
         {   
-             $createUser = $this->createUser($accountsDTO);
+             $createUser = $this->createUser();
 
              if($createUser)
              {
-                
-               $updateRole = $this->updateRole($accountsDTO);
+               $updateRole = $this->updateRole();
 
                if($updateRole)
                {  
-                  
+                  echo "role also updated";
                   return true;
                }
                else
@@ -53,30 +87,39 @@ class RegisterModel extends abstarctModel
         }
         else 
         {
-            
+            echo "account already exists";
             return false;
         }
 
+    }
+
+    /**
+     * Set the value of roleid
+     * 
+     * @param int
+     *
+     * @return  self
+     */ 
+    public function setRoleid(int $roleid):self
+    {
+        $this->roleid = $roleid;
+        
+        return $this;
     }
     /**
      * create User will create Acoount for user
      *
      * @return boolean
      */
-    public function createUser(AccountsDTO $accountsDTO):bool
+    public function createUser():bool
     {
-
-        $sql="INSERT INTO USERS(email,name,password,security_question) values (:email,:name,:password,:Question);";
-        $password = password_hash($accountsDTO->getPassword(),PASSWORD_ARGON2I);
-        $args=[
-            "email"=>$accountsDTO->getEmail(),
-            "name"=>$accountsDTO->getName(),
-            "password"=>$password,
-            "Question"=>$accountsDTO->getSecurityQuestion()
-        ];
-        $reult = $this->save($sql,$args);
-        
-       if($reult)
+        $sql="INSERT INTO users(name,email,password) values (:name,:email,:password);";
+        $stn=$this->conn->prepare($sql);
+        $stn->bindParam("name",$this->name);
+        $stn->bindParam("email",$this->email);
+        $stn->bindParam("password",$this->password);
+        $stn->execute();
+       if($stn)
        {
          return true;
        }
@@ -85,16 +128,14 @@ class RegisterModel extends abstarctModel
             return false;
        }
     }
-    public function updateRole(AccountsDTO $accountsDTO):bool
+    public function updateRole():bool
     {
-       
         $sql="INSERT INTO user_role (user_id,roleid) VALUES ((SELECT user_id FROM users Where email=:email),:roleid)";
-        $args = [
-            "email"=>$accountsDTO->getEmail(),
-            "roleid"=>$accountsDTO->getId()
-        ];
-        $result = $this->save($sql,$args);
-        if($result)
+        $stn = $this->conn->prepare($sql);
+        $stn->bindParam("email",$this->email);
+        $stn->bindParam("roleid",$this->roleid);
+        $stn->execute();
+        if($stn)
         {
             return true;
         }
@@ -103,23 +144,4 @@ class RegisterModel extends abstarctModel
             return false;
         }
     }
-    private function save(string $sql,array $args):bool
-    {
-        $stm = $this->conn->prepare($sql);
-        foreach($args as $key=>$value)
-        {
-            $stm->bindValue(":".$key,$value);
-        }
-        $stm->execute();
-        if($stm)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    
-    
 }

@@ -16,14 +16,14 @@ class BecomeUserModel extends authordashAbstract
     *@return bool
     */
 
-    public function updateRole(AuthordashDTO $authordashDTO):bool
+    public function updateRole():bool
     {
 
        try
        {
             $sql="INSERT INTO user_role (user_id,roleid) VALUES (:userid , 2);";
             $stm=$this->connection->prepare($sql);
-            $stm->bindParam("userid",$authordashDTO->authorid);
+            $stm->bindParam("userid",$this->authorid);
             $stm->execute();
             if($stm)
             {

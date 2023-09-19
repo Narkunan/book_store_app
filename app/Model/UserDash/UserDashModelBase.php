@@ -6,11 +6,36 @@ use App\Model\Connection;
  * 
  */
 abstract class UserDashModelBase 
-{ 
-     protected $conn;   
+{
+     use Connection;
+     protected $userid;
+     protected $conn;
+
+     /**
+      * set the value for userid
+      *
+      * @param int $userid
+      *
+      * @return void
+      */
+     public function setUserId(int $userid):void
+     {
+          $this->userid = $userid;
+     }
+
+     /**
+      * get the value of userId
+      *
+      * @access public
+      *
+      * @return integer
+      */
+     public function getUserId():int
+     {
+        return $this->userid;
+     }
      public function __construct()
      {
-        $this->conn = Connection::getInstance();
-        $this->conn = $this->conn->getConnection();
+        $this->conn = $this->getConnection();
      }
 }

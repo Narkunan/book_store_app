@@ -1,8 +1,57 @@
-{% include "Userdasheader.html.twig" %}
+<html>
+    <head>
+        <title>Recent orders</title>
+        <style>
+          #text
+          {
+            position: absolute;
+            top:78px;
+            width:87%;
+            left:0%;
+          }
+        </style>
+    </head>
+    <link href="../../../public/assets/css/style.css" rel="stylesheet" type="text/css" />
+<body>
+   
+<div id="wrapper">
+  <div id="inner">
+    <div id="header">
+      <h1 id="title">Engineering Book Store</h1>
+      <h1 style="background-color:red;color:white;">{{ name }}</h1>
+      <nav> <a href="../../../public/assets/html/first.php"><button id="homebutton">Home</button></a>  
+      <a href="../../Controller/UserRedirect.php"><button style="background-color:red;border:0px;color:white;font-size:20px;" id="homebuttons"> Login</button></a>
+     </nav>
+    <dd class="last"></dd>
+  <center>
+        <form action="../../../app/Controller/home/SearchByTitle.php" method="get" autocomplete="off">
+          <div>
+            <input name="bookname" type="text" placeholder="Search your book"id="text" />
+           <br> <br>
+            <input type="submit" value="search" class="softright">
+          </div>
+        </form>
+  </center>
+  <br>
+  
+  <div id="search-result" style="text-align:left;"></div>
+  <dl id="browse">
+    <dt>Options</dt>
+    <dd class="first"><a href="../../../app/Controller/UserDash/RecentOrder.php">Recent Orders
+                </a></dd>
+    <dd style="font-size:16px;"> <a href="../../Controller/UserDash/editprofile.php">
+                Edit Profile</a></dd> 
+    
+    <dd style="font-size:16px;"> <a href="../../Controller/accounts/logout.php">Logout</a></dd>
+    <dd style="font-size:16px;"><p style="margin-top:0px;font-weight:bold;padding:3px 10px;color:white;font-size:16px" onclick="myFunction()" id="become">Become Author</p></dd>
+    <dd style="font-size:16px;"><p style="margin-top:0px;font-weight:bold;padding:3px 10px;color:white;font-size:16px" onclick="authorRedirect()" id="redirect"></p>
+    
+    <input type='hidden' id='session' value="{{loggedUser}}">
+    </dl>
 <br>
 
         <center>
-<table id="booktitle">
+<table style="text-align:center;">
     <th >Book</th>
     <th>Book Title</th>
     <th>Order Id</th>
@@ -10,15 +59,35 @@
 
       {% for data in data %}
       {% set image =data.coverpage %}
-      {% set url="app/Model/upload/"~image %}
+      {% set url="../../Model/upload/"~image %}
       
       <tr>
       <td><img src={{url}} width='93' height='95'/></td>
-      <td id="bookdata"> {{ data.title }}</td>
-      <td id="bookdata">{{ data.order_id }}</td>
-      <td id="bookdata">{{ data.ordervalue}}</td>
+      <td style='font-size:10px;'> {{ data.title }}</td>
+      <td style='font-size:10px;'>{{ data.order_id }}</td>
+      <td style='font-size:10px;'>{{ data.ordervalue}}</td>
       </td></tr>
       {% endfor %}
     </table>
     </center>
-    {% include "UserdashFooter.html.twig" %}
+    <input type="hidden" id="userlogin" value="{{ name }}">
+     <!-- end .inner -->
+    </div>
+    <!-- end body -->
+    <div class='clear'></div>
+    <div id='footer'> Engineering Book store Phone:044 567890 Email:engineering@bookstore.in &nbsp;
+      <div id='footnav'> </div>
+      <!-- end footnav -->
+    </div>
+    <!-- end footer -->
+  </div>
+  <!-- end inner -->
+</div>
+<!-- end wrapper -->
+
+<script src='../../../public/assets/js/home/homeScripts.js'>
+  </script>
+  <script src="../../../public/assets/js/Userdash/userdash.js">
+  </script>
+    </body>
+</html>

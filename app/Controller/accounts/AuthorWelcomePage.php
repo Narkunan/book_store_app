@@ -1,7 +1,9 @@
 <?php
 namespace App\Controller\accounts;
+require "../../../vendor/autoload.php";
 use App\Model\authordash\WelcomePageModel;
 use App\View\authordash\AuthorDashView;
+session_start();
 /**
  * Author Welcome Page is responsible for 
  * 

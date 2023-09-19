@@ -22,15 +22,15 @@ class CategoryModel extends HomeAbstractModel
      * @return bool
      */
 
-    public function fetchBookByCategory(HomeDTO $homeDTO):bool
+    public function fetchBookByCategory():bool
     {
         try
         {
-            $sql="SELECT * FROM book where category='$homeDTO->category';";
+            $sql="SELECT * FROM book where category='$this->category';";
             $result=$this->conn->query($sql);
             if($result->rowCount()>0)
             {
-                $homeDTO->setFetchBook($result->fetchAll(\PDO::FETCH_ASSOC));
+                $this->setFetchBook($result->fetchAll(\PDO::FETCH_ASSOC));
                 return true;
             }
             else 
@@ -44,7 +44,20 @@ class CategoryModel extends HomeAbstractModel
             return false;
         }
     }
-    
+    /**
+     * Set the value of category
+     *
+     * @param string $category
+     * 
+     * @return  self
+     */ 
+    public function setCategory(string $category):self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
    
 }
  

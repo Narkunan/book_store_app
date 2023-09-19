@@ -9,12 +9,13 @@ $matches=array();
 $i=0;
 foreach($arrays as $itmes)
 {
+    //echo $i++;
+    //echo $itmes['title'];
     
     if(stripos($itmes['title'],$query)!==false)
     {
       
       $matches[]=$itmes;
-
     }
 }
 foreach($matches as $match)

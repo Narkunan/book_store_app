@@ -1,8 +1,57 @@
-{% include "Homeheader.html.twig" %}
+<html>
+<head>
+<title>Book Store</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="../../../public/assets/css/style.css" rel="stylesheet" type="text/css" />
+<style>
+  #text
+  {
+    position: absolute;
+    top:78px;
+    width:87%;
+    left:0%;
+  }
+</style>
+</head>
+<body>
+<div id="wrapper">
+  <div id="inner">
+    <div id="header">
+      <h1 id="title">Engineering Book Store</h1>
+      <h1 style="background-color:red;color:white;">{{ name }}</h1>
+      <nav> <a href="../../../public/assets/html/first.php"><button id="homebutton">Home</button></a>  
+      <a href="../../Controller/UserRedirect.php"><button style="background-color:red;border:0px;color:white;font-size:20px;" id="homebuttons">User Login</button></a>
+   </nav>
+    <dd class="last"></dd>
+  <center>
+        <form action="../../../app/Controller/home/SearchByTitle.php" method="get" autocomplete="off">
+          <div>
+            <input name="bookname" type="text" placeholder="Search your book"id="text" />
+           <br> <br>
+            <input type="submit" value="search" class="softright">
+          </div>
+        </form>
+  </center>
+  <br>
+  
+  <div id="search-result" style="text-align:left;"></div>
+      <!-- end nav -->
+     <!-- end header -->
+    <dl id="browse">
+    <dt>Full Category Lists</dt>
+    <dd class="first"></dd>
+  
+        {% for category in category %}
+        {% set categorys = category %}
+        {% set path = "../../../app/Controller/home/categoryController.php?category="~categorys %}
+        <dd><a href= "{{ path }}" >{{ category }}</a></dd>
+        {% endfor %}
+      
+    </dl>
       {% set i=0 %}
       {% for books in book %}
        {% set path = books.coverpage %}
-       {% set image = "app/Model/upload/" ~ path %}
+       {% set image = "../../../app/Model/upload/" ~ path %}
        {% set title = books.title %}
        {% set price = books.price %}
        {% set id = books.bookid %}
@@ -17,7 +66,7 @@
           <h3>{{ title }}</h3>
           <img src="{{ image }}" width='93' height='95' alt='photo 1' class='left' />
           <p><b>Price:</b> <b>{{ price }}</b></p>
-         <p class='readmore'><a href="{{ url }}"><button id="buynow">BUY NOW</button></a></p>
+         <p class='readmore'><a href="{{ url }}"><button style='background-color:red;color:white;border:0px;'>BUY NOW</button></a></p>
           <div class='clear'></div>
         </div>
         {% endif %}
@@ -27,7 +76,7 @@
         <h3>{{ title }} </h3>
         <img src= "{{ image }}" width='107' height='91' alt='photo 4' class='left' />
         <p><b>Price:</b> <b>{{ price }}</b> </p>
-        <p class='readmore'><a href="{{ url }}"><button id="buynow">BUY NOW</button></a></p>
+        <p class='readmore'><a href="{{ url }}"><button style='background-color:red;color:white;border:0px;'>BUY NOW</button></a></p>
           <div class='clear'></div>
         </div>
         <div class='clear'></div>
@@ -37,5 +86,21 @@
        {% set i=i+1 %}
     
         {% endfor %}
-      
-{% include "HomeFooter.html.twig" %}
+        <input type="hidden" id="userlogin" value="{{ name }}">
+ <!-- end .inner -->
+    </div>
+    <!-- end body -->
+    <div class='clear'></div>
+    <div id='footer'> Engineering Book store Phone:044 567890 Email:engineering@bookstore.in &nbsp;
+      <div id='footnav'>  </div>
+      <!-- end footnav -->
+    </div>
+    <!-- end footer -->
+  </div>
+  <!-- end inner -->
+</div>
+<!-- end wrapper -->
+<script src='../../../public/assets/js/home/homeScripts.js'>
+  </script>
+</body>
+</html>

@@ -9,18 +9,39 @@ use App\Model\Connection;
  */
 class HomeAbstractModel
 {
-    public  $conn;
+    public \PDO $conn;
+    protected array $FetchBook;
     
-    
-    
+    use Connection;
 
     /**
      * Constructor will establish connection
      */
     public function __construct()
     {
-        $this->conn = Connection::getInstance();
-        $this->conn=$this->conn->getConnection();
+        $this->conn=$this->getConnection();
     }
-    
+    /**
+     * Get the value of ProductData
+     * 
+     * @return array
+     */ 
+    public function getFetchBook():array
+    {
+        return $this->FetchBook;
+    }
+
+    /**
+     * Set the value of ProductData
+     * 
+     * @param array $productdata
+     *
+     * @return  self
+     */ 
+    public function setFetchBook(array $ProductData):self
+    {
+        $this->FetchBook = $ProductData;
+
+        return $this;
+    }
 }

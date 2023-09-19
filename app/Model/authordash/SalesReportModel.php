@@ -17,17 +17,17 @@ class SalesReportModel extends authordashAbstract
      *
      * @return boolean
      */
-    public function fetchBooks(AuthordashDTO $authordashDTO):bool
+    public function fetchBooks():bool
     {
         try
         {
             $sql="SELECT * FROM book WHERE authorid=:authorid;";
             $stm=$this->connection->prepare($sql);
-            $stm->bindParam("authorid",$authordashDTO->authorid);
+            $stm->bindParam("authorid",$this->authorid);
             $stm->execute();
             if($stm->rowCount()>0)
             {
-                $authordashDTO->book=$stm->fetchAll(\PDO::FETCH_ASSOC);
+                $this->book=$stm->fetchAll(\PDO::FETCH_ASSOC);
                 return true;
             }
             else

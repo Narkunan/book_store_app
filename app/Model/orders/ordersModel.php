@@ -8,18 +8,66 @@ use App\Model\Connection;
  */
 class ordersModel
 {
-    
-    private  $conn;
+    use connection;
+    private \PDO $conn;
 
+    private int $userid;
+
+    private int $bookid;
+
+    private int $totalPrice;
     
+    private int $quantity;
     public function __construct()
     {
-       $this->conn = Connection::getInstance();
-       $this->conn=$this->conn->getConnection();
+       $this->conn=$this->getConnection();
     }
     
 
-   
+    /**
+     * Set the value of userid
+     * 
+     * @param int $userid
+     *
+     * @return  self
+     */ 
+    public function setUserid(int $userid):self
+    {
+       
+        $this->userid = $userid;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of bookid
+     * 
+     * @param int $bookid
+     *
+     * @return  self
+     */ 
+    public function setBookid(int $bookid):self
+    {
+        
+        $this->bookid = $bookid;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of totalPrice
+     *
+     * @param float $totalprice
+     * 
+     * @return  self
+     */ 
+    public function setTotalPrice(float $totalPrice):self
+    {
+        
+        $this->totalPrice = $totalPrice;
+
+        return $this;
+    }
     /**
      * placeorder will create order
      * 
@@ -29,14 +77,14 @@ class ordersModel
      * 
      * @return boolean
      */
-    public function placeOrder(checkOutDTO $checkOutDTO):bool
+    public function placeOrder():bool
     {
-        if($this->createOrder($checkOutDTO))
+        if($this->createOrder())
         {
             
-            if($this->updateSaleCount($checkOutDTO))
+            if($this->updateSaleCount())
             {
-                 if($this->updateStockCount($checkOutDTO))
+                 if($this->updateStockCount())
                  {
                     
                     return true;
@@ -71,12 +119,12 @@ class ordersModel
      *
      * @return boolean
      */
-    public function updateStockCount(checkOutDTO $checkOutDTO):bool
+    public function updateStockCount():bool
     {
         $sql="UPDATE book SET stock=stock-:quantity where bookid=:bookid;";
         $stm=$this->conn->prepare($sql);
-        $stm->bindParam("quantity",$checkOutDTO->quantity);
-        $stm->bindParam("bookid",$checkOutDTO->bookid);
+        $stm->bindParam("quantity",$this->quantity);
+        $stm->bindParam("bookid",$this->bookid);
         $stm->execute();
         if($stm)
         {
@@ -94,16 +142,16 @@ class ordersModel
      *
      * @return boolean
      */
-    public function createOrder(checkOutDTO $checkOutDTO):bool
+    public function createOrder():bool
     {
         
         $sql="INSERT INTO ORDERS (user_id,bookid,order_date,ordervalue) values(:userid,:bookid,:orderdate,:ordervalue);";
         $stm=$this->conn->prepare($sql);
-        $stm->bindParam("userid",$checkOutDTO->userid);
-        $stm->bindParam("bookid",$checkOutDTO->bookid);
+        $stm->bindParam("userid",$this->userid);
+        $stm->bindParam("bookid",$this->bookid);
         $date=date("Y-m-d");
         $stm->bindParam("orderdate",$date);
-        $stm->bindParam("ordervalue",$checkOutDTO->finalprice);
+        $stm->bindParam("ordervalue",$this->totalPrice);
         $stm->execute();
         if($stm)
         {
@@ -123,14 +171,14 @@ class ordersModel
      *
      * @return boolean
      */
-    public function updateSaleCount(checkOutDTO $checkOutDTO):bool
+    public function updateSaleCount():bool
     {
         try
         {
             $sql="UPDATE book SET sales_count=sales_count+:quantity where bookid=:bookid;";
             $stm=$this->conn->prepare($sql);
-            $quantity=$checkOutDTO->quantity;
-            $bookid=$checkOutDTO->bookid;
+            $quantity=$this->quantity;
+            $bookid=$this->bookid;
             $stm->bindParam("quantity",$quantity);
             $stm->bindParam("bookid",$bookid);
             $stm->execute();
@@ -150,5 +198,17 @@ class ordersModel
         }
     }
 
-    
+    /**
+     * Set the value of quantity
+     *
+     * @param int $quantity
+     * 
+     * @return  self
+     */ 
+    public function setQuantity(int $quantity):self
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
 }

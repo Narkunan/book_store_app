@@ -1,8 +1,9 @@
 <?php
 namespace App\Controller\authordash;
+require "../../../vendor/autoload.php";
 use App\Model\authordash\BecomeUserModel;
 use App\Controller\authordash\AuthorDashBase;
-
+session_start();
 
 /**
  * BecomeUser class is responsible will author
@@ -23,8 +24,8 @@ class BecomeUser extends AuthorDashBase
      */
     public function becomeUserController():void
     {
-        $this->AuthorDashDTO->setAuthorId($_SESSION['Userid']);
-        $returnValue=$this->model->updateRole($this->AuthorDashDTO);
+        $this->model->setAuthorId($_SESSION['Userid']);
+        $returnValue=$this->model->updateRole();
         if($returnValue)
         {
            $this->msg="You Are now Become the User";
@@ -39,3 +40,6 @@ class BecomeUser extends AuthorDashBase
 
     }
 }
+$becomeusermodel = new BecomeUserModel();
+$becomeUser = new BecomeUser($becomeusermodel);
+$becomeUser->becomeUserController();

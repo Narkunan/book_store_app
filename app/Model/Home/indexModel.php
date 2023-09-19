@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Home;
 use App\Model\Home\HomeAbstractModel;
+use App\Model\Home\FetchBookInterface;
 /**
  *indexModel will Fetch Book detail
  */
@@ -11,7 +12,7 @@ class IndexModel extends HomeAbstractModel
      *
      * @return bool
      */
-    public function fetchBook(HomeDTO $homeDTO):bool
+    public function fetchBook():bool
     {
         try
         {
@@ -20,7 +21,7 @@ class IndexModel extends HomeAbstractModel
             $result->execute();
             if($result->rowCount()>0)
             {
-                 $homeDTO->setFetchBook($result->fetchAll(\PDO::FETCH_ASSOC));
+                 $this->setFetchBook($result->fetchAll(\PDO::FETCH_ASSOC));
                  return true;
             }
             else 

@@ -1,27 +1,27 @@
 <?php
 namespace App\Controller\home;
-use App\Model\Home\HomeDTO;
 use App\Model\Home\category;
+use App\View\home\displayHome;
+use App\Controller\home\HomeBase;
 use App\View\home\HomeView;
-
+session_start();
 /**
  * HomeBaseClass will have commonly used
  * 
  * Variable and function.
  * 
  */
-abstract class HomeBaseClass 
+abstract class HomeBaseClass implements HomeBase
 {
    protected $model;
    protected $view;
-   protected string $msg;
+   protected $msg;
    protected string $loggedUser;
    protected string $name; 
    protected array $categorys;
    protected array $books;
-   protected HomeDTO $homeDTO;
 
-   public function __construct($model,HomeDTO $homeDTO)
+   public function __construct($model)
    {
       $this->model = $model;
       $this->view = new HomeView();
@@ -29,7 +29,6 @@ abstract class HomeBaseClass
       $this->name = $_SESSION["UserName"]??"login please";
       $category = new category();
       $this->categorys = $category->category();
-      $this->homeDTO = $homeDTO;
    }
    /**
     * Bookfound function is responsible for 
@@ -67,5 +66,5 @@ abstract class HomeBaseClass
     *
     * @return void
     */
-   abstract public function findBook(array $value):void;
+   abstract public function findBook():void;
 }

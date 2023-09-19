@@ -7,7 +7,65 @@ namespace App\View\accounts;
 <title>Book Store</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="../../../public/assets/css/style.css" rel="stylesheet" type="text/css" />
+<style>
+  nav {
+    position: absolute;
+    width:100%;
+    background-color:red;
+    color:white;
+    text-align: center;
+    }
+    #homebutton
+    {
+      background-color: red;
+      color:white;
+      font-size: 20px;
+      border: 0px;
+    }
+    #title
+    {
+      text-align: center;
+      background-color: red;
+      color: white;
+      font-size: 30px;
+      width:100%;
+      font-family: serif;
+    }
+    .softright
+    {
+      background-color:red;
+      color:white;
+      top: auto;
+      float: right;
+      text-align: center;
+      width: 15%;
+      border:0px;
+    }
+    form
+    {
+      background-color: red;
+      color:white;
+    }
+    #text
+    {
+      position: absolute;
+      top:78px;
+      width:87%;
+      left:0%;
+    }
+    #search-result
+    {
+      background-color: red;
+      color:white;
+      font-size: 15px;
+    }
+    #bookData
+    {
+        float: right;
 
+
+    }
+  </style>
 </head>
 <body>
 <div id="wrapper">
@@ -48,17 +106,17 @@ namespace App\View\accounts;
         <tr><td>please use this to login 
         </h1><br><br><a href='../../../public/assets/html/accounts/login.php'>Login</a></td></tr></table>";
        echo "</center>
-           
+       <!-- end body -->
         <div class='clear'></div>
         <div id='footer'>Engineering Book store Phone:044 567890 Email:engineering@bookstore.in</a> &nbsp;
           <div id='footnav'>  </div>
-            
+          <!-- end footnav -->
         </div>
-         
+        <!-- end footer -->
       </div>
-       
+      <!-- end inner -->
     </div>
-     
+    <!-- end wrapper -->
     <script src='../../../public/assets/js/home/homeScripts.js'>
       </script>";
         }

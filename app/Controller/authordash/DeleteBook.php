@@ -1,6 +1,9 @@
 <?php
 namespace App\Controller\authordash;
+require "../../../vendor/autoload.php";
+use App\Model\authordash\DeleteBookModel;
 use App\Controller\authordash\AuthorDashBase;
+session_start();
 
 /**
  * DeleteSelectedBook is responsible For 
@@ -22,13 +25,13 @@ class DeleteBook extends AuthorDashBase
    * 
    * @return void
    */
-   public function deleteBookImage($AuthorDashDTO):void
+   public function deleteBookImage():void
    {
       
-      $coverimg=$this->model->deleteBookCoverPage($AuthorDashDTO);
+      $coverimg=$this->model->deleteBookCoverPage();
       if($coverimg)
       {
-         $path="../../Model/upload/".$this->AuthorDashDTO->getCoverPage();
+         $path="../../Model/upload/".$this->model->getCoverPage();
          if(file_exists($path))
          {
            
@@ -46,11 +49,11 @@ class DeleteBook extends AuthorDashBase
     *
     * @return void
     */
-   public function deletedBookController(int $id):void
+   public function deletedBookController():void
    {
-      $this->AuthorDashDTO->setBookid($id);
-      $this->deleteBookImage($this->AuthorDashDTO);
-      $reult=$this->model->deleteBook($this->AuthorDashDTO);
+      $this->model->setBookid($_GET['id']);
+      $this->deleteBookImage();
+      $reult=$this->model->deleteBook();
       if($reult)
       {
         
@@ -63,3 +66,6 @@ class DeleteBook extends AuthorDashBase
       }
     }
 }
+$deleteSelectedBookModel = new DeleteBookModel();
+$DeleteSelectedBook= new DeleteBook($deleteSelectedBookModel);
+$DeleteSelectedBook->deletedBookController();

@@ -1,6 +1,6 @@
 <?php
 namespace App\Controller\authordash;
-use App\Model\authordash\AuthordashDTO;
+require "../../../vendor/autoload.php";
 use App\View\authordash\AuthorDashView;
 /**
  * AuthorDashBase contains all commonly
@@ -16,15 +16,13 @@ abstract class AuthorDashBase
     protected string $loggedUser ;
     protected string $name;
     protected string $msg;
-    protected AuthordashDTO $AuthorDashDTO;
 
-    public function __construct($model,AuthordashDTO $AuthorDashDTO)
+    public function __construct($model)
     {
         $this->model = $model;
         $this->view =new AuthorDashView();
         $this->name = $_SESSION['UserName'];
         $this->loggedUser = $_SESSION['loggedUser'];
-        $this->AuthorDashDTO = $AuthorDashDTO;
     }
     public function displayMessages():void
     {
