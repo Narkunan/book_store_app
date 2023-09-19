@@ -1,13 +1,10 @@
 <?php
 namespace App\Controller\home;
-require "../../../vendor/autoload.php";
-use App\Model\Home\HomeModel;
 use App\Controller\home\HomeBaseClass;
 /**
  * indexController is for Display Selected book in home page.
  */
-
-class indexController extends HomeBaseClass
+class bookdetails extends HomeBaseClass
 {
     
     /**
@@ -19,18 +16,15 @@ class indexController extends HomeBaseClass
      * @return void
      * 
      */
-    public function findBook():void
+    public function findBook(array $value):void
     {
-       $this->model->setBookId($_GET["id"]);
-       if($this->model->fetchBook())
+
+       $this->homeDTO->setBookId($value["id"]);
+       if($this->model->fetchBook($this->homeDTO))
        {
-         
-          $this->books=$this->model->getFetchBook();
+          $this->books=$this->homeDTO->getFetchBook();
           $this->view->displaySelectedBook($this->books,$this->loggedUser,$this->name);
        }
        
     }
 }
-$homemodel=new HomeModel();
-$indexController=new indexController($homemodel);
-$indexController->findBook();

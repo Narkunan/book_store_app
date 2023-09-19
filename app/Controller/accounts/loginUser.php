@@ -1,10 +1,8 @@
 <?php
 namespace App\Controller\accounts;
-session_start();
-require_once "../../../vendor/autoload.php";
 use App\Model\accounts\LoginModel;
 use App\Controller\accounts\InputInterface;
-
+use App\Model\accounts\AccountsDTO;
 
 /**
  * Login  is responsible for loginUser
@@ -13,6 +11,7 @@ class LoginUser implements InputInterface
 {
     private LoginModel $loginModel;
     private $result;
+    private AccountsDTO $accountsDTO;
     
     
     /**
@@ -22,9 +21,10 @@ class LoginUser implements InputInterface
      *
      * @param loginmodel $loginModel
      */
-    public function __construct(LoginModel $loginModel)
+    public function __construct(LoginModel $loginModel,AccountsDTO $accountsDTO)
     {
-        $this->loginModel=$loginModel;
+        $this->loginModel = $loginModel;
+        $this->accountsDTO = $accountsDTO;
     }
 
 
@@ -37,11 +37,10 @@ class LoginUser implements InputInterface
      *
      * @return void
      */
-    public function inputData():void
+    public function inputData(array $value):void
     {
-        $this->loginModel->setemail($_POST["email"]??"not passed");
-        $this->loginModel->setPassword($_POST["password"]??"not passed");
-        
+        $this->accountsDTO->setemail($value["email"]??"not passed");
+        $this->accountsDTO->setPassword($value["password"]??"not passed");
     }
 
     /**
@@ -65,33 +64,31 @@ class LoginUser implements InputInterface
      */
     public function LoginAuthorController():void
     {
-        $this->result=$this->loginModel->LoginAuthor();
-        if(!str_contains($this->result,"No"))
+        if($this->loginModel->checkDualUser($this->accountsDTO)) 
         {
-            $this->manageCookie();
+           
+            $this->manageCookie("dual");
+            header("Location: index.php?action=chooserole");
+            
         }
-        switch ($this->result) 
+        else if($this->loginModel->checkUser($this->accountsDTO))
         {
-            case "Dual" :
-                
-                header("Location: ../../../public/assets/html/accounts/chooseRole.html");
-                break;
-
-            case "user" :
-                
-                header("Location: ../../View/userdash/LoginView.php");
-                break;
-
-            case "author" :
-                
-                header("Location: loginview.php");
-                break;
-
-            default :
-                
-                header("Location: ../../../public/assets/html/accounts/register.php?msg=Account Does not exist");
-                break;
+            
+            $this->manageCookie("user");
+            header("Location: .index.php?action=userwelcomepage");
+        }                
+        else if($this->loginModel->checkAuthor($this->accountsDTO))
+        {
+            
+            $this->manageCookie("author");
+            header("Location: index.php?action=AuthorWelcome");
         }
+        else
+        {    
+            $_SESSION['msg']="Account does not exist";
+            header("Location: index.php?action=register");
+        }
+                 
       
     }
 
@@ -108,14 +105,14 @@ class LoginUser implements InputInterface
      * 
      */
 
-    public function manageCookie():void
+    public function manageCookie($role):void
     {
-            if(str_contains($this->result,"user"))
+            if(str_contains($role,"user"))
             {
                 
                 $_SESSION['loggedUser']="user";
             }
-            else if(str_contains($this->result,"author"))
+            else if(str_contains($role,"author"))
             {
                 
                 $_SESSION['loggedUser']="author";
@@ -124,14 +121,9 @@ class LoginUser implements InputInterface
             {   
                 $_SESSION['loggedUser']="Dual";
             }
-            $_SESSION['UserName']=$this->loginModel->getName();
-            $_SESSION["Userid"]=$this->loginModel->getId();
-            echo "cookies are already set";
+            $_SESSION['UserName']=$this->accountsDTO->getName();
+            $_SESSION["Userid"]=$this->accountsDTO->getId();
+            
               
     }
 }
-
-$loginmodel= new LoginModel();
-$loginController= new LoginUser($loginmodel);
-$loginController->inputData();
-$loginController->LoginAuthorController();

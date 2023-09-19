@@ -15,17 +15,17 @@ class ListBookModel extends authordashAbstract
      *
      * @return boolean
      */
-    public function fetchBooksByAuthorId():bool
+    public function fetchBooksByAuthorId(AuthordashDTO $authordashDTO):bool
     {
        try
        {
             $sql="SELECT * FROM BOOK WHERE authorid=:authorID;";
             $result=$this->connection->prepare($sql);
-            $result->bindParam("authorID",$this->authorid);
+            $result->bindParam("authorID",$authordashDTO->authorid);
             $result->execute();
             if($result->rowCount()>0)
             {
-               $this->book=$result->fetchAll(\PDO::FETCH_ASSOC);
+               $authordashDTO->book=$result->fetchAll(\PDO::FETCH_ASSOC);
           
                return true;
             }

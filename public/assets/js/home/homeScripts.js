@@ -24,6 +24,7 @@ function myFunRequest()
     
     console.log("inside connection check");
     result.innerHTML=xhttp.responseText;
+    console.log(xhttp.responseText+"response texr");
     suggestion=result.querySelectorAll("#match");
     for(let i=0;i<suggestion.length;i++)
     {
@@ -42,24 +43,3 @@ function clickfun()
     }
     result.innerHTML="";
 }
-function changeContent()
-{
-     console.log("from chnage content");
-      var chnageButtn = document.getElementById("userlogin");
-      var values = chnageButtn.value;
-      console.log(values == " ");
-      if(values != " ")
-      {
-        document.getElementById("homebuttons").innerHTML = "DashBoard"; 
-      }
-      else
-      {
-        document.getElementById("homebuttons").innerHTML = "userLogin";
-      }
-
-}
-
-
-
-changeContent();
-

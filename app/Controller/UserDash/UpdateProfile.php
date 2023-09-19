@@ -1,8 +1,5 @@
 <?php
 namespace App\Controller\UserDash;
-require "../../../vendor/autoload.php";
-session_start();
-use App\Model\UserDash\UpdateProfileModel;
 use App\Controller\UserDash\UserDashBase;
 
 /**
@@ -20,13 +17,11 @@ class UpdateProfile extends UserDashBase
      *
      * @return void
      */
-    public function executeAction():void
+    public function executeAction(array $value):void
     {
-        $this->model->setUserid($_SESSION['Userid']);
-        $this->model->setEmail($_POST['email']);
-        $this->model->setPassword($_POST['password']);
-        $this->model->setName($_POST['name']);
-        $Retunvalue=$this->model->updateUserProfile();
+        $this->userdashDTO->setUserid($_SESSION['Userid']);
+        $this->userdashDTO->setName($value['name']);
+        $Retunvalue=$this->model->updateUserProfile($this->userdashDTO);
         if($Retunvalue)
         {
             $this->msg="Your Profile Was Updated Successfully";
@@ -38,6 +33,3 @@ class UpdateProfile extends UserDashBase
         }
     }
 }
-$editProfileConfirmModel=new UpdateProfileModel();
-$ditprofileConfirm= new UpdateProfile ($editProfileConfirmModel);
-$ditprofileConfirm->executeAction();

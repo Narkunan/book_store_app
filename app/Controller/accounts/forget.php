@@ -1,20 +1,15 @@
 <?php
 namespace App\Controller\accounts;
-session_start();
-require_once "../../../vendor/autoload.php";
-
 use App\Model\accounts\ForgetModel;
-use App\View\accounts\forgetView;
 use App\Controller\accounts\InputInterface;
-
-
+use App\Model\accounts\AccountsDTO;
 /**
  * Forget class is for forget password
  */
 class Forget implements InputInterface
 {
     private ForgetModel $forgetModel;
-    
+    private AccountsDTO $AccountsDTO;
 
     /**
      * initialize object for forgetModel
@@ -23,9 +18,10 @@ class Forget implements InputInterface
      *
      * @param forgetModel $forgetModel
      */
-    public function __construct(ForgetModel $forgetModel)
+    public function __construct(ForgetModel $forgetModel,AccountsDTO $AccountsDTO)
     {
        $this->forgetModel=$forgetModel;
+       $this->AccountsDTO = $AccountsDTO;
        
     }
 
@@ -36,9 +32,11 @@ class Forget implements InputInterface
      *
      * @return void
      */
-    public function inputData():void
+    public function inputData(array $value):void
     {
-        $this->forgetModel->setEmail($_POST["email"]);
+        $this->AccountsDTO->setEmail($value["email"]??" ");
+        $this->AccountsDTO->setPassword($value['password']??" ");
+        $this->AccountsDTO->setSecurityQuestion($value['securityquestion']??" ");
     }
 
     /**
@@ -51,23 +49,33 @@ class Forget implements InputInterface
     public function forgetController():void
     {
         
-        $password=$this->forgetModel->forgetPassword();
-        if($password)
+        if($this->forgetModel->checkAccountExsits($this->AccountsDTO))
         {
-
-            $pass=$this->forgetModel->getPassword();
-            $forgetView=new forgetView();
-            $forgetView->displayBook( $pass);
+            
+           
+            if($this->forgetModel->checkSecurityQuestion($this->AccountsDTO))
+            {
+                
+                 if($this->forgetModel->updatePassword($this->AccountsDTO))
+                 {
+                    $_SESSION['msg']="password updated";
+                    echo __DIR__;
+                    header("Location: index.php?action=login");
+                 }
+            }
+            else
+            {   $_SESSION['msg']="security question wrong";
+                echo __DIR__;
+                header("Location: index.php?action=forget");
+            }
+            
         }
         else
-        {
-            echo "account not found";
+        {  
+            $_SESSION['msg'] = "Account does not exist";
+            echo __DIR__;
+            header("Location: index.php?action=register");
         }
         
     }
 }
-
-$forgetModel=new ForgetModel();
-$forget=new Forget($forgetModel);
-$forget->inputData();
-$forget->forgetController();

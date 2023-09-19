@@ -2,78 +2,6 @@
     <head>
         <title>Register</title>
         <link href="../../css/style.css" rel="stylesheet" type="text/css" />
-<style>
-    #names
-    {
-        padding: auto;
-        
-    }
-   #register
-   {
-         
-        background-color: white;
-        color:black;
-        border: 3px;
-        font-size: 15px;
-    }
-   nav 
-   {
-    position: absolute;
-    width:100%;
-    background-color:red;
-    color:white;
-    text-align: center;
-    }
-    #homebutton
-    {
-      background-color: red;
-      color:white;
-      font-size: 20px;
-      border: 0px;
-    }
-    #title
-    {
-      text-align: center;
-      background-color: red;
-      color: white;
-      font-size: 30px;
-      width:100%;
-      font-family: serif;
-    }
-    .softright
-    {
-      background-color:red;
-      color:white;
-      top: auto;
-      float: right;
-      text-align: center;
-      width: 15%;
-      border:0px;
-    }
-    #form
-    {
-      background-color: red;
-      color:white;
-    }
-    #text
-    {
-      position: absolute;
-      top:0.7in;
-      width:87%;
-      left:0%;
-    }
-    #search-result
-    {
-      text-align: left;
-      background-color: red;
-      color:white;
-      font-size: 15px;
-    }
-    label
-    {
-        font-size: 15px;
-    }
-  </style>
 
     </head>
     <body>
@@ -85,32 +13,22 @@
                 <a href="../../../../app/Controller/UserRedirect.php"><button id="homebutton">User Login</button></a>
                </nav>
               <dd class="last"></dd>
-            <center id="form">
-                  <form action="../../../../app/Controller/home/SearchByTitle.php" method="get" autocomplete="off">
-                    <div>
-                      <input name="bookname" type="text" placeholder="Search your book"id="text" />
-                     <br> <br>
-                      <input type="submit" value="search" class="softright">
-                    </div>
-                  </form>
-            </center>
-            <br>
-            
-            <div id="search-result"></div>
             <br>
           
 
         <center id="register">
-        
+        <br><br>
           <table>
-            <form action="../../../../../book_store/app/Controller/accounts/registeruser.php" method="POST" autocomplete="off" onsubmit="return validateForm()" >
+            <form action="../../../../index.php?action=registeruser" method="POST" autocomplete="off" onsubmit="return validateForm()" >
                 <tr><td><?php
-                $msg=$_GET['msg']??" ";
-                echo "<div id='msg' style='color:red;font-size:15px;'>".$msg."</div>";
+                session_start();
+                $msg=$_SESSION['msg']??" ";
+                unset($_SESSION['msg']);
+                echo "<div id='msg'>".$msg."</div>";
                 ?><br><td></tr></td>
                <tr><td> <label id="labels">Name</label><br></td></tr>
                
-               <tr><td><input type="text" name="name" placeholder="Author name" id="names"><br></td></tr>
+               <tr><td><input type="text" name="name" placeholder="Name" id="names"><br></td></tr>
                 
                 <tr><td><div id="name"></div><br></td></tr>
                 <tr><td><label id="labels">Select Role</label>
@@ -124,6 +42,9 @@
                 <tr><td><label id="labels"> E-mail</label><br></td></tr>
                 
                 <tr><td><input type="email" name="email" placeholder="E-mail address" required><br></td></tr>
+                <tr><td><label>Which is your favourite pet?</label><br></td></tr>
+                <tr><td><input type="text" name = "securityQuestion" id="securityquestions"><br></td></tr>
+                <tr><td><div id="securityError"></div><br><td></td> 
           
                 <tr><td><label id="labels"> Password</label><br></td></tr>
                
@@ -142,23 +63,22 @@
             </table>
         </center>
     </div>
-    <!-- end .inner -->
+       
 </div>
-<!-- end body -->
+    
 <div class="clear"></div>
 <div id="footer">Engineering Book store Phone:044 567890 Email:engineering@bookstore.in</a> &nbsp;
  <div id="footnav"></div>
- <!-- end footnav -->
+   
 </div>
-<!-- end footer -->
+ 
 </div>
-<!-- end inner -->
+ 
 </div>
-<!-- end wrapper -->
-<script src="../../js/home/homeScripts.js">
+ 
 </script>
 
-        <script src="../../js/author/register.js"></script>
+        <script src="../../js/accounts/register.js"></script>
         
     </body>
 </html>

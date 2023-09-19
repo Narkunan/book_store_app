@@ -16,7 +16,7 @@ class HomeView
     private $template;
     public function __construct()
     {
-        $loader = new FilesystemLoader('../../view/home');
+        $loader = new FilesystemLoader('app/view/home');
         $this->twig=new Environment($loader);
     }
     /**
@@ -62,8 +62,10 @@ class HomeView
      */
     public function displaySelectedBook(array $book,string $loggedUser,string $name)
     {
-        $this->template=$this->twig->load('indexView.html.twig');
-        echo $this->template->render(['data'=>$book,'session'=>$loggedUser ,'name'=>$name]);
+        $category = new category();
+        $categorys = $category->category();
+        $this->template=$this->twig->load('bookdetails.html.twig');
+        echo $this->template->render(['data'=>$book,'session'=>$loggedUser ,'name'=>$name,'category'=>$categorys]);
     }
     /**
      * displayMessages will display message on the home

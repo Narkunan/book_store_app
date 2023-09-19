@@ -1,10 +1,7 @@
 <?php
 namespace App\Controller\UserDash;
-require "../../../vendor/autoload.php";
 use App\Model\UserDash\RecentOrderModel;
 use App\Controller\UserDash\UserDashBase;
-session_start();
-
 /**
  * RecentOrder will display Orders recently Placed 
  * 
@@ -21,15 +18,15 @@ class RecentOrder extends UserDashBase
    *
    * @return void
    */
-  public function executeAction():void
+  public function executeAction(array $value):void
   {
      
-     $this->model->setUserid($_SESSION['Userid']);
-     $returnValue=$this->model->fetchRecentOrder();
+     $this->userdashDTO->setUserid($_SESSION['Userid']);
+     $returnValue=$this->model->fetchRecentOrder($this->userdashDTO);
      
      if($returnValue)
      {
-        $orders=$this->model->getOrders();
+        $orders=$this->userdashDTO->getOrders();
         
         $this->view->recentOrders($orders,$this->loggeduser,$this->name);
      }
@@ -41,6 +38,3 @@ class RecentOrder extends UserDashBase
      }
   }
 }
-$recentorderModel= new RecentOrderModel();
-$recentorder= new RecentOrder($recentorderModel);
-$recentorder->executeAction();

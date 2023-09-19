@@ -1,39 +1,56 @@
 <?php
-
 namespace App\Model;
 
-define("DB_HOST","localhost");
-define("DB_NAME","bookstore");
-define("DB_UserName","root");
-define("DB_PASSWORD","Tharun");
-
+require "config.php";
 /**
  * Connection is responsible for give Connection to the classes
  */
-trait Connection{
+class Connection{
 
-
+     private static $instance = null;
+     private $conn;
     /**
-     * getconnection() will return Pdo connection Object.
+     * create new connection when object is instantiated.
+     */
+    private function __construct()
+    {
+        $this->conn=new \PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME,DB_UserName,DB_PASSWORD);
+    }
+    /**
+     * check for connection exists 
+     * 
+     * if connection exists it will existing connection
+     * 
+     * else it will create new connection
+     *
+     * @return Connection
+     */
+    public static function getInstance(): Connection
+    {
+        
+        
+        if(self::$instance == null)
+        {
+            self::$instance = new Connection();
+           
+            return self::$instance;
+        }
+        else
+        {
+            
+            return self::$instance;
+        }
+        
+    }
+    /**
+     * getconnection will return connection
      *
      * @return \PDO
      */
     public function getConnection():\PDO
     {
-        $conn=new \PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME,DB_UserName,DB_PASSWORD);
-        
-        if($conn)
-        {
-            
-            
-            return $conn;
-        }
-        else
-        {
-            echo "connection not established";
-            die("happended something");
-           
-        }
+        return $this->conn;
     }
 
 }
+
