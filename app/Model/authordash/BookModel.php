@@ -25,7 +25,7 @@ class BookModel extends authordashAbstract
     {
         try
         {
-            $sql="SELECT coverpage FROM book WHERE bookid=:bookid;";
+            $sql="SELECT coverpage FROM books WHERE bookid=:bookid;";
             $result=$this->connection->prepare($sql);
             $result->bindParam("bookid",$authordashDTO->bookid);
             $result->execute();
@@ -56,7 +56,7 @@ class BookModel extends authordashAbstract
      */
     public function deleteBook(AuthordashDTO $authordashDTO):bool
     {
-        $sql="DELETE FROM book where bookid=:bookid;";
+        $sql="DELETE FROM books where bookid=:bookid;";
         $args=[
             "bookid"=>$authordashDTO->getBookid()
         ];
@@ -80,13 +80,18 @@ class BookModel extends authordashAbstract
     {
        try
        {
-          $sql="SELECT * FROM BOOK where bookid=:bookID;";
+          $sql="SELECT * FROM BOOKS JOIN subcategory as sub 
+           ON books.subcategoryid = sub.subcategoryid 
+           JOIN category as cate ON cate.categoryid = books.categoryid
+           where bookid=:bookID;";
           $result=$this->connection->prepare($sql);
-          $result->bindParam("bookID",$authordashDTO->bookid);
+          $bookid = $authordashDTO->getBookid();
+          $result->bindParam("bookID",$bookid);
           $result->execute();
           if($result)
           {
-            $authordashDTO->book=$result->fetchAll(\PDO::FETCH_ASSOC);
+            
+            $authordashDTO->setBook($result->fetchAll(\PDO::FETCH_ASSOC));
             return true;
           }
           else
@@ -110,11 +115,11 @@ class BookModel extends authordashAbstract
    public function publishBook(AuthordashDTO $authordashDTO):bool
    {
   
-        $sql="INSERT INTO book(authorname,title,price,stock,category,sub_category,authorid,coverpage,description,published_Date,sales_count)
-        values(:authorname,:title,:price,:stock,:category,:sub_category,:authorid,:coverpage,:description,:date,0);";
+        $sql="INSERT INTO books(title,price,stock,categoryid,subcategoryid,authorid,coverpage,description,published_Date)
+        values(:title,:price,:stock,:category,:sub_category,:authorid,:coverpage,:description,:date);";
         $date=date("Y-m-d");
         $param=[
-            "authorname"=>$authordashDTO->getAuthorname(),
+            
             "title"=>$authordashDTO->getTitle(),
             "price"=>$authordashDTO->getPrice(),
             "stock"=>$authordashDTO->getStock(),
@@ -149,7 +154,7 @@ class BookModel extends authordashAbstract
      */
     public function updateBook(AuthordashDTO $authordashDTO):bool
     {
-            $sql="UPDATE book SET title=:title,price=:price,category=:category,sub_category=:sub_category,stock=:stock,description=:description where bookid=:bookid;";
+            $sql="UPDATE books SET title=:title,price=:price,category=:category,sub_category=:sub_category,stock=:stock,description=:description where bookid=:bookid;";
             $args=[
                 "title"=>$authordashDTO->getTitle(),
                 "category"=>$authordashDTO->getCategory(),

@@ -8,7 +8,6 @@ use App\Model\UserDash\UserDashModelBase;
  */
 class UpdateProfileModel extends UserDashModelBase
 {
-
     
     /**
      * upadteuserprofile will update user profile .
@@ -22,8 +21,10 @@ class UpdateProfileModel extends UserDashModelBase
         {
              $sql="UPDATE USERs SET name=:username where user_id=:userid;";
              $stm=$this->conn->prepare($sql);
-             $stm->bindParam("username",$userDashDTO->name);
-             $stm->bindParam("userid",$userDashDTO->userid);
+             $name = $userDashDTO->getName();
+             $userid = $userDashDTO->getUserId();
+             $stm->bindParam("username",$name);
+             $stm->bindParam("userid",$userid);
              $stm->execute();
             if($stm)
             {

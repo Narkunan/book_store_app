@@ -9,7 +9,6 @@ use App\Model\UserDash\UserDashModelBase;
 class RecentOrderModel extends UserDashModelBase
 {
     
-
     /**
      * fetchRecentOrder will fetch recent placed by 
      * 
@@ -22,11 +21,15 @@ class RecentOrderModel extends UserDashModelBase
 
     public function fetchRecentOrder(UserDashDTO $userDashDTO):bool
     {
-        try
-        {
-        $sql="SELECT b.title, o.order_id ,o.ordervalue,b.coverpage FROM book as b JOIN orders as o on b.bookid=o.bookid where o.user_id=:userid;";
+      try
+      {
+        $sql = "SELECT b.title, o.orderid ,o.ordervalue,b.coverpage FROM order_s as o 
+              INNER JOIN orderdetails as od ON o.orderid = od.orderid
+              INNER JOIN books as b ON od.bookid = b.bookid 
+              WHERE o.userid = :userid;";
         $result=$this->conn->prepare($sql);
-        $result->bindParam("userid",$userDashDTO->userid);
+        $userid = $userDashDTO->getUserId();
+        $result->bindParam("userid",$userid);
         $result->execute();
          
         if($result->rowCount()>0)

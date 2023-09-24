@@ -18,59 +18,59 @@
             <th> No of Books </th>
            {% for datas in data %}
            <tr>
-           {% set category = datas.category %}
+           {% set category = datas.categoryname %}
 
-           {% if category starts with "co" %}
+           {% if category starts with "co" or category starts with "Co"%}
            
            <td><img src = "public/assets/images/computer.jpg" id="categoryimages" ></td>
            <td> {{ category }} </td>
-           <td>  {{ datas.total }}</td>
+           <td>  {{ datas.noofbooks }}</td>
           {% endif %}
           {% if category starts with "E" or category starts with "e"%}
           <td><img src = "public/assets/images/electrical.jpg" id="categoryimages"></td>
           <td> {{ category }} </td>
-          <td>  {{ datas.total }}</td>
+          <td>  {{ datas.noofbooks }}</td>
           {% endif %}
          
           {% if category starts with "M" or  category starts with "m" %}
           <td><img src = "public/assets/images/mecha.png" id="categoryimages" ></td>
           <td> {{ category }} </td>
-          <td>  {{ datas.total }}</td>
+          <td>  {{ datas.noofbooks }}</td>
           {% endif %}
           {% if category starts with "Ma" or  category starts with "ma" %}
           <td><img src = "public/assets/images/marine.jpg" id="categoryimages" ></td>
           <td> {{ category }} </td>
-          <td>  {{ datas.total }}</td>
+          <td>  {{ datas.noofbooks }}</td>
           {% endif %}
           {% if category starts with "Ci" or  category starts with "ci" %}
 
           <td><img src = "public/assets/images/civil.jpg" id="categoryimages" ></td>
           <td> {{ category }} </td>
-          <td>  {{ datas.total }}</td>
+          <td>  {{ datas.noofbooks }}</td>
          {% endif %}
          {% if category starts with "Ae"  or  category starts with "ae"%}
 
           <td><img src = "public/assets/images/aero.jpg" id="categoryimages" ></td>
           <td> {{ category }} </td>
-          <td>  {{ datas.total }}</td>
+          <td>  {{ datas.noofbooks }}</td>
          {% endif %}
          {% if category starts with "Bi" or  category starts with "bi" %}
 
           <td><img src = "public/assets/images/bio.png" id="categoryimages" ></td>
           <td> {{ category }} </td>
-          <td>  {{ datas.total }}</td>
+          <td>  {{ datas.noofbooks }}</td>
          {% endif %}
          {% if category starts with "Au" or  category starts with "au" %}
 
          <td><img src = "public/assets/images/auto.jpg" id="categoryimages" ></td>
          <td> {{ category }} </td>
-         <td>  {{ datas.total }}</td>
+         <td>  {{ datas.noofbooks }}</td>
         {% endif %}
         {% if category starts with "ch" or  category starts with "Ch" %}
 
         <td><img src = "public/assets/images/chemical.jpg" id="categoryimages" ></td>
         <td> {{ category }} </td>
-        <td>  {{ datas.total }}</td>
+        <td>  {{ datas.noofbooks }}</td>
       
        {% endif %}
 

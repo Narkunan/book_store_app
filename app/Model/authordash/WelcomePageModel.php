@@ -1,6 +1,5 @@
 <?php
 namespace App\Model\authordash;
-
 use App\model\authordash\authordashAbstract;
 
 /**
@@ -16,13 +15,19 @@ class WelcomePageModel extends authordashAbstract
       {
           try
           {
-          $stm = $this->connection->prepare("SELECT category,COUNT(*) as total FROM book where authorid = :authorid group by category;");
-          $stm->bindParam("authorid",$authordashDTO->authorid);
+            
+          $sql = "SELECT cate.categoryname,COUNT(books.bookid) as noofbooks
+                  FROM books INNER JOIN category as cate on books.categoryid = cate.categoryid
+                  where books.Authorid =:authorid GROUP BY cate.categoryname;";
+          $stm = $this->connection->prepare($sql);
+          $authorid= $authordashDTO->getAuthorid();
+          $stm->bindParam("authorid",$authorid);
           $stm->execute();
           if($stm->rowCount()>0)
           {
              
-             $authordashDTO->book=$stm->fetchAll(\PDO::FETCH_ASSOC);
+            $authordashDTO->setBook($stm->fetchAll(\PDO::FETCH_ASSOC));
+            var_dump($authordashDTO->getBook());
              return true;
           }
           else

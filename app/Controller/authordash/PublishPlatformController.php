@@ -1,9 +1,8 @@
 <?php
 namespace App\Controller\authordash;
 
-use App\Model\authordash\PublishPlatformModel;
 use App\Controller\authordash\AuthorDashBase;
-use App\Model\authordash\AuthordashDTO;
+
 /***
  * PublishPlatform controller is 
  * 
@@ -41,8 +40,7 @@ class publishPlatformController extends AuthorDashBase
         if($result)
         {
             move_uploaded_file($_FILES["coverpage"]["tmp_name"],"app/Model/upload/".$this->AuthorDashDTO->getCoverpage());
-            //$bookpublish=new BookPublishConfirm();
-            //$bookpublish->displayBook("Your recent Book Was Published Sucessfully");
+           
             $this->msg="Your recent Book Was Published Sucessfully";
             $this->loggedUser=$_SESSION['loggedUser'];
             $this->name=$_SESSION['UserName'];

@@ -6,7 +6,7 @@ use App\Controller\authordash\AuthorDashBase;
  * 
  * database to display Author existing Value 
  */
-class EditBook extends AuthorDashBase implements AuthorDashInterface
+class EditBook extends AuthorDashBase
 {
 
   /**
@@ -24,7 +24,7 @@ class EditBook extends AuthorDashBase implements AuthorDashInterface
     $returnValue=$this->model->fetchBookByBookId($this->AuthorDashDTO);
     if($returnValue)
     {   
-       
+        echo "something to diaplsy";
         $this->displayData();
 
     }

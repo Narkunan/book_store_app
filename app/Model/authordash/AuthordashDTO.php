@@ -2,61 +2,15 @@
 namespace App\Model\authordash;
 class AuthordashDTO
 {
-    private String $authorname;
-    private int $authorid;
     private array $book;
     private string $title;
-    private string $category;
-    private string $subcategory;
+    private int $category;
+    private int $subcategory;
     private string $description;
     private int $price;
     private int $stock;
     private int $bookid;
     private string $coverpage;
-    /**
-     * Get the value of authorname
-     */ 
-    public function getAuthorname():string
-    {
-        return $this->authorname;
-    }
-
-    /**
-     * Set the value of authorname
-     *
-     * @param string  $name
-     * 
-     * @return  self
-     */ 
-    public function setAuthorname(string $authorname):self
-    {
-        $this->authorname = $authorname;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of authorid
-     */ 
-    public function getAuthorid():int
-    {
-        return $this->authorid;
-    }
-
-    /**
-     * Set the value of authorid
-     *
-     * @param int $authorid
-     * 
-     * @return  self
-     */ 
-    public function setAuthorid(int $authorid):self
-    {
-        $this->authorid = $authorid;
-
-        return $this;
-    }
-
     /**
      * Get the value of book
      */ 
@@ -262,4 +216,51 @@ class AuthordashDTO
 
         return $this;
     }
+    private String $authorname;
+    private int $authorid;
+    /**
+     * Get the value of authorname
+     */ 
+    public function getAuthorname():string
+    {
+        return $this->authorname;
+    }
+
+    /**
+     * Set the value of authorname
+     *
+     * @param string  $name
+     * 
+     * @return  self
+     */ 
+    public function setAuthorname(string $authorname):self
+    {
+        $this->authorname = $authorname;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of authorid
+     */ 
+    public function getAuthorid():int
+    {
+        return $this->authorid;
+    }
+
+    /**
+     * Set the value of authorid
+     *
+     * @param int $authorid
+     * 
+     * @return  self
+     */ 
+    public function setAuthorid(int $authorid):self
+    {
+        $this->authorid = $authorid;
+
+        return $this;
+    }
+
+    
 }

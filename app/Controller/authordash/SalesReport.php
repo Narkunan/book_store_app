@@ -6,7 +6,7 @@ use App\Controller\authordash\AuthorDashBase;
  * 
  * author PublishedBook.
  */
-class SalesReport extends AuthorDashBase implements AuthorDashInterface
+class SalesReport extends AuthorDashBase
 {
   
   /**
@@ -28,7 +28,7 @@ class SalesReport extends AuthorDashBase implements AuthorDashInterface
        $this->AuthorDashDTO->setAuthorId($authorId);
        $returnValue=$this->model->fetchBooks($this->AuthorDashDTO);
        if($returnValue)
-       {
+       {  
           $this->displayData();
        }
        else

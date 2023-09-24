@@ -24,9 +24,10 @@ class EditProfileModel extends UserDashModelBase
    {
       try
       {
-        $sql="SELECT name,email,password FROM USERs where user_id=:userid;";
+        $sql="SELECT name FROM USERs where user_id=:userid;";
         $stm=$this->conn->prepare($sql);
-        $stm->bindParam("userid",$userDashDTO->userid);
+        $userid = $userDashDTO->getUserId();
+        $stm->bindParam("userid",$userid);
         $stm->execute();
         if($stm->rowCount()>0)
         {

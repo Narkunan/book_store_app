@@ -27,7 +27,8 @@ class LoginModel extends abstarctModel
                          on ur.user_id = us.user_id 
                              where us.email = :email  ;";
              $reult=$this->conn->prepare($sql);
-             $reult->bindParam("email",$accountsDTO->email);
+             $email = $accountsDTO->getEmail();
+             $reult->bindParam("email",$email);
              $reult->execute();
           
             if($reult->rowCount()==2)
@@ -74,7 +75,8 @@ class LoginModel extends abstarctModel
                      on ur.user_id = us.user_id 
                         where us.email = :email and ur.roleid = 2";
             $stm = $this->conn->prepare($sql);
-            $stm->bindParam("email",$accountsDTO->email);
+            $email = $accountsDTO->getEmail();
+            $stm->bindParam("email",$email);
             $stm->execute();
             
             if($stm->rowCount()==1)
@@ -119,8 +121,8 @@ class LoginModel extends abstarctModel
                     on ur.user_id = us.user_id where us.email = :email and ur.roleid = 1;";
                     
             $stm = $this->conn->prepare($sql);
-            
-            $stm->bindParam("email",$accountsDTO->email);
+            $email= $accountsDTO->getEmail();
+            $stm->bindParam("email",$email);
             
             $stm->execute();
             

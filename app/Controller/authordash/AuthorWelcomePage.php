@@ -14,6 +14,7 @@ class AuthorWelcomePage extends AuthorDashBase
     public function welcomeAuthordash()
     {
          $this->AuthorDashDTO->setAuthorid($_SESSION['Userid']);
+         echo $_SESSION['Userid'];
          $returnvalue = $this->model->fetchBookByCategory($this->AuthorDashDTO);
          if($returnvalue)
          {
