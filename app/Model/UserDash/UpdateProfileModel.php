@@ -8,68 +8,23 @@ use App\Model\UserDash\UserDashModelBase;
  */
 class UpdateProfileModel extends UserDashModelBase
 {
-
-    private string $password;
-    private string $name;
-    private string $email;
-
-    /**
-     * Set the value of password
-     *
-     * @param string $password
-     * 
-     * @return  self
-     */ 
-    public function setPassword(string $password)
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-     * Set the value of name
-     * 
-     * @param string $name
-     *
-     * @return  self
-     */ 
-    public function setName(string $name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Set the value of email
-     *
-     * @param string $email
-     * @return  self
-     */ 
-    public function setEmail(string $email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
+    
     /**
      * upadteuserprofile will update user profile .
      *
      * @return  bool
      */ 
     
-    public function updateUserProfile():bool
+    public function updateUserProfile(UserDashDTO $userDashDTO):bool
     {
         try
         {
-             $sql="UPDATE USERs SET name=:username,email=:email,password=:password where user_id=:userid;";
+             $sql="UPDATE USERs SET name=:username where user_id=:userid;";
              $stm=$this->conn->prepare($sql);
-             $stm->bindParam("username",$this->name);
-             $stm->bindParam("userid",$this->userid);
-             $stm->bindParam("email",$this->email);
-             $stm->bindParam("password",$this->password);
+             $name = $userDashDTO->getName();
+             $userid = $userDashDTO->getUserId();
+             $stm->bindParam("username",$name);
+             $stm->bindParam("userid",$userid);
              $stm->execute();
             if($stm)
             {

@@ -1,62 +1,9 @@
-<html>
-    <head>
-        <title>Report</title>
-        <style>
-          #text
-          {
-            position: absolute;
-            top:78px;
-            width:87%;
-            left:0%;
-          }
-        </style>
-    </head>
-    <link href="../../../public/assets/css/style.css" rel="stylesheet" type="text/css" />
-
-  
-<body>
-   
-<div id="wrapper">
-  <div id="inner">
-    <div id="header">
-      <h1 id="title">Engineering Book Store</h1>
-      <h1 style="background-color:red;color:white;">{{ name }}</h1>
-      <nav> <a href="../../../public/assets/html/first.php"><button id="homebutton">Home</button></a> 
-      <a href="../../Controller/UserRedirect.php"><button style="background-color:red;border:0px;color:white;font-size:20px;" id="homebuttons"> Login</button></a>      
-  </nav>
-    <dd class="last"></dd>
-  <center>
-        <form action="../../../app/Controller/home/SearchByTitle.php" method="get" autocomplete="off">
-          <div>
-            <input name="bookname" type="text" placeholder="Search your book"id="text" />
-           <br> <br>
-            <input type="submit" value="search" class="softright">
-          </div>
-        </form>
-  </center>
-  <br>
-  
-  <div id="search-result" style="text-align:left;"></div>
-  <dl id="browse">
-    <dt>Options</dt>
-    <dd class="first"><a href="../../controller/accounts/AuthorWelcomePage.php">
-                Author Home </a></dd>
-    <dd style="font-size:16px;"> <a href="../../view/authordash/PublishPlatform.php">
-                Create Book </a></dd> 
-    <dd style="font-size:16px;"> <a href="../../Controller/authordash/SalesReport.php"> Report</a> </dd>
-    <dd style="font-size:16px;"> <a href="../../Controller/authordash/ListBook.php">List Book</a></dd>
-    <dd style="font-size:16px;"> <a href="../../Controller/accounts/logout.php">logout</a></dd>
-    <dd style="font-size:16px;"><p style="margin-top:0px;font-weight:bold;padding:3px 10px;color:white;font-size:16px" onclick="myFunction()" id="become">Become User</p></dd>
-                <dd style="font-size:16px;"><p style="margin-top:0px;font-weight:bold;padding:3px 10px;color:white;font-size:16px" onclick="userRedirect()" id="redirect"></p></dd>
-                
-  </dl>
-<br>
-<input type='hidden' id='session' value="{{ session }}">
+{% include "Authordasheader.html.twig" %}
  
 {% for book in data%}
 
         <center>  
-      <form action='../../Controller/authordash/UpdateBook.php' method='post' enctype='multipart/form-data' autocomplete='off' onsubmit="return validateForm()">
+      <form action='index.php?action=updatebook' method='post' enctype='multipart/form-data' autocomplete='off' onsubmit="return validateForm()">
       <table id='tables'>
      <tr> <td><label>Book Title</label></td></tr>
      <tr><td> <input type='text' name='booktitle' value="{{ book.title }}" id='booktitles'></td></tr>
@@ -66,16 +13,16 @@
       <tr><td><label>Category</label></td></tr>
       
       <tr><td style='font-size:20px;'><select name='book_category' id='bcategory'>
-        <option value= "{{ book.category }}" >{{ book.category }}</option>
-        <option value='Computer Science Engineering'>Computer Science Engineering</option>
-        <option value='Mechanical Engineering'>Mechanical Engineering</option>
-        <option value='Electrical Engineering'>Electrical Enginering</option>
-        <option value='Civil Engineering'>Civil Engineering</option>
-        <option value='Aeronautical Engineering'>Aeronautical Engineering</option>
-        <option value='Marine Engineering'>Marine Engineering</option>
-        <option value='BioMedical Engineering'>BioMedical Engineering</option>
-        <option value='chemical Engineering'>chemical Engineering</option>
-        <option value='AutoMobile Engineering'>AutoMobile Engineering</option>
+        <option value= "{{ book.categoryid }}" >{{ book.categoryname }}</option>
+        <option value="1">Computer Science Engineering</option>
+          <option value="2">Mechanical Engineering</option>
+          <option value="3">Electrical Enginering</option>
+          <option value="4">Civil Engineering</option>
+          <option value="5">Aeronautical Engineering</option>
+          <option value="6">Marine Engineering</option>
+          <option value="7">BioMedical Engineering</option>
+          <option value="8">chemical Engineering</option>
+          <option value="9">AutoMobile Engineering</option>
         </select>
       </td></tr>
       
@@ -84,32 +31,33 @@
       <tr><td><label> Sub Category</label></td></tr>
       
      <tr><td> <select name='book_subcategory' id='scategory' >
-     <option value="{{ book.sub_category }}">{{ book.sub_category }}</option>
-      <option value='programming'>programming</option>
-      <option value='java'>Java</option>
-      <option value='Web development'>Web development</option>
-      <option value='C++'>C++</option>
-      <option value='database'>DataBase</option>
-      <option value='MYSQL'>MYSQL</option>
-      <option value='DataStructure and algorithm'>DataStructure and algorithm</option>
-      <option value='network'>network</option>
-      <option value='Mobile Computing'>Mobile Computing</option>
-      <option value='git hub'>git hub</option>
-      <option value='operating system'>operating system</option>
-      <option value='cryptography'>cryptography</option>
-      <option value='Engineering Mathematics'>Engineering Mathematics</option>
-      <option value='physics'>physics</option>
-      <option value='Communication Theory'>Communication Theory</option>
-      <option value='Analog electronics'>Analog electronics</option>
-      <option value='Digital Electronics'>Digital Electronics</option>
-      <option value='microprocessor'>microprocessor</option>
-      <option value='Microcontroller'>Microcontroller</option>
-      <option value='Fluid Mechanics'>Fluid Mechanics</option>
-      <option value='Solid Mechanics'>Solid Mechanics</option>
-      <option value='ThermoDynamics'>ThermoDynamics</option>
-      <option value='Tissue Engineering'>Tissue Engineering</option>
-      <option value='anatomy'>Anatomy</option>
-      <option value='Automotive Pollution and Control'>Automotive Pollution and Control</option>
+     <option value="{{ book.subcategoryid }}">{{ book.subcategoryname }}</option>
+     <option value="1">programming</option>
+     <option value="2">Java</option>
+     <option value="3">Web development</option>
+     <option value="4">C++</option>
+     <option value="5">DataBase</option>
+     <option value="6">MYSQL</option>
+     <option value="7">DataStructure and algorithm</option>
+     <option value="8">network</option>
+     <option value="9">Mobile Computing</option>
+     <option value="10">git hub</option>
+     <option value="11">operating system</option>
+     <option value="12">cryptography</option>
+     <option value="13">Engineering Mathematics</option>
+     <option value="14">physics</option>
+     <option value="15">Communication Theory</option>
+     <option value="16">Analog electronics</option>
+     <option value="17">Digital Electronics</option>
+     <option value="18">microprocessor</option>
+     <option value="19">Microcontroller</option>
+     <option value="20">Fluid Mechanics</option>
+     <option value="21">Solid Mechanics</option>
+     <option value="22">ThermoDynamics</option>
+     <option value="23">Tissue Engineering</option>
+     <option value="24">Anatomy</option>
+     <option value="25">Automotive Pollution and Control</option>
+     <option value="25"> Aerospace Propulsion</option>
 </select>
      </td></tr>
       
@@ -140,78 +88,8 @@
     </center>
     <input type="hidden" id="userlogin" value="{{ name }}">
     </div>
-    <!-- end body -->
-    <div class='clear'></div>
-    <div id='footer'> Engineering Book store Phone:044 567890 Email:engineering@bookstore.in &nbsp;
-      <div id='footnav'>  </div>
-      <!-- end footnav -->
-    </div>
-    <!-- end footer -->
-  </div>
-  <!-- end inner -->
-</div>
-<!-- end wrapper -->
-<script>
-var titlefield=document.getElementById('booktitles');
-var titlefieldDisplayError=document.getElementById('btitle');
- var description=document.getElementById('description');
- var descriptionErrorMsg=document.getElementById('desc');
- var price=document.getElementById('bPrice');
- var priceErrorMsg=document.getElementById('price');
- var stock=document.getElementById('stock');
- var stockErrorMsg=document.getElementById('bstock');
- titlefield.addEventListener('input',validateName);
- function validateName()
- {
-  var titles=document.getElementById('btitle');
-  var titleValue=titlefield.value;
-  console.log(titleValue.length);
-  if(titleValue.length>=10&&titleValue.length<=50)
-  {
-      titles.style.color='green';
-      titles.innerHTML='A Valid Title';
-  }
-  else
-  {
-      titles.style.color='red';
-      titles.innerHTML='Not Valid Title';
-  }
- }
- function validateForm()
- {
-    if(titlefield.value.length<=0)
-    {
-      titlefieldDisplayError.style.color='red';
-      titlefieldDisplayError.innerHTML='enter a title';
-      return false;
-    }
-    else if(description.value.length<=50)
-    {
-      descriptionErrorMsg.style.color='red';
-      descriptionErrorMsg.innerHTML='enter description with minimum 50 characters';
-      return false;
-    }
-    else if(price.value.length<=0||price.value<=10)
-    {
-      priceErrorMsg.style.color='red';
-      priceErrorMsg.innerHTML='enter a price greater than 10';
-      return false;
-    }
-    else if(stock.value.length<=0||stock.value<=1)
-    {
-      stockErrorMsg.style.color='red';
-      stockErrorMsg.innerHTML='enter a stock greater than 1';
-      return false;
-    }
- }
- 
-
+     
+<script src="../../../public/assets/js/authordash/EditBook.js">
  </script>
-
-
-<script src="../../../public/assets/js/home/homeScripts.js">
-  </script>
-  <script src='../../../public/assets/js/authordash/authordash.js'>
-      </script>
-    </body>
-</html>
+ {% include "AuthordashFooter.html.twig" %} 
+  

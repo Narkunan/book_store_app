@@ -1,195 +1,21 @@
-<html>
-    <head>
-        <title>Report</title>
-        <style>
-          #text
-          {
-            position: absolute;
-            top:78px;
-            width:87%;
-            left:0%;
-          }
-        </style>
-    </head>
-    <link href="../../../public/assets/css/style.css" rel="stylesheet" type="text/css" />
-  
-         
-  
-<body>
-   
-<div id="wrapper">
-  <div id="inner">
-    <div id="header">
-      <h1 id="title">Engineering Book Store</h1>
-      <h1 style="background-color:red;color:white;">{{ name }}</h1>
-      <nav> <a href="../../../public/assets/html/first.php"><button id="homebutton">Home</button></a>  
-      <a href="../../Controller/UserRedirect.php"><button style="background-color:red;border:0px;color:white;font-size:20px;" id="homebuttons">Login</button></a>
-     </nav>
-    <dd class="last"></dd>
-  <center>
-        <form action="../../../app/Controller/home/SearchByTitle.php" method="get" autocomplete="off">
-          <div>
-            <input name="bookname" type="text" placeholder="Search your book"id="text" />
-           <br> <br>
-            <input type="submit" value="search" class="softright">
-          </div>
-        </form>
-  </center>
-  <br>
-  
-  <div id="search-result" style="text-align:left;"></div>
-  <dl id="browse">
-    <dt>Options</dt>
-    <dd class="first"><a href="../../Controller/UserDash/RecentOrder.php">
-                Recent Order</a></dd>
-    <dd style="font-size:16px;"> <a href="../../Controller/UserDash/EditProfile.php">
-                Edit Profile</a></dd> 
-    <dd style="font-size:16px;"> <a href="../../Controller/accounts/logout.php">logout</a></dd>
-    <dd style="font-size:16px;"><p style="margin-top:0px;font-weight:bold;padding:3px 10px;color:white;font-size:16px" onclick="myFunction()" id="become">Become Author</p></dd>
-    <dd style="font-size:16px;"><p style="margin-top:0px;font-weight:bold;padding:3px 10px;color:white;font-size:16px" onclick="authorRedirect()" id="redirect"></p></dd>
-    
-    <input type='hidden' id='session' value= {{ loggedUser }}>
-    </dl>
+{% include "Userdasheader.html.twig" %}
 <br>
-
-      
-        
         <center>  
           
-      <form action='../../Controller/UserDash/EditedProfileConfirm.php' method='post' autocomplete='off' onsubmit="return validateForm()">
+      <form action='index.php?action=updateprofile' method='post' autocomplete='off' onsubmit="return validateForm()">
       <table>
       <tr><td> <label id="labels">User Name</label><br></td></tr>
       {% for data in data %}
                <tr><td><input type="text" name="name" placeholder="Author name" id="names" value="{{ data.name }}"><br></td></tr>
                 
                 <tr><td><div id="name"></div><br></td></tr>
-                <tr><td><label id="labels"> E-mail</label><br></td></tr>
-                
-                <tr><td><input type="email" name="email" placeholder="E-mail address" value="{{ data.email }}" required><br></td></tr>
-                <tr><td><label id="labels"> Password</label><br></td></tr>
-               
-                <tr><td><input type="password" name="password" placeholder="enter password" value="{{ data.password }}"id="pass"><br></td></tr>
-                
-                <tr><td><div id="passwordresult"></div><br></td></tr>
-                
-                <tr><td><input type="checkbox" id="showPassword">Show Password<br></td></tr>
-               
-              
-                <tr><td><div id="showPasswords"></div><br></td></tr>
-      <tr><td><input type='submit' value='Update Profile' style='width:170px;'></td></tr>
+                      <tr><td><input type='submit' value='Update Profile' style='width:170px;'></td></tr>
       {% endfor %}
       </form>
 </table>
     </center>
-    <input type="hidden" id="userlogin" value="{{ name }}">
-    <!-- end .inner -->
-    </div>
-    <!-- end body -->
-    <div class='clear'></div>
-    <div id='footer'> Engineering Book store Phone:044 567890 Email:engineering@bookstore.in &nbsp;
-      <div id='footnav'>  </div>
-      <!-- end footnav -->
-    </div>
-    <!-- end footer -->
-  </div>
-  <!-- end inner -->
-</div>
-<!-- end wrapper -->
-<script>
- var x=document.getElementById('pass');
-x.addEventListener('input',myFunctions);
-function myFunctions()
-{
-    var y=document.getElementById('passwordresult');
-    var z=x.value;
-
-    if(z.length<=0)
-    {
-        y.style.color='red';
-        y.innerHtml='Enter the Password';
-    }
-    else if(z.length>=1&&z.length<=7)
-    {  
-        y.style.color='red';
-        y.innerHTML=8-z.length+'   More letters left to fill';
-    }
-    else
-    {  
-        y.style.color='green';
-        y.innerHTML='You are good to go';
-    }
-
-}
-var names=document.getElementById('names');
-names.addEventListener('input',nameValidate);
-function nameValidate()
-{
-    var nameValue=names.value;
     
-    var display=document.getElementById('name');
-    if(nameValue.length<=0)
-    {
-        display.style.color='red';
-        display.innerHTML='enter name';
-    }
-    else
-    {
-        display.style.color='green';
-        display.innerHTML='Nice Name';
-    }
-}
+<script src="../../../public/assets/js/Userdash/EditProfile.js">
+</script>
 
-function validateForm()
-{
-
-    console.log('from validate function');
-    console.log(x.value.length);
-    console.log(x.value);
-    let length=x.value.length;
-    if(names.value.length==0)
-    { 
-        console.log('hiii from validateForm');
-        document.getElementById('name').style.color='red';
-        document.getElementById('name').innerHTML='please enter name';
-        return false;
-    }
-    else if(length<8)
-    {
-         console.log('from else if');
-         document.getElementById('passwordresult').style.color='red';
-         document.getElementById('passwordresult').innerHTML='enter password';
-         return false;
-    }
-    else
-    {
-        return true;
-    }
-
-}
-
-
-var showpassword=document.getElementById('showPassword');
-showpassword.addEventListener('click',funShow);
-function funShow()
-{
-var password=showpassword.value;
-console.log(showpassword.unchecked+'from passwoed unchecked');
-console.log(showpassword.checked+'from password chceked');
-console.log(password);
-if(showpassword.checked===true)
-{
-    console.log('from checked');
-document.getElementById('showPasswords').innerHTML=x.value;
-}
-else
-{
-    document.getElementById('showPasswords').innerHTML='     ';
-}
-}</script>
-
-<script src="../../../public/assets/js/home/homeScripts.js">
-  </script>
- <script src="../../../public/assets/js/Userdash/userdash.js">
-  </script>
-    </body>
-</html>
+{% include "userdashFooter.html.twig" %}

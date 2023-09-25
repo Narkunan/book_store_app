@@ -1,9 +1,8 @@
 <?php
 namespace App\Controller\accounts;
-require "../../../vendor/autoload.php";
+use App\Model\authordash\AuthordashDTO;
 use App\Model\authordash\WelcomePageModel;
 use App\View\authordash\AuthorDashView;
-session_start();
 /**
  * Author Welcome Page is responsible for 
  * 
@@ -16,21 +15,22 @@ class AuthorWelcomePage
 {
     private WelcomePageModel $model;
     private AuthorDashView $view;
-    public function __construct($model,$view)
+    private AuthordashDTO $dto;
+    public function __construct($model,$dto)
     {
        $this->model = $model;
-       $this->view = $view;
+       $this->dto = $dto;
+       $this->view = new AuthorDashView();
     }
     public function welcomeAuthordash()
     {
-         $this->model->setAuthorid($_SESSION['Userid']);
-         $returnvalue = $this->model->fetchBookByCategory();
+         $this->dto->setAuthorid($_SESSION['Userid']);
+         $returnvalue = $this->model->fetchBookByCategory($this->dto);
          if($returnvalue)
-         {
-               $book= $this->model->getBook();
+         {     
+               $book= $this->dto->getBook();
                $logguser = $_SESSION['loggedUser'];
                $name = $_SESSION['UserName'];
-               
                $this->view->welcomePage($book,$logguser,$name);
          }
          else
@@ -42,7 +42,3 @@ class AuthorWelcomePage
          }
     }
 }
-$model = new WelcomePageModel();
-$view = new AuthorDashView();
-$loginview =new AuthorWelcomePage($model,$view);
-$loginview->welcomeAuthordash();

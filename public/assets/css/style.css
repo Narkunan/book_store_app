@@ -54,26 +54,14 @@ height: 2px;
 padding-top: 0;
 margin-top: 0;
 margin-bottom: 3px;
-font-size: 1px;
+font-size: 10px;
+width: 100%;
 }
 
 .left {
 float: left;
 margin: 1px 8px 0px 0px;
 }
-
-/*.softright {
-top:10%;
-text-align: center;
-background-color:red;
-color:white;
-}*/
-
-/**.readmore {
-text-align: right;
-}**/
-
-/* ***** */
 
 #inner {
 border-left: 2px solid #fff;
@@ -190,28 +178,27 @@ padding: 0;
 #body .leftbox,
 #body .rightbox {
 margin-top: 0px;
+margin-left: 10px;
 color: #464646;
 }
 
 #body .leftbox {
 float: left;
 width: 250px;
+margin-left: 10px;
 }
 
 #body .rightbox {
 float: right;
 width: 252px;
 margin-right: 18px;
+margin-left: 10px;
 border-left: 1px solid #e5e5e5;
 }
 
 * html #body .rightbox {
 margin-right: 10px;
 }
-
-/**#body .br {
-border-bottom: 1px solid #e5e5e5;
-}**/
 
 #body .readmore {
 margin-top: -0.5em;
@@ -273,6 +260,13 @@ nav {
       font-size: 20px;
       border: 0px;
     }
+    #listbook
+    {
+      background-color: red;
+      color:white;
+      font-size: 15px;
+      border: 0px;
+    }
     #title
     {
       text-align: center;
@@ -292,12 +286,6 @@ nav {
       width: 15%;
       border:0px;
     }
-    /**form
-    {
-      background-color: red;
-      color:white;
-    }**/
-   
     #search-result
     {
       background-color: red;
@@ -313,4 +301,119 @@ nav {
    label
     {
         font-size: 15px;
+    }
+    #userloginss
+    {
+      background-color:red;
+      color:white;
+    }
+    #homebuttons
+    {
+      background-color:red;
+      border:0px;
+      color:white;
+      font-size:20px;
+    }
+    #buynow
+    {
+      background-color:red;
+      color:rgb(255, 255, 255);
+      border:0px;
+    }
+    #text
+    {
+      position: absolute;
+      top:78px;
+      width:87%;
+      left:0%;
+    }
+    footer
+    {
+      background-color: red;
+      color:white;
+      width: 100%;
+      font-size: 15px;
+    }
+    #become
+    {
+      margin-top:0px;
+      font-weight:bold;
+      padding:3px 10px;
+      color:white;
+      font-size:16px
+    }
+    #redirect
+    {
+      margin-top:0px;
+      font-weight:bold;
+      padding:3px 10px;
+      color:white;
+      font-size:16px;
+    }
+    #data
+    {
+      font-size:20px;
+    }
+    dd
+    {
+      font-size: 10px;
+    }
+    #published
+    {
+      font-size: 20px;
+    }
+    #heading{
+      font-size: 12px;
+    }
+    #bookdata
+    {
+      font-size: 10px;
+    }
+    #similarbook
+    {
+      position:absolute;
+      text-align: center;
+      font-size:14px;
+      width:90%;
+      color:#659db4;
+    }
+    #booktitle
+    {
+      text-align: center;
+    }
+    #option
+    {
+      font-size: 16px;
+    }
+    #msg
+    {
+      color:red;
+      font-size:15px;
+    }
+    #categoryimages
+    {
+      width: 50px;
+      height:50px;
+    }
+    #booktitles
+    {
+      text-align: left;
+    }
+    #datas
+    {
+      text-align:left;
+      color:black;
+    }
+    #bookprice
+    {
+      text-align:center;
+      color:black;
+      font-size:15px;
+      width:150px;
+    }
+    #titles
+    {
+      text-align:center;
+      font-size:15px;
+      width:100px;
     }

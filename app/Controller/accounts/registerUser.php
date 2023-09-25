@@ -1,7 +1,6 @@
 <?php
 namespace App\Controller\accounts;
-require_once "../../../vendor/autoload.php";
-
+use App\Model\accounts\AccountsDTO;
 use App\Model\accounts\RegisterModel;
 use App\Controller\accounts\InputInterface;
 
@@ -12,6 +11,7 @@ use App\Controller\accounts\InputInterface;
 class RegisterUser implements InputInterface
 {
     private RegisterModel $register;
+    private AccountsDTO $AccountsDTO;
 
     /**
      * Initialies registerModel
@@ -20,9 +20,11 @@ class RegisterUser implements InputInterface
      *
      * @param registerModel $registerModel
      */
-    public function __construct(RegisterModel $registerModel)
+    public function __construct(RegisterModel $registerModel,AccountsDTO $AccountsDTO)
     {
        $this->register=$registerModel;
+
+       $this->AccountsDTO=$AccountsDTO;
     }
      /**
       * Process Input data
@@ -31,12 +33,13 @@ class RegisterUser implements InputInterface
       *
       * @return void
       */
-    public function inputData():void
+    public function inputData(array $value):void
     {
-      $this->register->setName($_POST["name"]??"not passed");
-      $this->register->setEmail($_POST["email"]??"not passed");
-      $this->register->setPassword($_POST["password"]??"not passed");
-      $this->register->setRoleid($_POST["UserRole"]??"not passed");
+      $this->AccountsDTO->setName($value["name"]??"not passed");
+      $this->AccountsDTO->setEmail($value["email"]??"not passed");
+      $this->AccountsDTO->setPassword($value["password"]??"not passed");
+      $this->AccountsDTO->setId($value["UserRole"]??"not passed");
+      $this->AccountsDTO->setSecurityQuestion($value["securityQuestion"]??"not passed");
     }
 
     /**
@@ -54,22 +57,17 @@ class RegisterUser implements InputInterface
      */
     public function registerAuthorController():void
     {
-          $result=$this->register->registerAuthor();
+          $result=$this->register->registerAuthor($this->AccountsDTO);
           if($result)
           {
-            header("Location: ../../../public/assets/html/accounts/login.php?msg=Account created Please Login");
-            
+            $_SESSION["msg"]="Account created";
+            header("Location: index.php?action=login");
           }
           else
           {
-            
-            header("Location: ../../../public/assets/html/accounts/login.php?msg=Account already exists");
+             $_SESSION["msg"]="Account already exists";
+             header("Location: index.php?action=login");
           }
           
     }
 }
-
-$registerModel=new RegisterModel();
-$register= new RegisterUser($registerModel);
-$register->inputData();
-$register->registerAuthorController();

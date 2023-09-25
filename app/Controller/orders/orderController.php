@@ -40,6 +40,6 @@ class orderController
         $this->orderView->displayOrders($loggeduser,$name,$_POST,$categoryBooks);
     }
 }
-$ordersview= new OrderView();
+/**$ordersview= new OrderView();
 $orderController = new orderController($ordersview);
-$orderController->ordersController();
+$orderController->ordersController();***/

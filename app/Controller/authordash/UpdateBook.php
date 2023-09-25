@@ -1,9 +1,6 @@
 <?php
 namespace App\Controller\authordash;
-require "../../../vendor/autoload.php";
-use App\Model\authordash\UpdateBookModel;
 use App\Controller\authordash\AuthorDashBase;
-session_start();
 
 /**
  * Update Book will apply changes made by author
@@ -13,6 +10,16 @@ session_start();
  */
 class UpdateBook extends AuthorDashBase 
 {
+    public function inputData(array $value)
+    {
+        $this->AuthorDashDTO->setBookid($value['bookid']);
+        $this->AuthorDashDTO->setTitle($value['booktitle']);
+        $this->AuthorDashDTO->setCategory($value['book_category']);
+        $this->AuthorDashDTO->setSubcategory($value['book_subcategory']);
+        $this->AuthorDashDTO->setDescription($value['description']);
+        $this->AuthorDashDTO->setPrice($value['price']);
+        $this->AuthorDashDTO->setStock($value['stock']); 
+    }
     /**
      * updateBookController will
      * 
@@ -24,14 +31,8 @@ class UpdateBook extends AuthorDashBase
      */
     public function updateBookController():void
     {
-        $this->model->setBookid($_POST['bookid']);
-        $this->model->setTitle($_POST['booktitle']);
-        $this->model->setCategory($_POST['book_category']);
-        $this->model->setSubcategory($_POST['book_subcategory']);
-        $this->model->setDescription($_POST['description']);
-        $this->model->setPrice($_POST['price']);
-        $this->model->setStock($_POST['stock']);
-        $result=$this->model->updateBook();
+        
+        $result=$this->model->updateBook($this->AuthorDashDTO);
         if($result)
         {
             $this->msg="your Recent Book Edit Request was accomplished";
@@ -47,6 +48,3 @@ class UpdateBook extends AuthorDashBase
 
     }
 }
-$editedBookModel= new UpdateBookModel();
-$EditedBook = new UpdateBook($editedBookModel); 
-$EditedBook->updateBookController();

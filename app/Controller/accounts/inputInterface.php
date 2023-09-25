@@ -8,5 +8,5 @@ namespace App\Controller\accounts;
  */
 interface InputInterface
 {
-    public function inputData():void;
+    public function inputData(array $value):void;
 }

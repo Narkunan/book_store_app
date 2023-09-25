@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>Book Store</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="public/assets/css/style.css" rel="stylesheet" type="text/css" />
+<style>
+</style>
+</head>
+<body>
+<div id="wrapper">
+  <div id="inner">
+    <div id="header">
+      <h1 id="title">Engineering Book Store </h1>
+      <h1 id="userloginss">{{ name }}</h1>
+      <nav> <a href="index.php?action=home"><button id="homebutton">Home</button></a> 
+      <a href="index.php?action=userredirect"><button id="homebuttons">User Login</button></a>
+     </nav>
+    <dd class="last"></dd>
+  <br>
+  <br>
+  <br>
+  
+     
+     <dl id="browse">
+    <dt>Options</dt>
+    <dd class="first"><a href="index.php?action=recentorder">
+                Recent Orders </a></dd>
+    <dd id="option"> <a href="index.php?action=editprofile">
+                    Edit Profile</a></dd> 
+    <dd id="option"> <a href="index.php?action=logout">logout</a></dd>
+    <dd id="option"><p onclick="myFunction()" id="become">Become Author</p></dd>
+    <dd id="option"><p onclick="authorRedirect()" id="redirect"></p>
+    <input type='hidden' id='session' value='{{ session }}'>
+    </dl>
+    <input type="hidden" id="userlogin" value="{{ name }}">

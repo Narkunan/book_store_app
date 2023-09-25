@@ -8,29 +8,7 @@ use App\Model\UserDash\UserDashModelBase;
  */
 class RecentOrderModel extends UserDashModelBase
 {
-    private array $orders;
-    /**
-     * Get the value of orders
-     */ 
-    public function getOrders()
-    {
-        return $this->orders;
-    }
-
-    /**
-     * Set the value of orders
-     * 
-     * @param array $orders
-     *
-     * @return  self
-     */ 
-    public function setOrders(array $orders)
-    {
-        $this->orders = $orders;
-
-        return $this;
-    }
-
+    
     /**
      * fetchRecentOrder will fetch recent placed by 
      * 
@@ -41,19 +19,23 @@ class RecentOrderModel extends UserDashModelBase
      * @return bool
      */ 
 
-    public function fetchRecentOrder():bool
+    public function fetchRecentOrder(UserDashDTO $userDashDTO):bool
     {
-        try
-        {
-        $sql="SELECT b.title, o.order_id ,o.ordervalue,b.coverpage FROM book as b JOIN orders as o on b.bookid=o.bookid where o.user_id=:userid;";
+      try
+      {
+        $sql = "SELECT b.title, o.orderid ,o.ordervalue,b.coverpage FROM order_s as o 
+              INNER JOIN orderdetails as od ON o.orderid = od.orderid
+              INNER JOIN books as b ON od.bookid = b.bookid 
+              WHERE o.userid = :userid;";
         $result=$this->conn->prepare($sql);
-        $result->bindParam("userid",$this->userid);
+        $userid = $userDashDTO->getUserId();
+        $result->bindParam("userid",$userid);
         $result->execute();
-         echo $result->rowCount();
+         
         if($result->rowCount()>0)
         {
            
-            $this->setOrders($result->fetchAll(\PDO::FETCH_ASSOC));
+            $userDashDTO->setOrders($result->fetchAll(\PDO::FETCH_ASSOC));
             return true;
         }
         else

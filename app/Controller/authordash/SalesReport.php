@@ -1,15 +1,12 @@
 <?php
 namespace App\Controller\authordash;
-require "../../../vendor/autoload.php";
-session_start();
-use App\Model\authordash\SalesReportModel;
 use App\Controller\authordash\AuthorDashBase;
 /**
  * SalesReport class is responsible for getReport of
  * 
  * author PublishedBook.
  */
-class SalesReport extends AuthorDashBase implements AuthorDashInterface
+class SalesReport extends AuthorDashBase
 {
   
   /**
@@ -27,11 +24,11 @@ class SalesReport extends AuthorDashBase implements AuthorDashInterface
   {
        $authorname=$_SESSION["UserName"]??"  ";
        $authorId=$_SESSION["Userid"]??" ";
-       $this->model->setAuthorName($authorname);
-       $this->model->setAuthorId($authorId);
-       $returnValue=$this->model->fetchBooks();
+       $this->AuthorDashDTO->setAuthorName($authorname);
+       $this->AuthorDashDTO->setAuthorId($authorId);
+       $returnValue=$this->model->fetchBooks($this->AuthorDashDTO);
        if($returnValue)
-       {
+       {  
           $this->displayData();
        }
        else
@@ -52,14 +49,9 @@ class SalesReport extends AuthorDashBase implements AuthorDashInterface
    */
   public function displayData():void
   {
-    $book=$this->model->getBook();
+    $book=$this->AuthorDashDTO->getBook();
     $this->view->salesReport($book,$this->loggedUser,$this->name);
   }  
 }
-
-$publishedBookModel=new SalesReportModel();
-$publishedBook=new SalesReport($publishedBookModel);
-$publishedBook->salesReportController();
-
 
 

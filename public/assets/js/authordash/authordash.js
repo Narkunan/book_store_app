@@ -18,6 +18,8 @@ function checkBecome()
 {
     let some= document.getElementById("session").value;
     console.log(some);
+    console.log(some=="Dual");
+    console.log("from checkbecome");
     if(some=="Dual")
     {
         console.log(some);

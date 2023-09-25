@@ -1,16 +1,12 @@
 <?php
 namespace App\Controller\authordash;
-require "../../../vendor/autoload.php";
-use App\Model\authordash\EditBookModel;
 use App\Controller\authordash\AuthorDashBase;
-session_start();
-
 /**
  * Edit Specific Book will Display value fetched from 
  * 
  * database to display Author existing Value 
  */
-class EditBook extends AuthorDashBase implements AuthorDashInterface
+class EditBook extends AuthorDashBase
 {
 
   /**
@@ -22,13 +18,13 @@ class EditBook extends AuthorDashBase implements AuthorDashInterface
    *
    * @return void
    */
-  public function editBookController():void
+  public function editBookController(int $id):void
   {
-    $this->model->setBookid($_GET['id']);
-    $returnValue=$this->model->fetchBookByBookId();
+    $this->AuthorDashDTO->setBookid($id);
+    $returnValue=$this->model->fetchBookByBookId($this->AuthorDashDTO);
     if($returnValue)
     {   
-       
+        echo "something to diaplsy";
         $this->displayData();
 
     }
@@ -48,12 +44,9 @@ class EditBook extends AuthorDashBase implements AuthorDashInterface
    */
   public function displayData():void
   {
-    $book=$this->model->getBook();
-    $this->loggedUser = $_SESSION['$loggedUser']??"no";
+    $book=$this->AuthorDashDTO->getBook();
+    $this->loggedUser = $_SESSION['loggedUser']??"no";
     $this->name =$_SESSION['UserName']??"no";
     $this->view->displayEditSpecificBook($book,$this->loggedUser,$this->name);
   }
 }
-$editspecificBookModel=new EditBookModel();
-$editspecificBook= new EditBook($editspecificBookModel);
-$editspecificBook->editBookController();
