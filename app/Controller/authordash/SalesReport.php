@@ -1,15 +1,28 @@
 <?php
 namespace App\Controller\authordash;
 use App\Controller\authordash\AuthorDashBase;
+use App\Model\authordash\SalesReportModel;
+use App\Model\authordash\AuthordashDTO;
+use App\View\authordash\AuthorDashView;
+use App\View\ViewDTO;
 /**
  * SalesReport class is responsible for getReport of
  * 
  * author PublishedBook.
  */
-class SalesReport extends AuthorDashBase
+class SalesReport extends AuthorDashBase implements DisplayDataI
 {
   
-  /**
+    private SalesReportModel $model;
+    private AuthordashDTO $dto;
+    private AuthorDashView $view;
+
+    public function __construct(SalesReportModel $model)
+    {
+        $this->model = $model;
+       
+    }
+    /**
    * salesReportController will fetch 
    * 
    * books from Database by authorId.
@@ -20,23 +33,36 @@ class SalesReport extends AuthorDashBase
    * 
    * @return void
    */
-  public function salesReportController():void
+  public function salesReportController():ViewDTO
   {
+       $dto = new AuthordashDTO();
        $authorname=$_SESSION["UserName"]??"  ";
        $authorId=$_SESSION["Userid"]??" ";
-       $this->AuthorDashDTO->setAuthorName($authorname);
-       $this->AuthorDashDTO->setAuthorId($authorId);
-       $returnValue=$this->model->fetchBooks($this->AuthorDashDTO);
+       $dto->setAuthorName($authorname);
+       $dto->setAuthorId($authorId);
+       $returnValue=$this->model->fetchBooks($dto);
        if($returnValue)
        {  
-          $this->displayData();
+          //$this->displayBook();
+          $book = $dto->getBook();
+          $data=[
+            "data"=>$book
+          ];
+          return new ViewDTO(
+            "app/view/authordash","SalesReportView.html.twig",$data
+          );
+
        }
        else
        {
-          $this->msg="You haven't Published";
-         
-          $this->displayMessages();
-          
+          //$this->displayMesage();  
+          $this->msg = "You have Not Published Any Book yet";
+          $data =[
+            "data"=>$this->msg
+          ];
+          return new ViewDTO(
+            "app/view/authordash","AuthorMessage.html.twig",$data
+          );
        }
   }
 
@@ -47,11 +73,16 @@ class SalesReport extends AuthorDashBase
    *
    * @return void
    */
-  public function displayData():void
+  public function displayBook():void
   {
-    $book=$this->AuthorDashDTO->getBook();
-    $this->view->salesReport($book,$this->loggedUser,$this->name);
-  }  
+    $book=$this->dto->getBook();
+    $this->view->salesReport($book);
+  } 
+  public function displayMesage():void 
+  {
+    $this->msg="You haven't Published";
+    $this->view->displayAuthorMessage($this->msg);
+  }
 }
 
 

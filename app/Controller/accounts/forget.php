@@ -3,14 +3,13 @@ namespace App\Controller\accounts;
 use App\Model\accounts\ForgetModel;
 use App\Controller\accounts\InputInterface;
 use App\Model\accounts\AccountsDTO;
+use App\view\ViewDTO;
 /**
  * Forget class is for forget password
  */
 class Forget implements InputInterface
 {
     private ForgetModel $forgetModel;
-    private AccountsDTO $AccountsDTO;
-
     /**
      * initialize object for forgetModel
      * 
@@ -18,11 +17,9 @@ class Forget implements InputInterface
      *
      * @param forgetModel $forgetModel
      */
-    public function __construct(ForgetModel $forgetModel,AccountsDTO $AccountsDTO)
+    public function __construct(ForgetModel $forgetModel)
     {
-       $this->forgetModel=$forgetModel;
-       $this->AccountsDTO = $AccountsDTO;
-       
+       $this->forgetModel = $forgetModel;
     }
 
     /**
@@ -34,9 +31,8 @@ class Forget implements InputInterface
      */
     public function inputData(array $value):void
     {
-        $this->AccountsDTO->setEmail($value["email"]??" ");
-        $this->AccountsDTO->setPassword($value['password']??" ");
-        $this->AccountsDTO->setSecurityQuestion($value['securityquestion']??" ");
+        $forgetDTO = AccountsDTO::fromMethod($value);
+        $this->forgetController($forgetDTO);
     }
 
     /**
@@ -46,35 +42,54 @@ class Forget implements InputInterface
      *
      * @return void
      */
-    public function forgetController():void
+    public function forgetController(AccountsDTO $accountsDTO):ViewDTO
     {
         
-        if($this->forgetModel->checkAccountExsits($this->AccountsDTO))
+        if($this->forgetModel->checkAccountExsits($accountsDTO))
         {
             
            
-            if($this->forgetModel->checkSecurityQuestion($this->AccountsDTO))
+            if($this->forgetModel->checkSecurityQuestion($accountsDTO))
             {
                 
-                 if($this->forgetModel->updatePassword($this->AccountsDTO))
+                 if($this->forgetModel->updatePassword($accountsDTO))
                  {
-                    $_SESSION['msg']="password updated";
-                    echo __DIR__;
-                    header("Location: index.php?action=login");
+                    $data=[
+                        "msg"=>"Password Updated"
+                    ];
+                    return new ViewDTO(
+                        "app/View/accounts","login.html.twig",$data
+                           
+                    );
+                 }
+                 else
+                 {
+                    $data=[
+                        "msg"=>"problem with updating password"
+                    ];
+                    return new ViewDTO("app/view/accounts","forget.html.twig",$data);
                  }
             }
             else
-            {   $_SESSION['msg']="security question wrong";
-                echo __DIR__;
-                header("Location: index.php?action=forget");
+            {  
+                $data = [
+                    'msg'=>"security question wrong"
+                    ];
+                    return new ViewDTO(
+                        "app/View/accounts","forget.html.twig",$data
+                    );
+                
             }
             
         }
         else
         {  
-            $_SESSION['msg'] = "Account does not exist";
-            echo __DIR__;
-            header("Location: index.php?action=register");
+            $data =[
+                'msg' =>"Account does not exist"
+            ];
+            return new ViewDTO(
+                "app/view/accounts","register.htnl.twig",$data
+            );
         }
         
     }

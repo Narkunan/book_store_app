@@ -1,6 +1,9 @@
 <?php
 namespace App\Controller\home;
 use App\Controller\home\HomeBaseClass;
+use App\Model\Home\HomeDTO;
+use App\View\ViewDTO;
+use App\Model\Home\category;
 /**
  * categoryController class will  fetch Book 
  * 
@@ -8,6 +11,13 @@ use App\Controller\home\HomeBaseClass;
  */
 class categoryController extends HomeBaseClass 
 {
+
+    protected $model;
+    public function __construct($model)
+    {
+      $this->model = $model;
+    }
+
     /**
      * findBook function will display 
      * 
@@ -21,22 +31,36 @@ class categoryController extends HomeBaseClass
      * 
      * @return void
      */
-    public function findBook(array $value):void
+    public function findBook(array $value):ViewDTO
     {
-
-        $this->homeDTO->setCategory($value['id']);
-        echo $value["id"];
-        $exists=$this->model->fetchBookByCategory($this->homeDTO);
+        $category = new category();
+        $categorys = $category->category();
+        $homeDTO = new HomeDTO();
+        $homeDTO->setCategory($value['id']);
+        //echo  "from categoryController".$value["id"];
+        $exists=$this->model->fetchBookByCategory($homeDTO);
         if($exists)
         { 
             $this->books=$this->homeDTO->getFetchBook();
-            $this->bookFound();
+            //$this->bookFound();
+            $data=[
+                "book"=>$homeDTO->getFetchBook(),
+                "category"=>$categorys
+            ];
+            return new ViewDTO(
+                "app/view/home","SearchByTitleView.html.twig",$data
+            );
              
         }
         else 
         {
             $this->msg="Not yet Published On this Category";
-            $this->bookNotFound();           
+            //$this->bookNotFound();   
+            $data=[
+                "msg"=>$this->msg
+            ];
+            return new ViewDTO("
+            app/view/home","HomeDisplayMessage.html.twig",$data);        
         }
     }
 }

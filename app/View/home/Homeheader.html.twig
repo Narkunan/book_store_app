@@ -12,23 +12,24 @@
   <div id="inner">
     <div id="header">
       <h1 id="title">Engineering Book Store</h1>
-      <h1 id="userloginss">{{ name }}</h1>
-      <nav> <a href="index.php?action=home"><button id="homebutton">Home</button></a>  
-      <a href="index.php?action=userredirect"><button  id="homebuttons"> Login</button></a>
+      <h1 id="userloginss">{{ getSession("UserName") }}</h1>
+      <nav> <a href="/"><button id="homebutton">Home</button></a>  
+      <a href="/userredirect"><button  id="homebuttons"> Login</button></a>
    </nav>
     <dd class="last"></dd>
   <center>
-        <form action="index.php" method="get" autocomplete="off">
+        <form action="/searchbook" method="get" autocomplete="off">
           <div>
             <input type="hidden" name ="action" value="searchbook">
             <input name="bookname" type="text" placeholder="Search your book"id="text" />
            <br> <br>
             <input type="submit" value="search" class="softright">
+            <input type="hidden" id="session" value={{ getSession("loggedUser") }} >
           </div>
         </form>
   </center>
   <br>
-  <input type="hidden" id="userlogin" value="{{ name }}">
+  <input type="hidden" id="userlogin" value={{ getSession("UserName") }} >
   <div id="search-result" style="text-align:left;"></div>
     
     <dl id="browse">
@@ -37,7 +38,7 @@
   
         {% for category in category %}
         {% set categorys = category %}
-        {% set path = "index.php?action=category&id="~categorys %}
+        {% set path = "/category?id="~categorys %}
         <dd><a href= "{{ path }}" >{{ category }}</a></dd>
         {% endfor %}
       

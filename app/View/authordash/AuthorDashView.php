@@ -1,5 +1,6 @@
 <?php
 namespace App\View\authordash;
+use App\Controller\SessionExtension;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 /**
@@ -10,12 +11,12 @@ use Twig\Loader\FilesystemLoader;
 class AuthorDashView
 {
    private Environment $twig;
-
    private $template;
    public function __construct()
    {
       $loader = new FilesystemLoader('app/view/authordash');
       $this->twig=new Environment($loader);
+      $this->twig->addExtension(new SessionExtension());
    }
    /**
     * displayAuthorMessage will displayMessages 
@@ -27,11 +28,11 @@ class AuthorDashView
     * @param string $name
     * @return void
     */
-   public function displayAuthorMessage(string $msg,string $loggedUser,string $name):void
+   public function displayAuthorMessage(string $msg):void
    {
       
       $this->template=$this->twig->load('AuthorMessage.html.twig');
-      echo $this->template->render(['data'=>$msg,'session'=>$loggedUser,'name'=>$name]);
+      echo $this->template->render(['data'=>$msg]);
    }
    /**
     * displayEditBookView will display books to edit
@@ -42,11 +43,11 @@ class AuthorDashView
     * @param string  $name
     * @return void
     */
-   public function displayEditBookView(array $book,string $loggedUser,string $name):void
+   public function displayEditBookView(array $book):void
    {
       
       $this->template=$this->twig->load('ListBook.html.twig');
-      echo $this->template->render(['data'=>$book,'session'=>$loggedUser,'name'=>$name]);
+      echo $this->template->render(['data'=>$book]);
    }
    /**
     * displayEditSpecificBook will display
@@ -58,11 +59,11 @@ class AuthorDashView
     * @param string  $name
     * @return void
     */
-   public function displayEditSpecificBook(array $book,string $loggedUser,string $name):void
+   public function displayEditSpecificBook(array $book):void
    {
       
       $this->template=$this->twig->load('EditBookView.html.twig');
-      echo $this->template->render(['data'=>$book,'session'=>$loggedUser,'name'=>$name]);
+      echo $this->template->render(['data'=>$book]);
    }
    
    /**
@@ -75,11 +76,11 @@ class AuthorDashView
     * @param string $name
     * @return void
     */
-   public function salesReport(array $book,string $loggedUser,string $name):void
+   public function salesReport(array $book):void
    {
    
       $this->template=$this->twig->load('SalesReportView.html.twig');
-      echo $this->template->render(['data'=>$book,'session'=>$loggedUser,'name'=>$name]);
+      echo $this->template->render(['data'=>$book]);
    }
    /**
     * WelcomePage function will redirect to welcome page view
@@ -91,10 +92,10 @@ class AuthorDashView
     * @param string $name
     * @return void
     */
-   public function welcomePage(array $book, string $loggedUser , string $name):void
+   public function welcomePage(array $book):void
    {
       $this->template=$this->twig->load("welcome.html.twig");
-      echo $this->template->render(['data'=>$book,'session'=>$loggedUser,'name'=>$name]);
+      echo $this->template->render(['data'=>$book]);
    }
 
 }

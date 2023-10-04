@@ -1,0 +1,100 @@
+<html>
+<head>
+<title>Book Store</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="public/assets/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="wrapper">
+  <div id="inner">
+    <div id="header">
+      <h1 id="title">Engineering Book Store</h1>
+      
+      <h1 id="userloginss">{{ name }}</h1>
+      <nav> <a href="/"><button id="homebutton">Home</button></a>  
+      <a href="/userredirect"><button id="homebuttons">User Login</button></a>
+   </nav>
+    <dd class="last"></dd>
+  <center>
+        <form action="/searchbook" method="get" autocomplete="off">
+          <div>
+            <input type="hidden" name="action" value="searchbook">
+            <input name="bookname" type="text" placeholder="Search your book"id="text" />
+           <br> <br>
+            <input type="submit" value="search" class="softright">
+          </div>
+        </form>
+  </center>
+  <br>
+  
+  <div id="search-result" style="text-align:left;"></div>
+      
+    <dl id="browse">
+    <dt>Full Category Lists</dt>
+    <dd class="first"></dd>
+  
+        {% for category in category %}
+        {% set categorys = category %}
+        {% set path = "/category?id="~categorys %}
+        <dd><a href= "{{ path }}" >{{ category }}</a></dd>
+        {% endfor %}
+      
+    </dl>
+      {% set i=0 %}
+      <br><br>
+      {% for books in book %}
+       {% set path = books.coverpage %}
+       {% set image = "app/Model/upload/" ~ path %}
+       {% set title = books.title %}
+       {% set price = books.price %}
+       {% set id = books.bookid %}
+       {% set url = "/bookdetails?id=" ~ id %}
+      
+
+        {% if i%2 == 0 %}
+        
+   <div id='body'>
+      <div class='inner'>
+        <div class='leftbox'>
+          <h3>{{ title }}</h3>
+          <img src="{{ image }}" width='93' height='95' alt='photo 1' class='left' />
+          <p><b>Price:</b> <b>{{ price }} </b></p>
+         <p class='readmore'><a href="{{ url }}"><button id="buynow">BUY NOW</button></a></p>
+          <div class='clear'></div>
+        </div>
+        {% endif %}
+        
+        {% if i%2 == 1 %}
+        <div class='rightbox'>
+        <h3>{{ title }} </h3>
+        <img src= "{{ image }}" width='107' height='91' alt='photo 4' class='left' />
+        <p><b>Price:</b> <b>{{ price }}</b> </p>
+        <p class='readmore'><a href="{{ url }}"><button id="buynow">BUY NOW</button></a></p>
+          <div class='clear'></div>
+        </div>
+        <div class='clear'></div>
+      </div><div class='clear br'></div>
+       {% endif %}
+
+       {% set i=i+1 %}
+    
+        {% endfor %}
+        <input type="hidden" id="userlogin" value="{{ name }}">
+        
+ 
+    </div>
+    
+    <div class='clear'></div>
+    <footer >Engineering Book store Phone:044 567890 Email:engineering@bookstore.in</footer>
+    
+  </div>
+  
+</div>
+
+<script src="public/assets/js/home/home.js">
+  
+</script>
+<script src='public/assets/js/home/homeScripts.js'>
+  </script>
+</body>
+</html>

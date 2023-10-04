@@ -26,11 +26,12 @@ abstract class abstarctModel
      *
      * @return boolean
      */
-    protected function checkAccountExsits(AccountsDTO $accountsDTO):bool
+    public function checkAccountExsits(AccountsDTO $accountsDTO):bool
     {
             $sql="SELECT * FROM users where email= :email;";
             $reult=$this->conn->prepare($sql);
-            $reult->bindParam("email",$accountsDTO->email);
+            $email = $accountsDTO->getEmail();
+            $reult->bindParam("email",$email);
             $reult->execute();
             
             if($reult->rowCount()>0)

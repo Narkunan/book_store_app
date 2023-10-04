@@ -1,9 +1,10 @@
-{% include "Authordasheader.html.twig" %}
+{% include "Authorheader.html.twig" %}
+
  
 {% for book in data%}
 
         <center>  
-      <form action='index.php?action=updatebook' method='post' enctype='multipart/form-data' autocomplete='off' onsubmit="return validateForm()">
+      <form action='/updatebook' method='post' enctype='multipart/form-data' autocomplete='off' onsubmit="return validateForm()">
       <table id='tables'>
      <tr> <td><label>Book Title</label></td></tr>
      <tr><td> <input type='text' name='booktitle' value="{{ book.title }}" id='booktitles'></td></tr>
@@ -86,10 +87,10 @@
       </form>
 </table>
     </center>
-    <input type="hidden" id="userlogin" value="{{ name }}">
+    <input type="hidden" id="userlogin" value={{ getSession("UserName") }}>
     </div>
      
-<script src="../../../public/assets/js/authordash/EditBook.js">
+<script src="public/assets/js/authordash/EditBook.js">
  </script>
  {% include "AuthordashFooter.html.twig" %} 
   

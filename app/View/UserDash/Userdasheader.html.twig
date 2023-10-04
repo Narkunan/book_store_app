@@ -11,9 +11,9 @@
   <div id="inner">
     <div id="header">
       <h1 id="title">Engineering Book Store </h1>
-      <h1 id="userloginss">{{ name }}</h1>
-      <nav> <a href="index.php?action=home"><button id="homebutton">Home</button></a> 
-      <a href="index.php?action=userredirect"><button id="homebuttons">User Login</button></a>
+      <h1 id="userloginss">{{ getSession("UserName") }}</h1>
+      <nav> <a href="/"><button id="homebutton">Home</button></a> 
+      <a href="/userredirect"><button id="homebuttons">User Login</button></a>
      </nav>
     <dd class="last"></dd>
   <br>
@@ -23,13 +23,13 @@
      
      <dl id="browse">
     <dt>Options</dt>
-    <dd class="first"><a href="index.php?action=recentorder">
+    <dd class="first"><a href="/recentorder">
                 Recent Orders </a></dd>
-    <dd id="option"> <a href="index.php?action=editprofile">
+    <dd id="option"> <a href="/editprofile">
                     Edit Profile</a></dd> 
-    <dd id="option"> <a href="index.php?action=logout">logout</a></dd>
+    <dd id="option"> <a href="/logout">logout</a></dd>
     <dd id="option"><p onclick="myFunction()" id="become">Become Author</p></dd>
     <dd id="option"><p onclick="authorRedirect()" id="redirect"></p>
-    <input type='hidden' id='session' value='{{ session }}'>
+    <input type='hidden' id='session' value={{ getSession("loggedUser") }} >
     </dl>
-    <input type="hidden" id="userlogin" value="{{ name }}">
+    <input type="hidden" id="userlogin" value={{ getSession("UserName") }} >

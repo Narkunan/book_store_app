@@ -7,6 +7,7 @@ class HomeDTO
     private string $title; 
     private string $category;
     private float $totalprice;
+    private int $quantity;
    
     /**
      * Get the value of ProductData

@@ -2,6 +2,8 @@
 namespace App\Controller\UserDash;
 use App\Controller\UserDash\UserDashBase;
 use App\Model\UserDash\BecomeAuthorModel;
+use App\Model\UserDash\UserDashDTO;
+use App\View\ViewDTO;
 /**
  * BecomeAuthor will make 
  * 
@@ -10,6 +12,11 @@ use App\Model\UserDash\BecomeAuthorModel;
  */
 class BecomeAuthor extends UserDashBase
 {
+    private $model;
+    public function __construct($model)
+    {
+        $this->model = $model;
+    }
     /**
      * executeAction will assign user 
      * 
@@ -19,18 +26,31 @@ class BecomeAuthor extends UserDashBase
      *
      * @return void
      */
-    public function executeAction():void
+    public function executeAction($array):ViewDTO
     {
-        $this->userdashDTO->setUserId($_SESSION['Userid']);
-        $returnValue=$this->model->updateRole($this->userdashDTO);
+        $userdash = new UserDashDTO();
+        $userdash->setUserId($_SESSION['Userid']);
+        $returnValue=$this->model->updateRole($userdash);
         if($returnValue)
         {
-            $this->msg="You are Now Become Author";
-            $this->view->userMessage($this->msg,$this->loggeduser,$this->name);
+            $msg="You are Now Become Author";
+            //$this->view->userMessage($this->msg,$this->loggeduser,$this->name);
+            $data=[
+                 "data"=>$msg
+            ];
+            return new ViewDTO(
+                "app/view/UserDash","UserMessage.html.twig",$data
+            );
         }
         else
         {
-            echo "some error occured";
+            $msg="some error occured";
+            $data=[
+                "data"=>$msg
+            ];
+            return new ViewDTO(
+                "app/view/UserDash","UserMessage.html.twig",$data
+            );
         }
 
     }

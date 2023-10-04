@@ -2,7 +2,7 @@
 <br>
         <center>  
           
-      <form action='index.php?action=updateprofile' method='post' autocomplete='off' onsubmit="return validateForm()">
+      <form action='/updateprofile' method='post' autocomplete='off' onsubmit="return validateForm()">
       <table>
       <tr><td> <label id="labels">User Name</label><br></td></tr>
       {% for data in data %}
@@ -15,7 +15,7 @@
 </table>
     </center>
     
-<script src="../../../public/assets/js/Userdash/EditProfile.js">
+<script src="public/assets/js/Userdash/EditProfile.js">
 </script>
 
 {% include "userdashFooter.html.twig" %}

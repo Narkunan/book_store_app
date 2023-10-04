@@ -6,8 +6,15 @@ class AccountsDTO
     private string $password;
     private string $name;
     private string $securityQuestion;
-    private int $id;
-    private string $passwordFromDB;
+    private int $role;
+
+    public function __construct(string $email,string $password,string $securityquestion)
+    {
+           $this->email = $email;
+           $this->password = $password;
+           $this->securityQuestion = $securityquestion;
+    }
+
      /**
      * Get the value of email.
      * 
@@ -16,18 +23,6 @@ class AccountsDTO
     public function getEmail():string
     {
         return $this->email;
-    }
-
-    /**
-     * Set the value of email.
-     * 
-     * @param string $email
-     * 
-     *@return void
-     */ 
-    public function setEmail(string $email):void
-    {
-        $this->email = $email;    
     }
 
     /**
@@ -42,17 +37,6 @@ class AccountsDTO
         return $this->password;
     }
 
-    /**
-     * Set the value of password.
-     *
-     * @param string $password
-     * 
-     * @return void
-     */ 
-    public function setPassword(string $password):void
-    {
-        $this->password = $password;
-    } 
     public function getName():string
     {
         return $this->name;
@@ -68,40 +52,6 @@ class AccountsDTO
     {
         $this->name = $name;
     }
-    
-    /**
-     * Set the value of securityQuestion
-     *
-     * @return  self
-     */ 
-    public function setSecurityQuestion($securityQuestion)
-    {
-        $this->securityQuestion = $securityQuestion;
-
-        return $this;
-    }
-    /**
-     * Get the value of id
-     * 
-     * @return string
-     */ 
-    public function getId():string
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set the value of id
-     * 
-     * @param int $id
-     *
-     * @return  void
-     */ 
-    public function setId(int $id):void
-    {
-        $this->id = $id;
-    }
-    
 
     /**
      * Get the value of securityQuestion
@@ -109,5 +59,33 @@ class AccountsDTO
     public function getSecurityQuestion()
     {
         return $this->securityQuestion;
+    }
+    public static function fromMethod(array $data)
+    {
+        return new self(
+          $data["email"],
+          $data["password"],
+          $data["'securityquestion'"]
+        );
+    }
+
+    /**
+     * Get the value of role
+     */ 
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * Set the value of role
+     *
+     * @return  self
+     */ 
+    public function setRole($role)
+    {
+        $this->role = $role;
+
+        return $this;
     }
 }

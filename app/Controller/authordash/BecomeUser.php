@@ -1,9 +1,10 @@
 <?php
 namespace App\Controller\authordash;
 use App\Model\authordash\BecomeUserModel;
+use App\Model\authordash\AuthordashDTO;
+//use App\View\authordash\AuthorDashView;
 use App\Controller\authordash\AuthorDashBase;
-
-
+use App\View\ViewDTO;
 /**
  * BecomeUser class is responsible will author
  * 
@@ -12,6 +13,14 @@ use App\Controller\authordash\AuthorDashBase;
  */
 class BecomeUser extends AuthorDashBase
 {
+    private BecomeUserModel $model;
+    private  AuthordashDTO $dto;
+    //private AuthorDashView $view;
+    public function __construct(BecomeUserModel $model)
+    {
+        $this->model = $model;
+
+    }
     /**
      * BecomeUserController method will take 
      * 
@@ -21,21 +30,37 @@ class BecomeUser extends AuthorDashBase
      *
      * @return void
      */
-    public function becomeUserController():void
+    public function becomeUserController():ViewDTO
     {
-        $this->AuthorDashDTO->setAuthorId($_SESSION['Userid']);
-        $returnValue=$this->model->updateRole($this->AuthorDashDTO);
+        $this->dto->setAuthorId($_SESSION['Userid']);
+        $returnValue=$this->model->updateRole($this->dto);
         if($returnValue)
         {
            $this->msg="You Are now Become the User";
-           $this->loggedUser=$_SESSION['loggedUser'];
-           $this->name =$_SESSION['UserName'];
-           $this->displayMessages();
+           //$this->displayMesage();
+           $data = [
+            "data"=>$this->msg
+           ];
+           return new ViewDTO(
+             "app/view/authordash","AuthorMessage.html.twig",$data
+           );
         }
         else
         {
-            echo "something happened";
-        }
+            $this->msg="something happened";
+            $data=[
+                "data"=>$this->msg
+            ];
+            return new ViewDTO
+            (
+                "app/view/authordash","AuthorMessage.html.twig",$data
+            );
 
+        }
+         //echo "<h1 style='font-size:50px;'> from beome user controller</h1>";
+    }
+    protected function displayMesage():void
+    {
+        //$this->view->displayAuthorMessage($this->msg);
     }
 }

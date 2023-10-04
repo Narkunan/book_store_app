@@ -1,6 +1,9 @@
 <?php
 namespace App\Controller\UserDash;
 use App\Controller\UserDash\UserDashBase;
+use App\Model\UserDash\UpdateProfileModel;
+use App\Model\UserDash\UserDashDTO;
+use App\View\ViewDTO;
 
 /**
  * editedprofileConfirm class will update userData
@@ -9,7 +12,12 @@ use App\Controller\UserDash\UserDashBase;
  */
 class UpdateProfile extends UserDashBase
 {
+     private UpdateProfileModel $model;
 
+     public function __construct(UpdateProfileModel $model)
+     {
+        $this->model = $model;
+     }
     /**
      * executeAction will Update changes Made by the User
      * 
@@ -17,19 +25,32 @@ class UpdateProfile extends UserDashBase
      *
      * @return void
      */
-    public function executeAction(array $value):void
+    public function executeAction(array $value):ViewDTO
     {
-        $this->userdashDTO->setUserid($_SESSION['Userid']);
-        $this->userdashDTO->setName($value['name']);
-        $Retunvalue=$this->model->updateUserProfile($this->userdashDTO);
+        $userdashDTO = new UserDashDTO();
+        $userdashDTO->setUserid($_SESSION['Userid']);
+        $userdashDTO->setName($value['name']);
+        $Retunvalue=$this->model->updateUserProfile($userdashDTO);
         if($Retunvalue)
         {
             $this->msg="Your Profile Was Updated Successfully";
-            $this->view->userMessage($this->msg,$this->loggeduser,$this->name);
+            //$this->view->userMessage($this->msg,$this->loggeduser,$this->name);
+            $data=[
+                "msg"=>$this->msg
+            ];
+            return new ViewDTO(
+                "app/view/UserDash","UserMessage.html.twig",$data
+            );
         }
         else
         {
-            echo "cannot update";
+            $this->msg = "cannot update";
+            $data=[
+                "msg"=>$this->msg
+            ];
+            return new ViewDTO(
+                "app/view/UserDash","UserMessage.html.twig",$data
+            );
         }
     }
 }

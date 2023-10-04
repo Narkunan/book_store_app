@@ -13,7 +13,6 @@ use App\View\home\HomeView;
  */
 abstract class HomeBaseClass implements HomeBase
 {
-   protected $model;
    protected $view;
    protected string $msg;
    protected string $loggedUser;
@@ -22,7 +21,7 @@ abstract class HomeBaseClass implements HomeBase
    protected array $books;
    protected HomeDTO $homeDTO;
 
-   public function __construct($model,HomeDTO $homeDTO)
+   /**public function __construct($model,HomeDTO $homeDTO)
    {
       $this->model = $model;
       $this->view = new HomeView();
@@ -31,7 +30,7 @@ abstract class HomeBaseClass implements HomeBase
       $category = new category();
       $this->categorys = $category->category();
       $this->homeDTO = $homeDTO;
-   }
+   }**/
    /**
     * Bookfound function is responsible for 
     * 
@@ -68,5 +67,5 @@ abstract class HomeBaseClass implements HomeBase
     *
     * @return void
     */
-   abstract public function findBook(array $value):void;
+   //abstract public function findBook(array $value):void;
 }

@@ -1,14 +1,25 @@
 <?php
 namespace App\Controller\authordash;
 use App\Controller\authordash\AuthorDashBase;
+use App\Model\authordash\AuthordashDTO;
+use App\Model\authordash\ListBookModel;
+//use App\View\authordash\AuthorDashView;
+use App\View\ViewDTO;
 
 /**
  * EditBook will displayBooks Available to delete.
  * 
  */
-class ListBook extends AuthorDashBase
+class ListBook extends AuthorDashBase implements DisplayDataI
 {
+   private ListBookModel $model;
+   //private AuthordashDTO $dto;
+   //private AuthorDashView $view;
+   public function __construct(ListBookModel $model)
+   {
+       $this->model= $model;
    
+   }
    /**
     * EditBookManager is responsible for 
     * 
@@ -24,21 +35,34 @@ class ListBook extends AuthorDashBase
     *
     * @return void
     */
-   public function listBookManager():void
+   public function listBookManager():ViewDTO
    {
-      $this->AuthorDashDTO->setAuthorid($_SESSION['Userid']);
-      $bookFound=$this->model->fetchBooksByAuthorId($this->AuthorDashDTO);
+      $dto = new AuthordashDTO();
+      $dto->setAuthorid($_SESSION['Userid']);
+      $bookFound=$this->model->fetchBooksByAuthorId($dto);
       if($bookFound)
       {
-         $this->displayData();  
+         $data = [
+            "data"=>$dto->getBook()
+         ];
+         return new ViewDTO(
+            "app/view/authordash","ListBook.html.twig",$data
+         );
      }
      else
      {
-         $this->msg="You have not published yet";
-         $this->loggedUser=$_SESSION['loggedUser'];
-         $this->name =$_SESSION['UserName'];
-         $this->view->displayAuthorMessage($this->msg,$this->loggedUser,$this->name);
+         //$this->displayMesage();
+         $this->msg="You Have Not published Any Book";
+         $data=[
+            "data"=>$this->msg
+         ];
+         return new ViewDTO(
+            "app/view/authordash","AuthorMessage.html.twig",$data
+         );
+
      }
+     //echo "<h1 style='font-size:50px;'> from list book controller</h1>";
+
    }
    /**
     * displayData Function will Display 
@@ -49,11 +73,14 @@ class ListBook extends AuthorDashBase
     *
     * @return void
     */
-   public function displayData():void
+   public function displayBook():void
    {
-      $book=$this->AuthorDashDTO->getBook();
-      $this->loggedUser = $_SESSION['loggedUser']??"no";
-      $this->name =$_SESSION['UserName']??"no";
-      $this->view->displayEditBookView($book,$this->loggedUser,$this->name);
+      //$book=$this->dto->getBook();
+      //$this->view->displayEditBookView($book);
+   }
+   public function displayMesage():void
+   {
+         //$this->msg="You have not published yet";
+         //$this->view->displayAuthorMessage($this->msg);
    }
 }

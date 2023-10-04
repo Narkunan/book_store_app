@@ -1,12 +1,11 @@
 <?php
 namespace App\service;
+
 use App\Controller\authordash\AuthorWelcomePage;
 use App\Controller\accounts\Forget;
-use App\Controller\accounts\LoginUser;
-use App\Controller\accounts\RegisterUser;
-use App\Controller\authordash\BecomeUser;
 use App\Controller\authordash\DeleteBook;
 use App\Controller\authordash\EditBook;
+use App\Controller\authordash\ListBook;
 use App\Controller\authordash\publishPlatformController;
 use App\Controller\authordash\SalesReport;
 use App\Controller\authordash\UpdateBook;
@@ -18,233 +17,137 @@ use App\Controller\orders\OrderConfirm;
 use App\Controller\UserDash\BecomeAuthor;
 use App\Controller\UserDash\editprofile;
 use App\Controller\UserDash\RecentOrder;
-use App\Controller\authordash\ListBook;
 use App\Controller\UserDash\UpdateProfile;
+use App\Model\authordash\BecomeUserModel;
+use App\Model\authordash\WelcomePageModel;
 use Psr\Container\ContainerInterface;
-use App\service\ModelContainer;
-use App\service\DTOcontainer;
-class container implements ContainerInterface
-{
-    public LoginUser $login; 
-    public RegisterUser $register;
-    public Forget $forget; 
-    public AuthorWelcomePage $authorwelcomepage;
-    public BecomeUser $becomeuser;
-    public DeleteBook $deletebook;
-     public ListBook $listbook;
-    public publishPlatformController $publishplatform;
-    public SalesReport $salesreport;
-    public UpdateBook $updatebook;
-    public categoryController $category;
-    public bookdetails $bookdetails;
-    public SearchByTitle $searchbytitle;
-    public $ordercontroller;
-    public OrderConfirm $orderconfirm;
-    public BecomeAuthor $becomeauthor;
-    public editprofile $editprofile;
-    public UpdateProfile $updateprofile;
-    public RecentOrder $recentorder;
-    public ModelContainer $modelcontainer;
-    public DTOcontainer $Dtocontainer;
-    public function __construct()
-    {
-        $this->modelcontainer = new ModelContainer();
-        $this->Dtocontainer = new DTOcontainer();
-    }
+use App\Controller\accounts\LoginUser;
+use App\Controller\accounts\RegisterUser;
+use App\Controller\authordash\BecomeUser;
+use App\Model\accounts\ForgetModel;
+use App\Model\accounts\LoginModel;
+use App\Model\accounts\RegisterModel;
+use App\Model\authordash\BookModel;
+use App\Model\authordash\ListBookModel;
+use App\Model\authordash\SalesReportModel;
+use App\Model\Home\bookdetailsModel;
+use App\Model\Home\CategoryModel;
+use App\Model\Home\SearchByTitleModel;
+use App\Model\orders\ordersModel;
+use App\Model\UserDash\BecomeAuthorModel;
+use App\Model\UserDash\EditProfileModel;
+use App\Model\UserDash\RecentOrderModel;
+use App\Model\UserDash\UpdateProfileModel;
+use App\Controller\home\Firsts;
+use App\Controller\accounts\Forgetform;
+use App\Controller\accounts\Loginform;
+use App\Controller\accounts\Registerform;
+use App\Controller\accounts\chooseRole;
+use App\Controller\UserRedirect;
+use App\Controller\accounts\Logout;
+use App\Controller\authordash\CreateBookForm;
+use App\Controller\UserDash\WelcomeUser;
+class Container implements ContainerInterface {
 
-    public function get(string $name):mixed
-    {
+    protected array $serviceByClassName = [];
+    public function __construct() {
+        $this->serviceByClassName[LoginModel::class]=new LoginModel();
+        $this->serviceByClassName[RegisterModel::class] = new RegisterModel();
+        $this->serviceByClassName[ForgetModel::class] = new ForgetModel();
+        $this->serviceByClassName[WelcomePageModel::class] = new WelcomePageModel();
+        $this->serviceByClassName[BecomeUserModel::class] =  new BecomeUserModel();
+        $this->serviceByClassName[BookModel::class] = new BookModel();
+        $this->serviceByClassName[ListBookModel::class] = new ListBookModel();
+        $this->serviceByClassName[SalesReportModel::class] = new SalesReportModel();
+        $this->serviceByClassName[CategoryModel::class] = new CategoryModel();
+        $this->serviceByClassName[bookdetailsModel::class] = new bookdetailsModel();
+        $this->serviceByClassName[SearchByTitleModel::class] = new SearchByTitleModel();
+        $this->serviceByClassName[ordersModel::class] = new ordersModel();
+        $this->serviceByClassName[BecomeAuthorModel::class] = new BecomeAuthorModel();
+        $this->serviceByClassName[EditProfileModel::class] = new EditProfileModel();
+        $this->serviceByClassName[UpdateProfileModel::class] = new UpdateProfileModel();
+        $this->serviceByClassName[RecentOrderModel::class] = new RecentOrderModel();
+        
+        $this->serviceByClassName[Forgetform::class] = new Forgetform();
+        $this->serviceByClassName[Loginform::class] = new Loginform();
+        $this->serviceByClassName[Registerform::class] = new Registerform();
+        $this->serviceByClassName[Logout::class] = new Logout();
+        $this->serviceByClassName[CreateBookForm::class] =  new CreateBookForm();
+        $this->serviceByClassName[chooseRole::class] = new chooseRole();
+        $this->serviceByClassName[UserRedirect::class] = new UserRedirect();
+        $this->serviceByClassName[WelcomeUser::class] =  new WelcomeUser();
 
-           if($name === "login")
-           {   
-               $this->login = new LoginUser($this->modelcontainer->get("loginM"),$this->Dtocontainer->get("accounts"));
-               return $this->login;
-           }
-           else if($name === "register")
-           {
-             $this->register = new RegisterUser($this->modelcontainer->get("registerM"),$this->Dtocontainer->get("accounts"));
-             return $this->register;
-           }
-           else if($name === "forget")
-           {
-             $this->forget = new Forget($this->modelcontainer->get("forgetM"),$this->Dtocontainer->get("accounts"));
-             return $this->forget;
-           }
-           else if($name === "AuthorWelcomePage")
-           {
-             $this->authorwelcomepage = new AuthorWelcomePage($this->modelcontainer->get("AuthorWecomePageM"),$this->Dtocontainer->get("author"));
-             return $this->authorwelcomepage;
-           }
-           else if($name === "becomeuser")
-           {
-             $this->becomeuser = new BecomeUser($this->modelcontainer->get("becomeuserM"),$this->Dtocontainer->get("author"));
-             return $this->becomeuser;
-           }
-           else if($name === "deletebook")
-           {
-             $this->deletebook = new DeleteBook($this->modelcontainer->get("bookM"),$this->Dtocontainer->get("author"));
-             return $this->deletebook;
-           }
-           else if($name === "editbook")
-           {
-             $this->editbook = new EditBook($this->modelcontainer->get("bookM"),$this->Dtocontainer->get("author"));
-             return $this->editbook;
-           }
-           else if($name === "listbook")
-           {
-             $this->listbook = new listbook($this->modelcontainer->get("listbookM"),$this->Dtocontainer->get("author"));
-             return $this->listbook;
-           }
-           else if($name === "publishplatform")
-           {
-             $this->publishplatform = new publishPlatformController($this->modelcontainer->get("bookM"),$this->Dtocontainer->get("author"));
-             return $this->publishplatform;
-           }
-           else if($name === "salesreport")
-           {
-             $this->salesreport = new SalesReport($this->modelcontainer->get("salesreportM"),$this->Dtocontainer->get("author"));
-             return $this->salesreport;
-           }
-           else if($name === "updatebook")
-           {
-             $this->updatebook = new UpdateBook($this->modelcontainer->get("bookM"),$this->Dtocontainer->get("author"));
-             return $this->updatebook;
-           }
-           else if($name === "category")
-           {
-             $this->category = new categoryController($this->modelcontainer->get("categoryM"),$this->Dtocontainer->get("home"));
-             return $this->category;
-           }
-           else if($name === "bookdetails")
-           {
-             $this->index =  new bookdetails($this->modelcontainer->get("bookdetailsM"),$this->Dtocontainer->get("home"));
-             return $this->index;
-           }
-           else if($name === "searchByTitle")
-           {
-               $this->searchbytitle = new SearchByTitle($this->modelcontainer->get("searchByTitleM"),$this->Dtocontainer->get("home"));
-               return $this->searchbytitle;
-           }
-           else if($name ===  "checkout")
-           {
-                $this->ordercontroller = new checkout($this->modelcontainer->get("categoryM"),$this->Dtocontainer->get("order"));
-                return $this->ordercontroller;
-           }
-           else if($name === "orderconfirm")
-           {
-                 $this->orderconfirm =  new OrderConfirm($this->modelcontainer->get("ordercontroM"),$this->Dtocontainer->get("order"));
-                 return $this->orderconfirm;
-           }
-           else if($name === "becomeauthor")
-           {
-                 $this->becomeauthor = new BecomeAuthor($this->modelcontainer->get("becomeauthorM"),$this->Dtocontainer->get("user"));
-                 return $this->becomeauthor;
-           }
-           else if($name === "editprofile")
-           {
-                 $this->editprofile = new editprofile($this->modelcontainer->get("editprofileM"),$this->Dtocontainer->get("user"));
-                 return $this->editprofile;
-           }
-           else if($name === "updateprofile")
-           {
-                 $this->updateprofile = new UpdateProfile($this->modelcontainer->get("updateprofileM"),$this->Dtocontainer->get("user"));
-                 return $this->updateprofile;
-           }
-           else if($name === "recentorder")
-           {     
-                 $this->recentorder = new RecentOrder($this->modelcontainer->get("recentorderM"),$this->Dtocontainer->get("user"));
-                 return $this->recentorder;
-           }
-           else
-           {
-             return null;
-           }
+        $this->serviceByClassName[LoginUser::class] = new LoginUser(
+            $this->serviceByClassName[LoginModel::class]
+        );
+        $this->serviceByClassName[RegisterUser::class] = new RegisterUser(
+            $this->serviceByClassName[RegisterModel::class]
+        );
+        $this->serviceByClassName[Forget::class] = new Forget(
+            $this->serviceByClassName[ForgetModel::class]
+        );
+        $this->serviceByClassName[AuthorWelcomePage::class] = new AuthorWelcomePage(
+            $this->serviceByClassName[WelcomePageModel::class]
+        );
+        $this->serviceByClassName[BecomeUser::class] = new BecomeUser(
+            $this->serviceByClassName[BecomeUserModel::class]
+        );
+        $this->serviceByClassName[DeleteBook::class] = new DeleteBook(
+           $this->serviceByClassName[BookModel::class]
+        );
+        $this->serviceByClassName[EditBook::class] = new EditBook(
+            $this->serviceByClassName[BookModel::class]
+        );
+        $this->serviceByClassName[ListBook::class] = new ListBook(
+            $this->serviceByClassName[ListBookModel::class]
+        );
+        $this->serviceByClassName[publishPlatformController::class] = new publishPlatformController(
+            $this->serviceByClassName[BookModel::class]
+        );
+        $this->serviceByClassName[SalesReport::class] = new SalesReport(
+            $this->serviceByClassName[SalesReportModel::class]
+        );
+        $this->serviceByClassName[UpdateBook::class] = new UpdateBook(
+            $this->serviceByClassName[BookModel::class]
+        );
+        $this->serviceByClassName[categoryController::class]= new categoryController(
+            $this->serviceByClassName[CategoryModel::class]
+        );
+        $this->serviceByClassName[bookdetails::class] = new bookdetails(
+            $this->serviceByClassName[bookdetailsModel::class]
+        );
+        $this->serviceByClassName[SearchByTitle::class] = new SearchByTitle(
+            $this->serviceByClassName[SearchByTitleModel::class]
+        );
+        $this->serviceByClassName[checkout::class] = new checkout(
+            $this->serviceByClassName[CategoryModel::class]
+        );
+        $this->serviceByClassName[OrderConfirm::class] = new OrderConfirm(
+            $this->serviceByClassName[ordersModel::class]
+        );
+        $this->serviceByClassName[BecomeAuthor::class] = new BecomeAuthor(
+              $this->serviceByClassName[BecomeAuthorModel::class]
+        );
+        $this->serviceByClassName[editprofile::class] = new editprofile(
+              $this->serviceByClassName[EditProfileModel::class]
+        );
+        $this->serviceByClassName[UpdateProfile::class] = new UpdateProfile(
+            $this->serviceByClassName[UpdateProfileModel::class]
+        );
+        $this->serviceByClassName[RecentOrder::class] = new RecentOrder(
+              $this->serviceByClassName[RecentOrderModel::class]
+        );
+        $this->serviceByClassName[Firsts::class] = new Firsts();
 
-    }
-    public function has($name):bool
-    {
-           if($name === "login")
-           {
-               
-               return true;
-           }
-           else if($name === "register")
-           {
-              return true;
-           }
-           else if($name === "forget")
-           {
-             return true;
-           }
-           else if($name === "AuthorWecomePage")
-           {
-             return true;
-           }
-           else if($name === "becomeuser")
-           {
-             return true;
-           }
-           else if($name === "deletebook")
-           {
-             return true;
-           }
-           else if($name === "editbook")
-           {
-            return true;
-           }
-           else if($name === "listbook")
-           {
-             return true;
-           }
-           else if($name === "publishplatform")
-           {
-             return true;
-           }
-           else if($name === "salesreport")
-           {
-             return true;
-           }
-           else if($name === "updatebook")
-           {
-             return true;
-           }
-           else if($name === "category")
-           {
-             return true;
-           }
-           else if($name === "index")
-           {
-             return true;
-           }
-           else if($name === "searchByTitle")
-           {
-               return true;
-           }
-           else if($name ===  "ordercontro")
-           {
-                return true;
-           }
-           else if($name === "orderconfirm")
-           {
-                 return true;
-           }
-           else if($name === "becomeauthor")
-           {
-                 return true;
-           }
-           else if($name === "editprofile")
-           {
-                 return true;
-           }
-           else if($name === "recentorder")
-           {
-                 return true;
-           }
-           else 
-           {
-             return false;
-           }
+  }
 
-    }
+  public function get(string $id): mixed {
+       
+    return $this->serviceByClassName[$id] ?? NULL;
+  }
+
+  public function has(string $id): bool {
+    return isset($this->serviceByClassName[$id])??false;
+  }
 
 }

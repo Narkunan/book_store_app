@@ -7,7 +7,7 @@ use App\Model\accounts\abstarctModel;
  */
 class LoginModel extends abstarctModel
 {
-    private $passwordfromdb; 
+    private string $passwordFromDB; 
     /**
      * checkdualuser function will check the 
      * 
@@ -17,41 +17,23 @@ class LoginModel extends abstarctModel
      *
      * @return boolean
      */
-    public function checkDualUser(AccountsDTO $accountsDTO):bool
+    public function checkDualUser(loginuserDTO $accountsDTO):bool
     {   
         
-        try
-        {
-            
              $sql="select us.name,us.user_id,us.password from users as us join user_role as ur 
                          on ur.user_id = us.user_id 
                              where us.email = :email  ;";
-             $reult=$this->conn->prepare($sql);
-             $email = $accountsDTO->getEmail();
-             $reult->bindParam("email",$email);
-             $reult->execute();
-          
-            if($reult->rowCount()==2)
+
+             $result = $this->checkUserRole($sql,$accountsDTO);
+
+            if($result)
             {   
-                 
-                 $details = $reult->fetchAll(\PDO::FETCH_ASSOC);
-                 $accountsDTO->setId($details[0]['user_id']);
-                 $accountsDTO->setName($details[0]['name']);
-                 $this->passwordfromdb = $details[0]['password'];
-                 $value=$this->verifyPassword($accountsDTO->getPassword())?true:false;
-                 return $value;
-                 
+                 return true;                 
             }
             else
             {
                 return false;
             }
-        }
-        catch(\PDOException $e)
-        {
-            echo $e->getMessage();
-            return false;
-        }
 
     }
 
@@ -65,42 +47,26 @@ class LoginModel extends abstarctModel
      *
      * @return boolean
      */
-    public function checkUser(AccountsDTO $accountsDTO):bool
+    public function checkUser(loginuserDTO $accountsDTO):bool
     {
-       
-        try
-        {
 
             $sql = "select us.name ,us.user_id,us.password from users as us join user_role as ur
                      on ur.user_id = us.user_id 
                         where us.email = :email and ur.roleid = 2";
-            $stm = $this->conn->prepare($sql);
-            $email = $accountsDTO->getEmail();
-            $stm->bindParam("email",$email);
-            $stm->execute();
-            
-            if($stm->rowCount()==1)
+        
+            $result = $this->checkUserRole($sql,$accountsDTO);
+
+            if($result)
             {  
-                
-                $details=$stm->fetchAll(\PDO::FETCH_ASSOC);
-                $accountsDTO->setId($details[0]['user_id']);
-                $accountsDTO->setName($details[0]['name']);
-                $this->passwordFromDB = $details[0]['password'];
-                $value=$this->verifyPassword($accountsDTO->getPassword())?true:false;
-                return $value;
+               return true;
 
             }
             else
             {
-                
+
                 return false;
             }
-        }
-        catch(\PDOException $e)
-        {
-            echo $e->getMessage();
-            return false;
-        }
+        
     }
 
     /**
@@ -112,50 +78,69 @@ class LoginModel extends abstarctModel
      * 
      * @return boolean
      */
-    public function checkAuthor(AccountsDTO $accountsDTO):bool
+    public function checkAuthor(loginuserDTO $accountsDTO):bool
     {
        
-       try
-       {
             $sql = "select us.name ,us.user_id,us.password from users as us join user_role as ur
                     on ur.user_id = us.user_id where us.email = :email and ur.roleid = 1;";
-                    
-            $stm = $this->conn->prepare($sql);
-            $email= $accountsDTO->getEmail();
-            $stm->bindParam("email",$email);
             
-            $stm->execute();
+            $result = $this->checkUserRole($sql,$accountsDTO);
             
-            
-            if($stm->rowCount()==1)
+            if($result)
             {  
-               
-                $details=$stm->fetchAll(\PDO::FETCH_ASSOC);
-                
-                $accountsDTO->setId($details[0]['user_id']);
-                $accountsDTO->setName($details[0]['name']);
-                $this->passwordFromDB = $details[0]['password'];
-                $value=$this->verifyPassword($accountsDTO->getPassword())?true:false;
-                return $value;
-                
+                  
+                   return true;
             }
             else
             {
                 return false;
             }
+    
+    }
+    private function checkUserRole(string $sql,loginuserDTO $dto):bool
+    {
+        try
+        {       
+           $stm = $this->conn->prepare($sql);
+           $email = $dto->getEmail();
+
+           $stm->bindParam("email",$email);
+           $stm->execute();
+           if($stm->rowCount()==2)
+           {
+               $details = $stm->fetchAll(\PDO::FETCH_ASSOC);
+               $dto->setId($details[0]['user_id']);
+               $dto->setName($details[0]['name']);
+               $this->passwordFromDB = $details[0]['password'];
+               $value=$this->verifyPassword($dto->getPassword())?true:false;
+               return $value;    
+           }
+           else if($stm->rowCount()==1)
+           {
+               
+               $details = $stm->fetchAll(\PDO::FETCH_ASSOC);
+               $dto->setId($details[0]['user_id']);
+               $dto->setName($details[0]['name']);
+               $this->passwordFromDB = $details[0]['password'];
+               $value=$this->verifyPassword($dto->getPassword())?true:false;
+               return $value;
+                
+           }
+           else
+           {
+                return false;
+           }  
         }
         catch(\PDOException $e)
         {
             echo $e->getMessage();
-            return false;
-        }
+        }    
     }
     
     public function verifyPassword(string $password):bool
     {
-          if(password_verify($password,$this->passwordfromdb))
+          if(password_verify($password,$this->passwordFromDB))
           {
-            echo "password verified";
             return true;
           }
           else

@@ -27,7 +27,7 @@ class WelcomePageModel extends authordashAbstract
           {
              
             $authordashDTO->setBook($stm->fetchAll(\PDO::FETCH_ASSOC));
-            var_dump($authordashDTO->getBook());
+            //var_dump($authordashDTO->getBook());
              return true;
           }
           else

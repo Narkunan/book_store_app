@@ -5,13 +5,18 @@ function changeContent()
       var values = chnageButtn.value;
       console.log(values+"from chnage content");
       console.log(values == " ");
-      if(values != " ")
+      console.log(values=="login");
+    if(values != "login")
       {
         document.getElementById("homebuttons").innerHTML = "DashBoard"; 
       }
+      //else if(values=="login")
+      //{
+        //document.getElementById("homebuttons").innerHTML = "userLogin";
+      //}
       else
       {
-        document.getElementById("homebuttons").innerHTML = "userLogin";
+        document.getElementById("homebuttons").innerHTML = "Login";
       }
 
 }

@@ -9,15 +9,15 @@
       <tr>
       <td style='font-size:10px;'>{{ book.title}}</td>
       {% set id= book.bookid %}
-      {% set url = "index.php?action=editbook&id="~ id %}
-      {% set urld = "index.php?action=deletebook&id=" ~ id %}
+      {% set url = "/editbook?id="~ id %}
+      {% set urld = "/deletebook?id=" ~ id %}
       <td><a href={{ url }} ><button id="listbook">Edit Book</button></a></td>
       <td><a href={{ urld }} onclick="myfuns(event)"><button id="listbook">Delete Book</button></a></td>  
     </tr>
       {% endfor %}
     </table>
     </center>
-    <input type="hidden" id="userlogin" value="{{ name }}">
+    <input type="hidden" id="userlogin" value={{ getSession("UserName") }}>
     
    
 <script>

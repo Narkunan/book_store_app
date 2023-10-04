@@ -11,7 +11,6 @@ use App\Controller\accounts\InputInterface;
 class RegisterUser implements InputInterface
 {
     private RegisterModel $register;
-    private AccountsDTO $AccountsDTO;
 
     /**
      * Initialies registerModel
@@ -20,11 +19,9 @@ class RegisterUser implements InputInterface
      *
      * @param registerModel $registerModel
      */
-    public function __construct(RegisterModel $registerModel,AccountsDTO $AccountsDTO)
+    public function __construct(RegisterModel $registerModel)
     {
        $this->register=$registerModel;
-
-       $this->AccountsDTO=$AccountsDTO;
     }
      /**
       * Process Input data
@@ -35,11 +32,12 @@ class RegisterUser implements InputInterface
       */
     public function inputData(array $value):void
     {
-      $this->AccountsDTO->setName($value["name"]??"not passed");
-      $this->AccountsDTO->setEmail($value["email"]??"not passed");
-      $this->AccountsDTO->setPassword($value["password"]??"not passed");
-      $this->AccountsDTO->setId($value["UserRole"]??"not passed");
-      $this->AccountsDTO->setSecurityQuestion($value["securityQuestion"]??"not passed");
+
+        /**$dto = AccountsDTO::fromMethod($value);
+        $dto->setName($value["name"]??"not passed");
+        $dto->setRole($value["UserRole"]??"not passed");
+        $this->registerAuthorController($dto);**/
+        echo "<h1 style='font-size:50px;'> from register user controller</h1>";
     }
 
     /**
@@ -55,18 +53,18 @@ class RegisterUser implements InputInterface
      * 
      * @return void
      */
-    public function registerAuthorController():void
+    public function registerAuthorController(AccountsDTO $AccountsDTO):void
     {
-          $result=$this->register->registerAuthor($this->AccountsDTO);
+          $result=$this->register->registerAuthor($AccountsDTO);
           if($result)
           {
             $_SESSION["msg"]="Account created";
-            header("Location: index.php?action=login");
+            header("Location: login");
           }
           else
           {
              $_SESSION["msg"]="Account already exists";
-             header("Location: index.php?action=login");
+             header("Location: login");
           }
           
     }

@@ -1,0 +1,41 @@
+{% include "header.html.twig" %}
+          <div>
+        <center id="login">
+          <table>
+            
+            <form action="/login" method="POST" autocomplete="off" onsubmit="return validateForm()">
+                <br>
+              
+                <tr><td><label>Email</label><br></tr></td>
+                
+                <tr><td><input type="email" name="email" placeholder="E-mail" id="email"  required><br></td></tr>
+                <tr><td><div id="result"></div><br></td></tr>
+                
+                <tr><td><label>Password</label><br></td></tr>
+                
+                <tr><td><input type="password" name="password" placeholder="password" minlength="8" id="passwords"><br></td></tr>
+                <tr><td>
+                <div id="passwordresult"></div><br></td></tr>
+                <tr><td>
+                <input type="checkbox" id="showPassword">Show Password
+                <br></td></tr>
+                <tr><td>
+                <div id="showPasswords"></div>
+                <br></tr></td>
+                <tr><td><input type="submit" name="submit" placeholder="Login"><br></td></tr>
+            </form>
+            <tr><td>
+            <a href="/forgetform">Forget Password</a></td></tr>
+            <tr><td>
+            Don't have create a new one <a href="/registerform">create</a></td></tr>
+  </table>
+        </center>
+        </div>
+            
+    </div>
+    
+   
+ 
+
+        <script src="public/assets/js/accounts/loginScript.js"></script>
+    {% include "footer.html.twig" %}

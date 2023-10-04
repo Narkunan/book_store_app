@@ -23,6 +23,6 @@
 
     </table>
     </center>
-    <input type="hidden" id="userlogin" value="{{ name }}">
+    <input type="hidden" id="userlogin" value={{ getSession("UserName") }}>
        
    {% include "AuthordashFooter.html.twig" %}

@@ -1,14 +1,26 @@
 <?php
 namespace App\Controller\authordash;
 use App\Controller\authordash\AuthorDashBase;
+use App\Model\authordash\BookModel;
+use App\Model\authordash\AuthordashDTO;
+use App\View\authordash\AuthorDashView;
+use App\View\ViewDTO;
 /**
  * Edit Specific Book will Display value fetched from 
  * 
  * database to display Author existing Value 
  */
-class EditBook extends AuthorDashBase
+class EditBook extends AuthorDashBase implements DisplayDataI
 {
-
+  private BookModel $model;
+  private AuthorDashView $view;
+  private AuthordashDTO $AuthorDashDTO;
+   
+  public function __construct(BookModel $model )
+  {
+      $this->model = $model;
+      
+  }
   /**
    * EditspecificBookController will fetch Book From
    * 
@@ -18,35 +30,46 @@ class EditBook extends AuthorDashBase
    *
    * @return void
    */
-  public function editBookController(int $id):void
-  {
-    $this->AuthorDashDTO->setBookid($id);
-    $returnValue=$this->model->fetchBookByBookId($this->AuthorDashDTO);
-    if($returnValue)
-    {   
-        echo "something to diaplsy";
-        $this->displayData();
-
-    }
-    else
+    public function editBookController(int $id):ViewDTO
     {
-        $this->msg="Nothing to fetch";
-        $this->loggedUser=$_SESSION['loggedUser'];
-        $this->name =$_SESSION['UserName'];
-        $this->view->displayAuthorMessage($this->msg,$this->loggedUser,$this->name);
-    }
+      $this->AuthorDashDTO->setBookid($id);
+      $returnValue=$this->model->fetchBookByBookId($this->AuthorDashDTO);
+      if($returnValue)
+      {   
+        $data=[
+          "data"=>$this->AuthorDashDTO->getBook()
+        ];
+        return new ViewDTO(
+            "app/view/authordash","EditBookView.html.twig",$data
+        );
 
-  }
-  /**
-   * DisplayData will book
-   *
-   * @return void
-   */
-  public function displayData():void
-  {
-    $book=$this->AuthorDashDTO->getBook();
-    $this->loggedUser = $_SESSION['loggedUser']??"no";
-    $this->name =$_SESSION['UserName']??"no";
-    $this->view->displayEditSpecificBook($book,$this->loggedUser,$this->name);
-  }
+      }
+      else
+      {
+         //$this->displayMesage();
+         $data=[
+          "data"=>"problem occured"
+         ];
+         return new ViewDTO(
+          "app/view/authordash","Authormessage.html.twig",$data
+         );
+      }
+      //echo "<h1 style='font-size:50px;'>Edit book</h1>";
+
+    }
+    /**
+     * DisplayData will book
+    *
+    * @return void
+    */
+    public function displayBook():void
+    {
+      //$book=$this->AuthorDashDTO->getBook();
+      //$this->view->displayEditSpecificBook($book);
+    } 
+    protected function displayMesage():void
+    {
+       //$this->msg="Nothing to fetch";
+       //$this->view->displayAuthorMessage($this->msg);
+    }
 }

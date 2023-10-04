@@ -1,6 +1,9 @@
 <?php
 namespace App\Controller\authordash;
 use App\Controller\authordash\AuthorDashBase;
+use App\Model\authordash\AuthordashDTO;
+use App\Model\authordash\BookModel;
+use App\View\ViewDTO;
 
 /**
  * Update Book will apply changes made by author
@@ -10,15 +13,23 @@ use App\Controller\authordash\AuthorDashBase;
  */
 class UpdateBook extends AuthorDashBase 
 {
+    private BookModel $model;
+
+    public function __construct(BookModel $model)
+    {
+        $this->model = $model;
+    }
     public function inputData(array $value)
     {
-        $this->AuthorDashDTO->setBookid($value['bookid']);
-        $this->AuthorDashDTO->setTitle($value['booktitle']);
-        $this->AuthorDashDTO->setCategory($value['book_category']);
-        $this->AuthorDashDTO->setSubcategory($value['book_subcategory']);
-        $this->AuthorDashDTO->setDescription($value['description']);
-        $this->AuthorDashDTO->setPrice($value['price']);
-        $this->AuthorDashDTO->setStock($value['stock']); 
+        $dto = new AuthordashDTO();
+        $dto->setBookid($value['bookid']);
+        $dto->setTitle($value['booktitle']);
+        $dto->setCategory($value['book_category']);
+        $dto->setSubcategory($value['book_subcategory']);
+        $dto->setDescription($value['description']);
+        $dto->setPrice($value['price']);
+        $dto->setStock($value['stock']); 
+        $this->updateBookController($dto);
     }
     /**
      * updateBookController will
@@ -29,22 +40,39 @@ class UpdateBook extends AuthorDashBase
      * 
      * @return void
      */
-    public function updateBookController():void
+    public function updateBookController(AuthordashDTO $dto):ViewDTO
     {
         
-        $result=$this->model->updateBook($this->AuthorDashDTO);
+        $result=$this->model->updateBook($dto);
         if($result)
         {
             $this->msg="your Recent Book Edit Request was accomplished";
-            $this->loggedUser=$_SESSION['loggedUser'];
-            $this->name =$_SESSION['UserName'];
-            $this->displayMessages();
+            //$this->displayMessages();
+            $data=[
+               "data"=>$this->msg
+            ];
+            return new ViewDTO
+            (
+                "app/view/authordash","AuthorMessage.html.twig",$data
+            );
             
         }
         else
         {
-           echo "<h1> we Cannot Update Book</h1>";
+           
+           $this->msg=" we Cannot Update Book";
+           $data=[
+            "data"=>$this->msg
+           ];
+           return new ViewDTO(
+            "app/view/authordash","AuthorMessage.html.twig",$data
+           );
+
         }
+
+    }
+    public function displayMesage():void
+    {
 
     }
 }

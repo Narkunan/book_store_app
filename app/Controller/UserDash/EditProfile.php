@@ -2,6 +2,8 @@
 namespace App\Controller\UserDash;
 use App\Model\UserDash\EditProfileModel;
 use App\Controller\UserDash\UserDashBase;
+use App\Model\UserDash\UserDashDTO;
+use App\View\ViewDTO;
 /**
  * editprofile class will fetch already existing
  * 
@@ -10,6 +12,12 @@ use App\Controller\UserDash\UserDashBase;
  */
 class editprofile extends UserDashBase
 {
+    private $model;
+
+    public function __construct($model)
+    {
+        $this->model = $model;
+    }
     /**
      * executeAction will fetch user data 
      * 
@@ -19,17 +27,32 @@ class editprofile extends UserDashBase
      *
      * @return void
      */
-    public function executeAction(array $value):void
+    public function executeAction(array $value):ViewDTO
     {
-        echo "from editprofile.php";
-        $this->userdashDTO->setUserid($_SESSION['Userid']);
-        $returnvalue=$this->model->fetchUserProfile($this->userdashDTO);
+        $userdashDTO = new UserDashDTO();
+        $userdashDTO->setUserid($_SESSION['Userid']);
+        $returnvalue=$this->model->fetchUserProfile($userdashDTO);
         if($returnvalue)
         {
-            echo "from query executed successfully";
-            $data=$this->userdashDTO->getUserData();
-            $this->view->editProfile($data ,$this->loggeduser,$this->name);
+        
+            $data=[
+                "data"=>$userdashDTO->getUserData()
+            ];
+           // $this->view->editProfile($data ,$this->loggeduser,$this->name);
+           return new ViewDTO(
+                 "app/view/UserDash","EditProfileView.html.twig",$data
+           );
             
+        }
+        else
+        {
+            $msg = "something happened";
+            $data=[
+                "data"=>$msg
+            ];
+            return new ViewDTO(
+                "app/view/UserDash","UserMessage.html.twig",$data
+            );
         }
     }
 }

@@ -7,7 +7,7 @@ function myfun()
     if(window.confirm(x)==true)
     {
         console.log("clicked confirm");
-        window.location.href = "../../../../../book_store/app/controller/authordash/BecomeUser.php" ;
+        window.location.href = "/becomeuser" ;
     }
     else
     {
@@ -35,7 +35,7 @@ function userRedirect()
     if(window.confirm(x)==true)
     {
         console.log("clicked confirm");
-        window.location.href = "../../../../book_store/app/View/userdash/LoginView.php" ;
+        window.location.href = "/userwelcome" ;
     }
     else
     {

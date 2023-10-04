@@ -1,18 +1,18 @@
 <?php
 namespace App\Controller\accounts;
 use App\Model\accounts\LoginModel;
-use App\Controller\accounts\InputInterface;
-use App\Model\accounts\AccountsDTO;
+//use App\Controller\accounts\InputInterface;
+use App\Model\accounts\loginuserDTO;
+use App\View\ViewDTO;
 
 /**
  * Login  is responsible for loginUser
  */
-class LoginUser implements InputInterface
+class LoginUser 
 {
     private LoginModel $loginModel;
-    private $result;
-    private AccountsDTO $accountsDTO;
-    
+
+    protected array $data=[];
     
     /**
      * initialies loginmodel object
@@ -21,10 +21,9 @@ class LoginUser implements InputInterface
      *
      * @param loginmodel $loginModel
      */
-    public function __construct(LoginModel $loginModel,AccountsDTO $accountsDTO)
+    public function __construct(LoginModel $loginModel)
     {
         $this->loginModel = $loginModel;
-        $this->accountsDTO = $accountsDTO;
     }
 
 
@@ -37,11 +36,52 @@ class LoginUser implements InputInterface
      *
      * @return void
      */
-    public function inputData(array $value):void
+    public function inputData(array $value):ViewDTO
     {
-        $this->accountsDTO->setemail($value["email"]??"not passed");
-        $this->accountsDTO->setPassword($value["password"]??"not passed");
+        $logindto = loginuserDTO::fromArray($value);
+        //$this->LoginAuthorController($logindto);
+
+        if($this->loginModel->checkDualUser($logindto)) 
+        {
+           
+            $this->manageCookie("dual",$logindto);
+            return new ViewDTO(
+                "app/view/accounts","chooseRole.html.twig",$this->data
+            );
+            
+        }
+        else if($this->loginModel->checkUser($logindto))
+        {
+            
+            $this->manageCookie("user",$logindto);
+             //echo "user";
+            //header("Location: /userwelcome");
+            return new ViewDTO(
+                 "app/view/userdash","chooseRole.html.twig",$this->data
+            );
+        }                
+        else if($this->loginModel->checkAuthor($logindto))
+        {
+            //echo "author";
+            $this->manageCookie("author",$logindto);
+            return new ViewDTO(
+                "app/view/authordash","welcome.html.twig",$this->data
+            );
+            //header("Location: /welcomeauthor");
+        }
+        else
+        {    
+            //echo "not aacount";
+            $this->data=[
+                "msg"=>"Account does not exist"
+            ];
+            return new ViewDTO(
+                "app/view/accounts","register.html.twig",$this->data
+            );
+        }
+                 
     }
+    
 
     /**
      * LoginUser controller function is responsible for 
@@ -60,38 +100,9 @@ class LoginUser implements InputInterface
      * 
      * @access public
      *
-     * @return void
+     * @return ViewDTO
      */
-    public function LoginAuthorController():void
-    {
-        if($this->loginModel->checkDualUser($this->accountsDTO)) 
-        {
-           
-            $this->manageCookie("dual");
-            header("Location: index.php?action=chooserole");
-            
-        }
-        else if($this->loginModel->checkUser($this->accountsDTO))
-        {
-            
-            $this->manageCookie("user");
-            header("Location: .index.php?action=userwelcomepage");
-        }                
-        else if($this->loginModel->checkAuthor($this->accountsDTO))
-        {
-            
-            $this->manageCookie("author");
-            header("Location: index.php?action=AuthorWelcome");
-        }
-        else
-        {    
-            $_SESSION['msg']="Account does not exist";
-            header("Location: index.php?action=register");
-        }
-                 
-      
-    }
-
+    
     /**
      * manageCookie function is responsible for manageCookie
      * 
@@ -105,7 +116,7 @@ class LoginUser implements InputInterface
      * 
      */
 
-    public function manageCookie($role):void
+    public function manageCookie(string $role,loginuserDTO $dto):void
     {
             if(str_contains($role,"user"))
             {
@@ -121,9 +132,8 @@ class LoginUser implements InputInterface
             {   
                 $_SESSION['loggedUser']="Dual";
             }
-            $_SESSION['UserName']=$this->accountsDTO->getName();
-            $_SESSION["Userid"]=$this->accountsDTO->getId();
-            
-              
+            $_SESSION['UserName']=$dto->getName();
+            $_SESSION["Userid"]=$dto->getId();
+          
     }
 }

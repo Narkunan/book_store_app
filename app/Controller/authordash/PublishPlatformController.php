@@ -1,7 +1,10 @@
 <?php
 namespace App\Controller\authordash;
-
+use App\Model\authordash\BookModel;
+use App\model\authordash\AuthordashDTO;
 use App\Controller\authordash\AuthorDashBase;
+use App\View\authordash\AuthorDashView;
+use App\View\ViewDTO;
 
 /***
  * PublishPlatform controller is 
@@ -11,20 +14,54 @@ use App\Controller\authordash\AuthorDashBase;
  */
 class publishPlatformController extends AuthorDashBase 
 {
-
+    private BookModel $model;
+    //private AuthorDashView $view;
+    private AuthordashDTO $AuthorDashDTO;
+   
+    public function __construct(BookModel $model )
+    {
+        $this->model = $model;
+      
+    }
     public function inputData(array $value)
     {
+        $AuthorDashDTO = new AuthordashDTO();
         $authorname=$_SESSION["UserName"];
         $authorId=$_SESSION["Userid"];
-        $this->AuthorDashDTO->setAuthorid($authorId);
-        $this->AuthorDashDTO->setAuthorname($authorname);
-        $this->AuthorDashDTO->setTitle($_POST["booktitle"]);
-        $this->AuthorDashDTO->setCategory($_POST["book_category"]);
-        $this->AuthorDashDTO->setSubcategory($_POST["book_subcategory"]);
-        $this->AuthorDashDTO->setDescription($_POST["description"]);
-        $this->AuthorDashDTO->setStock($_POST["stock"]);
-        $this->AuthorDashDTO->setPrice($_POST["price"]);
-        $this->AuthorDashDTO->setCoverpage($_FILES["coverpage"]["name"]);
+        $AuthorDashDTO->setAuthorid($authorId);
+        $AuthorDashDTO->setAuthorname($authorname);
+        $AuthorDashDTO->setTitle($_POST["booktitle"]);
+        $AuthorDashDTO->setCategory($_POST["book_category"]);
+        $AuthorDashDTO->setSubcategory($_POST["book_subcategory"]);
+        $AuthorDashDTO->setDescription($_POST["description"]);
+        $AuthorDashDTO->setStock($_POST["stock"]);
+        $AuthorDashDTO->setPrice($_POST["price"]);
+        $AuthorDashDTO->setCoverpage($_FILES["coverpage"]["name"]);
+        //$this->publishBookManager($AuthorDashDTO);
+        $result=$this->model->publishBook($AuthorDashDTO);
+        if($result)
+        {
+            move_uploaded_file($_FILES["coverpage"]["tmp_name"],"app/Model/upload/".$AuthorDashDTO->getCoverpage());
+            //$this->displayMesage(); 
+            $this->msg="Your recent Book Was Published Sucessfully";
+            $data=[
+                "data"=>$this->msg
+            ];
+            return new ViewDTO(
+                "app/view/authordash","AuthorMessage.html.twig",$data
+            );
+        }
+        else
+        {
+            $this->msg = "problem with publish book";
+            $data = [
+                "data"=>$this->msg
+            ];
+            return new ViewDTO(
+                "app/view/authordash","AuthorMessage.html.twig",$data
+            );
+        }
+
     }
     /**
      * This publishBookmanager 
@@ -33,22 +70,36 @@ class publishPlatformController extends AuthorDashBase
      *
      * @return void
      */
-    public function publishBookManager():void
+    public function publishBookManager(AuthordashDTO $dto):void
     {
         
-        $result=$this->model->publishBook($this->AuthorDashDTO);
+        /**$result=$this->model->publishBook($dto);
         if($result)
         {
-            move_uploaded_file($_FILES["coverpage"]["tmp_name"],"app/Model/upload/".$this->AuthorDashDTO->getCoverpage());
-           
+            move_uploaded_file($_FILES["coverpage"]["tmp_name"],"app/Model/upload/".$dto->getCoverpage());
+            //$this->displayMesage(); 
             $this->msg="Your recent Book Was Published Sucessfully";
-            $this->loggedUser=$_SESSION['loggedUser'];
-            $this->name=$_SESSION['UserName'];
-            $this->displayMessages();
+            $data=[
+                "msg"=>$this->msg
+            ];
+            return new ViewDTO(
+                "app/view/authordash","AuthorMessage.html.twig",$data
+            );
         }
         else
         {
-            echo "problem with publish book";
-        }
+            $this->msg = "problem with publish book";
+            $data = [
+                "msg"=>$this->msg
+            ];
+            return new ViewDTO(
+                "app/view/authordash","AuthorMessage.html.twig",$data
+            );
+        }**/
+    }
+    protected function displayMesage():void
+    {
+        
+        //$this->view->displayAuthorMessage($this->msg);
     }
 }

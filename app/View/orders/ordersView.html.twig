@@ -13,13 +13,13 @@
     <div id="header">
       <h1 id="title">Engineering Book Store</h1>
       <h1 id="userloginss">{{ name }}</h1>
-      <nav> <a href="../../../public/assets/html/first.php"><button id="homebutton">Home</button></a> 
+      <nav> <a href="/"><button id="homebutton">Home</button></a> 
        
-      <a href="../../Controller/UserRedirect.php"><button id="homebuttons"></button></a>
+      <a href="/userredirect"><button id="homebuttons"></button></a>
     </nav>
     <dd class="last"></dd>
   <center>
-        <form action="../../../app/Controller/home/SearchByTitle.php" method="get" autocomplete="off">
+        <form action="/searchbook" method="get" autocomplete="off">
           <div>
             <input name="bookname" type="text" placeholder="Search your book"id="text" />
            <br> <br>
@@ -37,7 +37,7 @@
     
           {% for categorys in category %}
           {% set cate = categorys %}
-          {% set path = "../../../app/Controller/home/categoryController.php?category="~cate %}
+          {% set path = "/category?id="~cate %}
           <dd><a href= "{{ path }}" >{{ cate }}</a></dd>
           {% endfor %}
         
@@ -53,7 +53,7 @@
 
           <td><h3 id="bookprice"> TOTAL PRICE :{{ price }}<br></h3></td>
          <td><p class='readmore'></p><br><br><br>
-         <form action="index.php?action=orderconfirm" method="post">
+         <form action="/orderconfirm" method="post">
           <input type="hidden" name="totalprice" value= "{{ price }}" >
           <input type="hidden" name="bookid" value= "{{ bid }}" >
           <input type= "hidden" name = "quantity" value = "{{ quantity }}"  >
@@ -66,14 +66,14 @@
         <br>
         <br>
         <br>
-        <div id="similarbook">Books You May Like</div>
+        <div id="similarbook">Books Curated For You</div>
         <br>
         <br>{{ quantity }}
         <br>
         {% set i = 0 %}
         {% for similars in similar %}
 
-        {% set path = "../../../app/Controller/home/indexController.php?id=" ~ similars.bookid %}
+        {% set path = "/bookdetails?id=" ~ similars.bookid %}
          
         {% set imagepath = "app/model/upload/" ~ similars.coverpage %}
         {% set price = similars.price %}
@@ -107,8 +107,8 @@
             <input type='hidden' id='session' value='{{ session }}'>
     
     
-<script src='../../../public/assets/js/home/homeScripts.js'>
+<script src='public/assets/js/home/homeScripts.js'>
   </script>
-  <script src="../../../public/assets/js/home/home.js"></script>
+  <script src="public/assets/js/home/home.js"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 {% include "Homeheader.html.twig" %}
-   <input type="hidden" id="session" value="{{ session }}" >
+  
        
         {% for book in data %}
         {% set coverpage = book.coverpage%}
@@ -18,7 +18,7 @@
          <p class='readmore'></p><br><br>
          <tr><td id="datas">Available stock<br></td></tr><tr><td id="datas"><div id="stock">{{ book.stock }}</div><br><br></td></tr>
          <tr><td><div id="stockerror"></div></td></tr>
-         <form action='index.php?action=checkout' method='POST' autocomplete="off" onsubmit="return validateForms()">
+         <form action='/checkout' method='POST' autocomplete="off" onsubmit="return validateForms()">
          <tr><td>Quantity<br><br></td></tr>
 
          <tr><td><select name='quantity' id="quantity">
@@ -51,7 +51,7 @@
       }
       else
       {
-        location.href = "../../../public/assets/html/accounts/login.php?msg=login with user credential";
+        location.href = "/login";
       }
 
     }

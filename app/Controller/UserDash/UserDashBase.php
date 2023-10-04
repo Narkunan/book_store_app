@@ -11,20 +11,20 @@ use App\View\Userdash\UserDashView;
  */
 abstract class UserDashBase
 {
-    protected $model ;
+    //protected $model ;
     protected $view  ;
     protected $name;
     protected $loggeduser;
     protected $msg;
     protected UserDashDTO $userdashDTO;
 
-    public function __construct($model,$userdashDTO)
+    public function __construct(/***$model ,$userdashDTO*/)
     {
-        $this->model = $model;
+        /**$this->model = $model;
         $this->userdashDTO = $userdashDTO;
         $this->view = new UserDashView(); 
         $this->name = $_SESSION['UserName'];
-        $this->loggeduser = $_SESSION['loggedUser'];
+        $this->loggeduser = $_SESSION['loggedUser'];**/
     }
-    abstract public function executeAction(array $value):void;
+    //abstract public function executeAction(array $value):void;
 }

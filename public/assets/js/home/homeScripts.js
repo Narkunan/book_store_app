@@ -10,7 +10,7 @@ function myfunn()
     console.log(textfield.value);
      result=document.getElementById("search-result");
      xhttp=new XMLHttpRequest();
-     xhttp.open("GET","../../../../../book_store/app/Model/ajax/ajaxHome.php?title="+input,true);
+     xhttp.open("GET","app/Model/ajax/ajaxHome.php?title="+input,true);
      xhttp.send();
      xhttp.onreadystatechange=myFunRequest;
     }

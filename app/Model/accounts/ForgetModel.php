@@ -23,8 +23,10 @@ class ForgetModel extends abstarctModel
       
         $sql = "SELECT name from users where email = :email and security_question = :security";
         $stm = $this->conn->prepare($sql);
-        $stm->bindParam("email",$accountsDTO->email);
-        $stm->bindParam("security",$accountsDTO->securityQuestion);
+        $email = $accountsDTO->getEmail();
+        $sq = $accountsDTO->getSecurityQuestion();
+        $stm->bindParam("email",$email);
+        $stm->bindParam("security",$sq);
         $stm->execute();
         if($stm->rowCount()>0)
         {
@@ -42,9 +44,10 @@ class ForgetModel extends abstarctModel
 
             $sql = "UPDATE users set password = :password where email =:email";
             $stm = $this->conn->prepare($sql);
-            $password = password_hash($accountsDTO->password,PASSWORD_ARGON2I); 
+            $password = password_hash($accountsDTO->getPassword(),PASSWORD_ARGON2I); 
             $stm->bindParam("password",$password);
-            $stm->bindParam("email",$accountsDTO->email);
+            $email = $accountsDTO->getEmail();
+            $stm->bindParam("email",$email);
             $stm->execute();
 
             if($stm)
@@ -58,32 +61,6 @@ class ForgetModel extends abstarctModel
             }
        
     }
-    /**public function save(string $sql,array $values)
-    {
-        try
-        {
-        $stm = $this->conn->prepare($sql);
-        foreach($values as $key=>$value)
-        {
-            $stm->bindParam($key,$value);
-        } 
-        $stm->execute();
-        if($stm->rowCount>0)
-        {
-            return $stm->rowCount();
-        }
-        else
-        {
-            return 0;
-        }
-        }
-        catch(\PDOException $e)
-        {
-            $e->getMessage();
-            return 0;
-        }
-
-    }**/
-
+    
 }
 

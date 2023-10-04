@@ -91,7 +91,7 @@ class RegisterModel extends abstarctModel
         $sql="INSERT INTO user_role (user_id,roleid) VALUES ((SELECT user_id FROM users Where email=:email),:roleid)";
         $args = [
             "email"=>$accountsDTO->getEmail(),
-            "roleid"=>$accountsDTO->getId()
+            "roleid"=>$accountsDTO->getRole()
         ];
         $result = $this->save($sql,$args);
         if($result)

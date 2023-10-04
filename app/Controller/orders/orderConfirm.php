@@ -1,6 +1,8 @@
 <?php
 namespace App\Controller\orders;
 use App\Controller\orders\OrderBase;
+use App\Model\orders\checkOutDTO;
+use App\View\ViewDTO;
 
 /**
  * orderConfirm will Create new order record in the database.
@@ -8,6 +10,13 @@ use App\Controller\orders\OrderBase;
  */
 class OrderConfirm extends OrderBase
 {
+
+    private $model;
+    public function __construct($model)
+    {
+        $this->model = $model;
+    }
+
     /**
      * orderConfirmController will create new order record 
      * 
@@ -17,26 +26,38 @@ class OrderConfirm extends OrderBase
      *
      * @return void
      */
-    public function ordersConfirmController(array $value):void
+    public function ordersConfirmController(array $value):ViewDTO
     {
-        
-        $this->checkOutDTO->setBookid($value['bookid']);
-        $this->checkOutDTO->setFinalPrice($value['totalprice']);
-        $this->checkOutDTO->setQuantity($value['quantity']);
-        $this->checkOutDTO->setUserid($_SESSION['Userid']);
-        $returnValue=$this->model->placeOrder($this->checkOutDTO);
+        $checkoutDto = new checkOutDTO(); 
+        $checkoutDto->setBookid($value['bookid']);
+        $checkoutDto->setFinalPrice($value['totalprice']);
+        $checkoutDto->setQuantity($value['quantity']);
+        $checkoutDto->setUserid($_SESSION['Userid']);
+        $returnValue=$this->model->placeOrder($checkoutDto);
         if($returnValue)
         {
     
             $this->msg = "recent Order was successfully Placed";
-            $this->loggedUser = $_SESSION['loggedUser']??"no";
-            $this->name = $_SESSION['UserName']??"no";
+            //$this->loggedUser = $_SESSION['loggedUser']??"no";
+            //$this->name = $_SESSION['UserName']??"no";
             $this->homeview->displayMessages($this->msg,$this->loggeduser,$this->name);
+            $data=[
+                "msg"=>$this->msg
+            ];
+            return new ViewDTO(
+                "app/view/home","HomeDisplayMessage.html.twig",$data
+            );
             
         }
         else
         {
-            echo "ordernotplaced";
+            $this->msg="ordernotplaced";
+            $data=[
+                "msg"=>$this->msg
+            ];
+            return new ViewDTO(
+                "app/view/home","HomeDisplayMessage.html.twig",$data
+            );
         }
     }
     

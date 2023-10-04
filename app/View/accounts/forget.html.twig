@@ -1,0 +1,37 @@
+{% include "header.html.twig" %}
+        <center>
+            <br>
+            <br>
+            <br>
+           
+            <br><br><br>
+            <form action="/forget" method="post" autocomplete="off" onsubmit="return validateForm()">
+            <table>
+            
+               <tr><td>
+               <label >Enter the email address that associated with Account</label>
+<br></td></tr>
+           <tr><td> <input type="email" name="email" placeholder="enter email address" required>
+                <br>
+                </td></tr>
+           <tr><td><label> Which is your Favourite Pet?</label></td></tr>
+          <tr><td><input type="text" name = "securityquestion" id="securityQuestions"><br></td></tr>
+           <tr><td><div id="securityError"></div><br></td></tr>
+           <tr><td><label>Enter new Password</label></td></tr>
+           <tr><td><input type="password" name ="password" id="passwords"><br></td></tr>
+                <tr><td> <div id="passwordresult"></div><br></td></tr>
+                <tr><td>
+                <input type="checkbox" id="showPassword">Show Password
+                <br><br></td></tr>
+                <tr><td>
+                <div id="showPasswords"></div>
+                <br>
+                <br>
+                <input type="submit" name="submit">
+                <br>
+                <br>
+</table>
+            </form>
+        </center>
+<script src="public/assets/js/accounts/forgetScript.js"></script>
+{% include "footer.html.twig" %}

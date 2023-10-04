@@ -2,6 +2,8 @@
 namespace App\Controller\UserDash;
 use App\Model\UserDash\RecentOrderModel;
 use App\Controller\UserDash\UserDashBase;
+use App\Model\UserDash\UserDashDTO;
+use App\View\ViewDTO;
 /**
  * RecentOrder will display Orders recently Placed 
  * 
@@ -9,6 +11,12 @@ use App\Controller\UserDash\UserDashBase;
  */
 class RecentOrder extends UserDashBase
 {
+
+   private $model;
+   public function __construct($model)
+   {
+     $this->model = $model;
+   }
   /**
    * executeAction(= function will fetchRecentOrder by 
    * 
@@ -18,22 +26,33 @@ class RecentOrder extends UserDashBase
    *
    * @return void
    */
-  public function executeAction(array $value):void
+  public function executeAction(array $value):ViewDTO
   {
-     
-     $this->userdashDTO->setUserid($_SESSION['Userid']);
-     $returnValue=$this->model->fetchRecentOrder($this->userdashDTO);
+     $userdashDTO = new UserDashDTO();
+     $userdashDTO->setUserid($_SESSION['Userid']);
+     $returnValue=$this->model->fetchRecentOrder($userdashDTO);
      
      if($returnValue)
      {
-        $orders=$this->userdashDTO->getOrders();
-        
-        $this->view->recentOrders($orders,$this->loggeduser,$this->name);
+        $data=[
+          "data"=>$userdashDTO->getOrders()
+     ];
+        return new ViewDTO(
+          "app/view/UserDash",'RecentOrderView.html.twig',$data
+        );
+        //$this->view->recentOrders($orders,$this->loggeduser,$this->name);
      }
    else
      {
          $this->msg =" no orders were found";
-         $this->view->userMessage($this->msg,$this->loggeduser,$this->name);
+           $data =[
+              "msg"=>$this->msg
+           ];
+
+          return new ViewDTO(
+            "app/view/UserDash","UserMessage.html.twig",$data
+          );
+         //$this->view->userMessage($this->msg,$this->loggeduser,$this->name);
         
      }
   }
