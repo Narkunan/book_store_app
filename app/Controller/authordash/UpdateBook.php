@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller\authordash;
 use App\Controller\authordash\AuthorDashBase;
-use App\Model\authordash\AuthordashDTO;
+use App\Model\authordash\BookDTO;
 use App\Model\authordash\BookModel;
 use App\View\ViewDTO;
 
@@ -19,18 +19,6 @@ class UpdateBook extends AuthorDashBase
     {
         $this->model = $model;
     }
-    public function inputData(array $value)
-    {
-        $dto = new AuthordashDTO();
-        $dto->setBookid($value['bookid']);
-        $dto->setTitle($value['booktitle']);
-        $dto->setCategory($value['book_category']);
-        $dto->setSubcategory($value['book_subcategory']);
-        $dto->setDescription($value['description']);
-        $dto->setPrice($value['price']);
-        $dto->setStock($value['stock']); 
-        $this->updateBookController($dto);
-    }
     /**
      * updateBookController will
      * 
@@ -40,39 +28,28 @@ class UpdateBook extends AuthorDashBase
      * 
      * @return void
      */
-    public function updateBookController(AuthordashDTO $dto):ViewDTO
+    public function updateBookController(array $value):ViewDTO
     {
-        
+        $dto = BookDTO::fromArray($value);
+        $dto->setBookid($value['bookid']);
         $result=$this->model->updateBook($dto);
         if($result)
         {
-            $this->msg="your Recent Book Edit Request was accomplished";
-            //$this->displayMessages();
-            $data=[
-               "data"=>$this->msg
+           
+            $this->data=[
+               "data"=>"your Recent Book Edit Request was accomplished"
             ];
-            return new ViewDTO
-            (
-                "app/view/authordash","AuthorMessage.html.twig",$data
-            );
-            
+            return $this->displayMesage();   
         }
         else
         {
-           
-           $this->msg=" we Cannot Update Book";
-           $data=[
-            "data"=>$this->msg
+           $this->data=[
+            "data"=>" we Cannot Update Book"
            ];
-           return new ViewDTO(
-            "app/view/authordash","AuthorMessage.html.twig",$data
-           );
+           return $this->displayMesage();
 
         }
 
     }
-    public function displayMesage():void
-    {
-
-    }
+   
 }

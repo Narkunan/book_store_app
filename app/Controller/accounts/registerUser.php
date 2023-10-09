@@ -2,16 +2,16 @@
 namespace App\Controller\accounts;
 use App\Model\accounts\AccountsDTO;
 use App\Model\accounts\RegisterModel;
-use App\Controller\accounts\InputInterface;
+use App\View\ViewDTO;
 
 /**
  * RegisterUser is responsible for RegisterUser
  */
 
-class RegisterUser implements InputInterface
+class RegisterUser 
 {
     private RegisterModel $register;
-
+    protected array $data=[];
     /**
      * Initialies registerModel
      * 
@@ -24,24 +24,7 @@ class RegisterUser implements InputInterface
        $this->register=$registerModel;
     }
      /**
-      * Process Input data
-      *
-      * @access public
-      *
-      * @return void
-      */
-    public function inputData(array $value):void
-    {
-
-        /**$dto = AccountsDTO::fromMethod($value);
-        $dto->setName($value["name"]??"not passed");
-        $dto->setRole($value["UserRole"]??"not passed");
-        $this->registerAuthorController($dto);**/
-        echo "<h1 style='font-size:50px;'> from register user controller</h1>";
-    }
-
-    /**
-     * register User controlller function is responsible for
+     * inputData function is responsible for
      * 
      * register user and redirect to the appropriate view
      * 
@@ -53,19 +36,38 @@ class RegisterUser implements InputInterface
      * 
      * @return void
      */
-    public function registerAuthorController(AccountsDTO $AccountsDTO):void
+    public function inputData(array $value):ViewDTO
     {
-          $result=$this->register->registerAuthor($AccountsDTO);
-          if($result)
-          {
-            $_SESSION["msg"]="Account created";
-            header("Location: login");
-          }
-          else
-          {
-             $_SESSION["msg"]="Account already exists";
-             header("Location: login");
-          }
-          
+
+        $dto = AccountsDTO::fromMethod($value);
+        $dto->setName($value["name"]??"not passed");
+        $dto->setRole($value["UserRole"]??"not passed");
+        
+        $result=$this->register->registerAuthor($dto);
+        if($result)
+        {
+          $this->data=["msg"=>"Account created"];
+          return $this->accountCreated();
+        }
+        else
+        {
+           $this->data=["msg"=>"Account already exists"];
+           return $this->accountExists();
+        }
+        
     }
+
+    private function accountCreated():ViewDTO{
+      return new ViewDTO(
+        "app/view/accounts","login.html.twig",$this->data
+      );
+
+    }
+    private function accountExists():ViewDTO{
+
+      return new ViewDTO(
+        "app/view/accounts","login.html.twig",$this->data
+      );
+
+    } 
 }

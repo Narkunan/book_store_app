@@ -1,21 +1,25 @@
 <?php
 namespace App\Controller\home;
-use App\Controller\home\HomeBaseClass;
+use App\Controller\home\HomeBase;
 use App\Model\Home\HomeDTO;
 use App\View\ViewDTO;
 use App\Model\Home\category;
+use App\Model\Home\CategoryModel;
+
 /**
  * categoryController class will  fetch Book 
  * 
  * based on category selected by User.
  */
-class categoryController extends HomeBaseClass 
+class categoryController extends HomeBase implements HomeI
 {
 
-    protected $model;
-    public function __construct($model)
+    protected CategoryModel $model;
+    protected category $category;
+    public function __construct($model,$category)
     {
       $this->model = $model;
+      $this->category = $category;
     }
 
     /**
@@ -33,34 +37,33 @@ class categoryController extends HomeBaseClass
      */
     public function findBook(array $value):ViewDTO
     {
-        $category = new category();
-        $categorys = $category->category();
+        $categorys = $this->category->category();
         $homeDTO = new HomeDTO();
         $homeDTO->setCategory($value['id']);
-        //echo  "from categoryController".$value["id"];
+        
         $exists=$this->model->fetchBookByCategory($homeDTO);
         if($exists)
         { 
-            $this->books=$this->homeDTO->getFetchBook();
-            //$this->bookFound();
-            $data=[
+
+            $this->data=[
                 "book"=>$homeDTO->getFetchBook(),
                 "category"=>$categorys
             ];
-            return new ViewDTO(
-                "app/view/home","SearchByTitleView.html.twig",$data
-            );
-             
+            return $this->bookFound();
         }
         else 
         {
-            $this->msg="Not yet Published On this Category";
-            //$this->bookNotFound();   
-            $data=[
-                "msg"=>$this->msg
+    
+            $this->data=[
+                "msg"=>"Not yet Published On this Category"
             ];
-            return new ViewDTO("
-            app/view/home","HomeDisplayMessage.html.twig",$data);        
+            return  $this->bookNotFound();     
         }
+    }
+    public function bookFound():ViewDTO{
+        return new ViewDTO(
+            "app/view/home","SearchByTitleView.html.twig",$this->data
+        );
+         
     }
 }

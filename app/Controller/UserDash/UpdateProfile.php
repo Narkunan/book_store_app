@@ -33,24 +33,17 @@ class UpdateProfile extends UserDashBase
         $Retunvalue=$this->model->updateUserProfile($userdashDTO);
         if($Retunvalue)
         {
-            $this->msg="Your Profile Was Updated Successfully";
-            //$this->view->userMessage($this->msg,$this->loggeduser,$this->name);
-            $data=[
-                "msg"=>$this->msg
+            $this->data=[
+                "msg"=>"Your Profile Was Updated Successfully"
             ];
-            return new ViewDTO(
-                "app/view/UserDash","UserMessage.html.twig",$data
-            );
+            return  $this->displayMessage();
         }
         else
         {
-            $this->msg = "cannot update";
-            $data=[
-                "msg"=>$this->msg
+            $this->data=[
+                "msg"=>"cannot update"
             ];
-            return new ViewDTO(
-                "app/view/UserDash","UserMessage.html.twig",$data
-            );
+            return $this->displayMessage();
         }
     }
 }

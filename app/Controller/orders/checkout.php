@@ -15,10 +15,13 @@ use App\View\ViewDTO;
  */
 class checkout extends OrderBase
 {
-    private $model;
-    public function __construct($model)
+    private CategoryModel $model;
+
+    private category $category;
+    public function __construct(CategoryModel $model,category $category)
     {
         $this->model = $model;
+        $this->category = $category;
     }
     /**
      * ordersController function will
@@ -35,20 +38,16 @@ class checkout extends OrderBase
     {
 
         $checkOutDTO = new checkOutDTO();
-        $category =new CategoryModel();
         $homedto = new HomeDTO();
         $homedto->setCategory($_POST['category']);
-        $category->fetchBookByCategory($homedto);
+        $this->model->fetchBookByCategory($homedto);
         $categoryBooks= $homedto->getFetchBook();
         $checkOutDTO->setPrice($_POST['bprice']);
         $checkOutDTO->setQuantity($_POST['quantity']);
         $checkOutDTO->setTotalPrice();
         $totalprice =$checkOutDTO->getTotalPrice();
-        //$loggeduser = $_SESSION['loggedUser'];
-        //$name = $_SESSION['UserName'];
-        $categorywise=new category();
-        $categorywisebook=$categorywise->category();
-         $data =[
+        $categorywisebook=$this->category->category();
+         $this->data =[
             "price"=>$totalprice,
             "bid"=>$_POST['bid'],
             "source"=>$_POST['imagesource'],
@@ -59,8 +58,8 @@ class checkout extends OrderBase
 
          ];
          return new ViewDTO(
-             "app/view/orders","ordersView.html.twig",$data
+             "app/view/orders","ordersView.html.twig",$this->data
          );
-        //$this->orderview->displayOrders($loggeduser,$name,$_POST,$totalprice,$categoryBooks);
+       
     }
 }

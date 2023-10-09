@@ -1,4 +1,5 @@
 <?php
+
 use App\service\Container;
 use App\Controller\accounts\LoginUser;
 use App\Controller\authordash\ListBook;
@@ -36,65 +37,102 @@ $container = new Container();
 
 $routes = new routes();
 
-$home = $container->get(Firsts::class);
-$loginuser = $container->get(LoginUser::class);
-$registerUser = $container->get(RegisterUser::class);
-$forgetuser = $container->get(Forget::class);
-$welcome = $container->get(AuthorWelcomePage::class);
-$deletebook = $container->get(DeleteBook::class);
-$listbook = $container->get(ListBook::class);
-$salesreport = $container->get(SalesReport::class);
-$updatebook = $container->get(UpdateBook::class);
-$publishBook = $container->get(publishPlatformController::class);
-$editbook = $container->get(EditBook::class);
-$becomeUser = $container->get(BecomeUser::class);
-$bookdetails = $container->get(bookdetails::class);
-$checkout = $container->get(checkout::class);
-$category = $container->get(categoryController::class);
-$searchbook = $container->get(SearchByTitle::class);
-$recentorder = $container->get(RecentOrder::class);
-$editprofile = $container->get(editprofile::class);
-$updateprofile = $container->get(UpdateProfile::class);
-$becomeAuthor = $container->get(BecomeAuthor::class);
-$orderconfirm = $container->get(OrderConfirm::class);
-$logout = $container->get(Logout::class);
-$forgetform = $container->get(Forgetform::class);
-$registerform = $container->get(Registerform::class);
-$loginform = $container->get(Loginform::class);
-$chooserole = $container->get(chooseRole::class);
-$userredirect = $container->get(UserRedirect::class);
-$createbookform = $container->get(CreateBookForm::class);
-$userwelcome = $container->get(WelcomeUser::class);
+$values=[
+    "/"=>[
+        Firsts::class,"displayBook",$value
+    ],
+    "/login"=>[
+        LoginUser::class,"inputData",$_POST
+    ],
+    "/register"=>[
+        RegisterUser::class,"inputData",$_POST
+    ],
+    "/forget"=>[
+        Forget::class,"inputData",$_POST
+    ],
+    "/welcomeauthor"=>[
+        AuthorWelcomePage::class,"welcomeAuthordash",$_POST
+    ],
+    "/deletebook"=>[
+        DeleteBook::class,"deleteBookController",$_GET
+    ],
+    "/listbook"=>[
+        ListBook::class,"listBookManager",$value
+    ],
+    "/salesreport"=>[
+        SalesReport::class,"salesReportController",$value
+    ],
+    "/updatebook"=>[
+        UpdateBook::class,"updateBookController",$_POST
+    ],
+    "/publishbook"=>[
+        publishPlatformController::class,"publishBook",$_POST
+    ],
+    "/editbook"=>[
+        EditBook::class,"editBookController",$_GET
+    ],
+    "/becomeuser"=>[
+        BecomeUser::class,"becomeUserController",$value
+    ],
+    "/bookdetails"=>[
+        bookdetails::class,"findBook",$_GET
+    ],
+    "/checkout"=>[
+        checkout::class,"checkoutcontroller",$_POST
+    ],
+    "/category"=>[
+        categoryController::class,"findBook",$_GET
+    ],
+    "/searchbook"=>[
+        SearchByTitle::class,"findBook",$_GET
+    ],
+    "/recentorder"=>[
+        RecentOrder::class,"executeAction",$value
+    ],
+    "/editprofile"=>[
+        editprofile::class,"executeAction",$value
+    ],
+    "/updateprofile"=>[
+        UpdateProfile::class,"executeAction",$_POST
+    ],
+    "/becomeauthor"=>[
+        BecomeAuthor::class,"executeAction",$value
+    ],
+    "/orderconfirm"=>[
+        OrderConfirm::class,"ordersConfirmController",$_POST
+    ],
+    "/loginform"=>[
+        Loginform::class,"loginFormController",$value
+    ],
+    "/registerform"=>[
+        Registerform::class,"registerFormController",$value
+    ],
+    "/forgetform"=>[
+        Forgetform::class,"forgetFormController",$value
+    ],
+    "/logout"=>[
+        Logout::class,"logoutController",$value
+    ],
+    "/userredirect"=>[
+        UserRedirect::class,"userRedirectController",$value
+    ],
+    "/chooserole"=>[
+        chooseRole::class,"chooseRoleController",$value
+    ],
+    "/createbookform"=>[
+        CreateBookForm::class,"createBookFormController",$value
+    ],
+    "/userwelcome"=>[
+        WelcomeUser::class,"welcomeUserController",$value
+    ]
 
-$routes->addRoute(new Route("/",$home,"displayBook",$value));
-$routes->addRoute(new Route("/login",$loginuser,"inputData",$_POST));
-$routes->addRoute(new Route("/register",$registerUser,"inputData",$_POST));
-$routes->addRoute(new Route("/forget",$forgetuser,"inputData",$_POST));
-$routes->addRoute(new Route("/welcomeauthor",$welcome,"welcomeAuthordash",$_POST));
-$routes->addRoute(new Route("/deletebook",$deletebook,"deletedBookController",$_GET));
-$routes->addRoute(new Route("/listbook",$listbook,"listBookManager",$value));
-$routes->addRoute(new Route("/salesreport",$salesreport,"salesReportController",$value));
-$routes->addRoute(new Route("/updatebook",$updatebook,"inputData",$_POST));
-$routes->addRoute(new Route("/publishbook",$publishBook,"inputData",$_POST));
-$routes->addRoute(new Route("/editbook",$editbook,"editBookController",$_GET));
-$routes->addRoute(new Route("/becomeuser",$becomeUser,"becomeUserController",$value));
-$routes->addRoute(new Route("/bookdetails",$bookdetails,"findBook",$_GET));
-$routes->addRoute(new Route("/checkout",$checkout,"checkoutcontroller",$_POST));
-$routes->addRoute(new Route("/category",$category,"findBook",$_GET));
-$routes->addRoute(new Route("/searchbook",$searchbook,"findBook",$_GET));
-$routes->addRoute(new Route("/recentorder",$recentorder,"executeAction",$value));
-$routes->addRoute(new Route("/editprofile",$editprofile,"executeAction",$value));
-$routes->addRoute(new Route("/updateprofile",$updateprofile,"executeAction",$_POST));
-$routes->addRoute(new Route("/becomeauthor",$becomeAuthor,"executeAction",$value));
-$routes->addRoute(new Route("/orderconfirm",$orderconfirm,"ordersConfirmController",$_POST));
-$routes->addRoute(new Route("/loginform",$loginform,"loginFormController",$value));
-$routes->addRoute(new Route("/registerform",$registerform,"registerFormController",$value));
-$routes->addRoute(new Route("/forgetform",$forgetform,"forgetFormController",$value));
-$routes->addRoute(new Route("/logout",$logout,"logoutController",$value));
-$routes->addRoute(new Route("/userredirect",$userredirect,"userRedirectController",$value));
-$routes->addRoute(new Route("/chooserole",$chooserole,"chooseRoleController",$value));
-$routes->addRoute(new Route("/createbookform",$createbookform,"createBookFormController",$value));
-$routes->addRoute(new Route("/userwelcome",$userwelcome,"welcomeUserController",$value));
+];
+
+foreach($values as $key=>$value)
+{
+    $controller = $container->get($value[0]);
+    $routes->addRoute(new Route($key,$controller,$value[1],$value[2]));
+} 
 
 
 return $routes;

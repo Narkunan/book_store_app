@@ -36,28 +36,20 @@ class OrderConfirm extends OrderBase
         $returnValue=$this->model->placeOrder($checkoutDto);
         if($returnValue)
         {
-    
-            $this->msg = "recent Order was successfully Placed";
-            //$this->loggedUser = $_SESSION['loggedUser']??"no";
-            //$this->name = $_SESSION['UserName']??"no";
-            $this->homeview->displayMessages($this->msg,$this->loggeduser,$this->name);
-            $data=[
-                "msg"=>$this->msg
-            ];
-            return new ViewDTO(
-                "app/view/home","HomeDisplayMessage.html.twig",$data
-            );
+          $this->data =[
+            "msg"=>"recent Order was successfully Placed"
+        ];
+           
+            return $this->displayMessage();
             
         }
         else
         {
-            $this->msg="ordernotplaced";
-            $data=[
-                "msg"=>$this->msg
+            $this->data=[
+                "msg"=>"ordernotplaced"
             ];
-            return new ViewDTO(
-                "app/view/home","HomeDisplayMessage.html.twig",$data
-            );
+            
+            return $this->displayMessage();
         }
     }
     

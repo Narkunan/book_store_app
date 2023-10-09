@@ -5,21 +5,10 @@ use Twig\Environment;
 
 class ViewRenderer {
 
-  /**
-   * @param \Twig\Environment $twig
-   */
-  public function __construct(
-    protected Environment $twig,
-  ) {}
-
-  /**
-   * @param \App\View\ViewDTO|null $view
-   *
-   * @return void
-   * @throws \Twig\Error\LoaderError
-   * @throws \Twig\Error\RuntimeError
-   * @throws \Twig\Error\SyntaxError
-   */
+public Environment $twig;
+  public function __construct(Environment $twig) {
+             $this->twig = $twig;
+  }
   public function render(ViewDto $viewDto ): void {
 
       echo $this->twig->render( $viewDto->filename, $viewDto->data);

@@ -1,8 +1,6 @@
 <?php
 namespace App\Controller\UserDash;
-use App\Model\UserDash\UserDashDTO;
-use App\View\Userdash\DisplayMessage;
-use App\View\Userdash\UserDashView;
+use App\View\ViewDTO;
 
 /**
  * UserDashBase class will have Common Variables
@@ -11,20 +9,12 @@ use App\View\Userdash\UserDashView;
  */
 abstract class UserDashBase
 {
-    //protected $model ;
-    protected $view  ;
-    protected $name;
-    protected $loggeduser;
-    protected $msg;
-    protected UserDashDTO $userdashDTO;
+    protected array $data; 
 
-    public function __construct(/***$model ,$userdashDTO*/)
+    protected function displayMessage():ViewDTO
     {
-        /**$this->model = $model;
-        $this->userdashDTO = $userdashDTO;
-        $this->view = new UserDashView(); 
-        $this->name = $_SESSION['UserName'];
-        $this->loggeduser = $_SESSION['loggedUser'];**/
+        return new ViewDTO(
+            "app/view/UserDash","UserMessage.html.twig",$this->data
+        );
     }
-    //abstract public function executeAction(array $value):void;
 }

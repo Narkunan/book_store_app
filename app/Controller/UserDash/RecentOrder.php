@@ -4,16 +4,17 @@ use App\Model\UserDash\RecentOrderModel;
 use App\Controller\UserDash\UserDashBase;
 use App\Model\UserDash\UserDashDTO;
 use App\View\ViewDTO;
+use App\Controller\UserDash\UserdashI;
 /**
  * RecentOrder will display Orders recently Placed 
  * 
  * by user.
  */
-class RecentOrder extends UserDashBase
+class RecentOrder extends UserDashBase implements UserdashI
 {
 
-   private $model;
-   public function __construct($model)
+   private RecentOrderModel $model;
+   public function __construct(RecentOrderModel $model)
    {
      $this->model = $model;
    }
@@ -34,26 +35,24 @@ class RecentOrder extends UserDashBase
      
      if($returnValue)
      {
-        $data=[
+        $this->data=[
           "data"=>$userdashDTO->getOrders()
      ];
-        return new ViewDTO(
-          "app/view/UserDash",'RecentOrderView.html.twig',$data
-        );
-        //$this->view->recentOrders($orders,$this->loggeduser,$this->name);
+        return $this->displayData();
+        
      }
    else
      {
-         $this->msg =" no orders were found";
-           $data =[
-              "msg"=>$this->msg
+           $this->data =[
+              "msg"=>" no orders were found"
            ];
-
-          return new ViewDTO(
-            "app/view/UserDash","UserMessage.html.twig",$data
-          );
-         //$this->view->userMessage($this->msg,$this->loggeduser,$this->name);
-        
+          return $this->displayMessage();
+  
      }
+  }
+  public function displayData():ViewDTO{
+    return new ViewDTO(
+      "app/view/UserDash",'RecentOrderView.html.twig',$this->data
+    );
   }
 }

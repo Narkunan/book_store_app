@@ -102,24 +102,8 @@ class RegisterModel extends abstarctModel
         {
             return false;
         }
-    }
-    private function save(string $sql,array $args):bool
-    {
-        $stm = $this->conn->prepare($sql);
-        foreach($args as $key=>$value)
-        {
-            $stm->bindValue(":".$key,$value);
-        }
-        $stm->execute();
-        if($stm)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    
+    }    
+
+   
     
 }

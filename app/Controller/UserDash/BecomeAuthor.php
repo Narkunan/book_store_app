@@ -12,8 +12,8 @@ use App\View\ViewDTO;
  */
 class BecomeAuthor extends UserDashBase
 {
-    private $model;
-    public function __construct($model)
+    private BecomeAuthorModel $model;
+    public function __construct(BecomeAuthorModel $model)
     {
         $this->model = $model;
     }
@@ -33,24 +33,17 @@ class BecomeAuthor extends UserDashBase
         $returnValue=$this->model->updateRole($userdash);
         if($returnValue)
         {
-            $msg="You are Now Become Author";
-            //$this->view->userMessage($this->msg,$this->loggeduser,$this->name);
-            $data=[
-                 "data"=>$msg
+            $this->data=[
+                 "data"=>"You are Now Become Author"
             ];
-            return new ViewDTO(
-                "app/view/UserDash","UserMessage.html.twig",$data
-            );
+            return $this->displayMessage();
         }
         else
         {
-            $msg="some error occured";
-            $data=[
-                "data"=>$msg
+            $this->data=[
+                "data"=>"some error occured"
             ];
-            return new ViewDTO(
-                "app/view/UserDash","UserMessage.html.twig",$data
-            );
+            return $this->displayMessage();
         }
 
     }

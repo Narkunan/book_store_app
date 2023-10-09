@@ -13,33 +13,22 @@ class WelcomePageModel extends authordashAbstract
 {
       public function fetchBookByCategory(AuthordashDTO $authordashDTO):bool
       {
-          try
-          {
             
           $sql = "SELECT cate.categoryname,COUNT(books.bookid) as noofbooks
                   FROM books INNER JOIN category as cate on books.categoryid = cate.categoryid
                   where books.Authorid =:authorid GROUP BY cate.categoryname;";
-          $stm = $this->connection->prepare($sql);
-          $authorid= $authordashDTO->getAuthorid();
-          $stm->bindParam("authorid",$authorid);
-          $stm->execute();
-          if($stm->rowCount()>0)
+          $args = [
+            "authorid"=>$authordashDTO->getAuthorid()
+          ];
+          $result = $this->retrieveBook($sql,$args,$authordashDTO);
+          if($result)
           {
-             
-            $authordashDTO->setBook($stm->fetchAll(\PDO::FETCH_ASSOC));
-            //var_dump($authordashDTO->getBook());
              return true;
           }
           else
           {
             return false;
           }
-        }
-        catch(\PDOException $e)
-        {
-          echo $e->getMessage();
-          return false;
-        }
           
       }
 }

@@ -1,7 +1,6 @@
 <?php
 namespace App\Controller\accounts;
 use App\Model\accounts\LoginModel;
-//use App\Controller\accounts\InputInterface;
 use App\Model\accounts\loginuserDTO;
 use App\View\ViewDTO;
 
@@ -26,65 +25,8 @@ class LoginUser
         $this->loginModel = $loginModel;
     }
 
-
-    /**
-     * Inputdata function process the data 
-     * 
-     * getting by POST Method
-     * 
-     * @access public 
-     *
-     * @return void
-     */
-    public function inputData(array $value):ViewDTO
-    {
-        $logindto = loginuserDTO::fromArray($value);
-        //$this->LoginAuthorController($logindto);
-
-        if($this->loginModel->checkDualUser($logindto)) 
-        {
-           
-            $this->manageCookie("dual",$logindto);
-            return new ViewDTO(
-                "app/view/accounts","chooseRole.html.twig",$this->data
-            );
-            
-        }
-        else if($this->loginModel->checkUser($logindto))
-        {
-            
-            $this->manageCookie("user",$logindto);
-             //echo "user";
-            //header("Location: /userwelcome");
-            return new ViewDTO(
-                 "app/view/userdash","chooseRole.html.twig",$this->data
-            );
-        }                
-        else if($this->loginModel->checkAuthor($logindto))
-        {
-            //echo "author";
-            $this->manageCookie("author",$logindto);
-            return new ViewDTO(
-                "app/view/authordash","welcome.html.twig",$this->data
-            );
-            //header("Location: /welcomeauthor");
-        }
-        else
-        {    
-            //echo "not aacount";
-            $this->data=[
-                "msg"=>"Account does not exist"
-            ];
-            return new ViewDTO(
-                "app/view/accounts","register.html.twig",$this->data
-            );
-        }
-                 
-    }
-    
-
-    /**
-     * LoginUser controller function is responsible for 
+   /**
+     * inputData function is responsible for 
      * 
      * check User credential
      * 
@@ -102,9 +44,41 @@ class LoginUser
      *
      * @return ViewDTO
      */
+    public function inputData(array $value):ViewDTO
+    {
+        $logindto = loginuserDTO::fromArray($value);
+
+        if($this->loginModel->checkDualUser($logindto)) 
+        {
+           
+            $this->manageSession("dual",$logindto);
+            return $this->dualView();
+            
+        }
+        else if($this->loginModel->checkUser($logindto))
+        {
+            
+            $this->manageSession("user",$logindto);
+            return $this->userView();
+          
+        }                
+        else if($this->loginModel->checkAuthor($logindto))
+        {
+           
+            $this->manageSession("author",$logindto);
+
+            return $this->authorView();
+        }
+        else
+        {    
+            return $this->accountDoesNotExist();
+           
+        }
+                 
+    }
     
     /**
-     * manageCookie function is responsible for manageCookie
+     * manageSession function is responsible for manageSession
      * 
      * if cookie is empty we are setting cookie
      * 
@@ -116,7 +90,7 @@ class LoginUser
      * 
      */
 
-    public function manageCookie(string $role,loginuserDTO $dto):void
+    public function manageSession(string $role,loginuserDTO $dto):void
     {
             if(str_contains($role,"user"))
             {
@@ -135,5 +109,34 @@ class LoginUser
             $_SESSION['UserName']=$dto->getName();
             $_SESSION["Userid"]=$dto->getId();
           
+    }
+    private function dualView():ViewDTO{
+         
+       
+            return new ViewDTO(
+                "app/view/accounts","chooseRole.html.twig",$this->data
+            );
+    }
+    private function userView():ViewDTO{
+             
+        return new ViewDTO(
+            "app/view/userdash","chooseRole.html.twig",$this->data
+       );
+    }
+    private function authorView():ViewDTO{
+           
+        return new ViewDTO(
+            "app/view/authordash","welcome.html.twig",$this->data
+        );
+    }
+
+    private function accountDoesNotExist():ViewDTO{
+
+        $this->data=[
+            "msg"=>"Account does not exist"
+        ];
+        return new ViewDTO(
+            "app/view/accounts","register.html.twig",$this->data
+        );
     }
 }

@@ -8,8 +8,6 @@ use App\Model\Home\HomeAbstractModel;
  */
 class bookdetailsModel extends HomeAbstractModel 
 {
-   
-
     /**
      * fetchBook will fetchbook by bookid.
      *
@@ -20,28 +18,20 @@ class bookdetailsModel extends HomeAbstractModel
     public function fetchBook(HomeDTO $homeDTO):bool
     {
         
-        try
-        {
-            
-            $sql ="SELECT * FROM book where bookid='$homeDTO->bookId';";
-            $book=$this->conn->prepare($sql);
-            $book->execute();
-            if($book->rowCount()>0)
+            $sql ="SELECT * FROM book where bookid=':bookid';";
+            $args=[
+                "bookid"=>$homeDTO->getBookId()
+            ];
+            $result = $this->retrieveBook($sql,$args,$homeDTO);
+            if($result)
             {
-                $books=$book->fetchAll(\PDO::FETCH_ASSOC);
-                $homeDTO->setFetchBook($books);
                 return true;
             }
             else
             {
                 return false;
             }
-        }
-        catch(\PDOException $e)
-        {
-            echo $e->getMessage();
-            return false;
-        }
+       
     }
 
 }

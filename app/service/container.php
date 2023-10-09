@@ -47,6 +47,9 @@ use App\Controller\UserRedirect;
 use App\Controller\accounts\Logout;
 use App\Controller\authordash\CreateBookForm;
 use App\Controller\UserDash\WelcomeUser;
+use App\model\Home\category;
+use App\Model\Home\IndexModel;
+
 class Container implements ContainerInterface {
 
     protected array $serviceByClassName = [];
@@ -67,6 +70,8 @@ class Container implements ContainerInterface {
         $this->serviceByClassName[EditProfileModel::class] = new EditProfileModel();
         $this->serviceByClassName[UpdateProfileModel::class] = new UpdateProfileModel();
         $this->serviceByClassName[RecentOrderModel::class] = new RecentOrderModel();
+        $this->serviceByClassName[category::class] = new category();
+        $this->serviceByClassName[IndexModel::class] = new IndexModel();
         
         $this->serviceByClassName[Forgetform::class] = new Forgetform();
         $this->serviceByClassName[Loginform::class] = new Loginform();
@@ -111,13 +116,16 @@ class Container implements ContainerInterface {
             $this->serviceByClassName[BookModel::class]
         );
         $this->serviceByClassName[categoryController::class]= new categoryController(
-            $this->serviceByClassName[CategoryModel::class]
+            $this->serviceByClassName[CategoryModel::class],
+            $this->serviceByClassName[category::class]
         );
         $this->serviceByClassName[bookdetails::class] = new bookdetails(
-            $this->serviceByClassName[bookdetailsModel::class]
+            $this->serviceByClassName[bookdetailsModel::class],
+            $this->serviceByClassName[category::class]
         );
         $this->serviceByClassName[SearchByTitle::class] = new SearchByTitle(
-            $this->serviceByClassName[SearchByTitleModel::class]
+            $this->serviceByClassName[SearchByTitleModel::class],
+            $this->serviceByClassName[category::class]
         );
         $this->serviceByClassName[checkout::class] = new checkout(
             $this->serviceByClassName[CategoryModel::class]
@@ -137,7 +145,10 @@ class Container implements ContainerInterface {
         $this->serviceByClassName[RecentOrder::class] = new RecentOrder(
               $this->serviceByClassName[RecentOrderModel::class]
         );
-        $this->serviceByClassName[Firsts::class] = new Firsts();
+        $this->serviceByClassName[Firsts::class] = new Firsts(
+            $this->serviceByClassName[IndexModel::class],
+            $this->serviceByClassName[category::class]
+        );
 
   }
 

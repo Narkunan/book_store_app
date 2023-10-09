@@ -9,8 +9,6 @@ use App\Model\Home\HomeAbstractModel;
  */
 class CategoryModel extends HomeAbstractModel
 {
-    private string $category;
-
     /**
      * 
      * fetchBookBycategory function will fetch
@@ -24,27 +22,22 @@ class CategoryModel extends HomeAbstractModel
 
     public function fetchBookByCategory(HomeDTO $homeDTO):bool
     {
-        try
-        {
-            $sql="SELECT * FROM book where category='$homeDTO->category';";
-            $result=$this->conn->query($sql);
-            if($result->rowCount()>0)
+
+            $sql="SELECT * FROM book where category=:category;";
+            $args=[
+                "category"=>$homeDTO->getCategory()
+            ];
+            $result = $this->retrieveBook($sql,$args,$homeDTO);
+            if($result)
             {
-                $homeDTO->setFetchBook($result->fetchAll(\PDO::FETCH_ASSOC));
                 return true;
             }
             else 
             {
                 return false; 
             }
-        }
-        catch(\PDOException $e)
-        {
-            echo $e->getMessage();
-            return false;
-        }
+       
     }
     
-   
 }
  

@@ -1,6 +1,6 @@
 <?php
 /**
- * import required files;
+ * importing required files;
  */
 require "router/route.php";
 require "router/routes.php";
@@ -25,9 +25,9 @@ $urlPath = $_SERVER["PATH_INFO"]??$_SERVER['REQUEST_URI'];
 if (array_key_exists($urlPath,$routes)) {
 
     $route = $routes[$urlPath];
-    $controller = $route->getController();
-    $action = $route->getAction();
-    $view = $controller->$action($route->getMethod());
+    $controller = $route->getClassname();
+    $action = $route->getMethod();
+    $view = $controller->$action($route->getRequest_Method());
     $loader = new FilesystemLoader($view->directory);
     $twig=new Environment($loader);
     $twig->addExtension(new SessionExtension());

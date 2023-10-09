@@ -13,9 +13,6 @@ use App\View\ViewDTO;
 class EditBook extends AuthorDashBase implements DisplayDataI
 {
   private BookModel $model;
-  private AuthorDashView $view;
-  private AuthordashDTO $AuthorDashDTO;
-   
   public function __construct(BookModel $model )
   {
       $this->model = $model;
@@ -30,14 +27,15 @@ class EditBook extends AuthorDashBase implements DisplayDataI
    *
    * @return void
    */
-    public function editBookController(int $id):ViewDTO
+    public function editBookController(array $id):ViewDTO
     {
-      $this->AuthorDashDTO->setBookid($id);
-      $returnValue=$this->model->fetchBookByBookId($this->AuthorDashDTO);
+      $dto = new AuthordashDTO();
+      $dto->setBookid($id['id']);
+      $returnValue=$this->model->fetchBookByBookId($dto);
       if($returnValue)
       {   
         $data=[
-          "data"=>$this->AuthorDashDTO->getBook()
+          "data"=>$dto->getBook()
         ];
         return new ViewDTO(
             "app/view/authordash","EditBookView.html.twig",$data

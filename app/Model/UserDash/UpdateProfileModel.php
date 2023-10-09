@@ -17,16 +17,14 @@ class UpdateProfileModel extends UserDashModelBase
     
     public function updateUserProfile(UserDashDTO $userDashDTO):bool
     {
-        try
-        {
+ 
              $sql="UPDATE USERs SET name=:username where user_id=:userid;";
-             $stm=$this->conn->prepare($sql);
-             $name = $userDashDTO->getName();
-             $userid = $userDashDTO->getUserId();
-             $stm->bindParam("username",$name);
-             $stm->bindParam("userid",$userid);
-             $stm->execute();
-            if($stm)
+             $args =[
+                "username"=>$userDashDTO->getName(),
+                "userid"=>$userDashDTO->getUserId()
+             ];
+             $result = $this->saveData($sql,$args);
+            if($result)
             {
                 return true;
             }
@@ -34,11 +32,5 @@ class UpdateProfileModel extends UserDashModelBase
             {
                 return false;
             }
-      }
-      catch(\PDOException $e)
-      {
-            echo $e->getMessage();
-            return false;
-      }
     }
 }

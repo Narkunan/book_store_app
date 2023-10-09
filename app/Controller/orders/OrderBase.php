@@ -2,22 +2,14 @@
 namespace App\Controller\orders;
 use App\View\orders\OrderView;
 use App\View\Home\HomeView;
+use App\View\ViewDTO;
+
 abstract class OrderBase
 {
-    //protected checkOutDTO $checkOutDTO;
-    //protected $model;
-    protected OrderView $orderview;
-    protected string $msg;
-    protected string $loggeduser;
-    protected string $name;
-    protected HomeView $homeview;
-    public function __construct($model/**$checkOutDTO**/)
-    {
-        /**$this->orderview = new OrderView();
-        $this->homeview = new HomeView();
-        $this->model = $model;
-        $this->checkOutDTO =$checkOutDTO;
-        $this->loggeduser = $_SESSION['loggedUser'];
-        $this->name = $_SESSION['UserName'];**/
-    }
+     protected array $data;
+     protected function displayMessage():ViewDTO{
+        return new ViewDTO(
+            "app/view/home","HomeDisplayMessage.html.twig",$this->data
+        );
+     }
 }

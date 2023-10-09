@@ -17,7 +17,6 @@ class DeleteBook extends AuthorDashBase
 {
  
   private BookModel $model;
-  private AuthordashDTO $AuthorDashDTO;
    
   public function __construct(BookModel $model )
   {
@@ -38,7 +37,7 @@ class DeleteBook extends AuthorDashBase
       $coverimg=$this->model->deleteBookCoverPage($AuthorDashDTO);
       if($coverimg)
       {
-         $path="../../Model/upload/".$this->AuthorDashDTO->getCoverPage();
+         $path="../../Model/upload/".$AuthorDashDTO->getCoverPage();
          if(file_exists($path))
          {
            unlink($path);
@@ -55,40 +54,29 @@ class DeleteBook extends AuthorDashBase
     *
     * @return void
     */
-   public function deletedBookController(int $id):ViewDTO
+   public function deletedBookController(array $id):ViewDTO
    {
-      $this->AuthorDashDTO->setBookid($id);
-      $this->deleteBookImage($this->AuthorDashDTO);
-      $reult=$this->model->deleteBook($this->AuthorDashDTO);
+      $dto = new AuthordashDTO();
+      $dto->setBookid($id['id']);
+      $this->deleteBookImage($dto);
+      $reult=$this->model->deleteBook($dto);
       if($reult)
       {
-          $this->msg="your Most Recent Request For Delete Book Was Accomplished";
-          //$this->displayMesage();
-          $data=[
-            "data"=>$this->msg
+         
+          $this->data=[
+            "data"=>"your Most Recent Request For Delete Book Was Accomplished"
           ];
-          return new ViewDTO(
-            "app/view/authordash","AuthorMessage.html.twig",$data
-          );
+          return $this->displayMesage();
       }
       else
       {
-        ;
-        $this->msg="encountred Problem With Deleting Book ";
-          //$this->displayMesage();
-          $data=[
-            "data"=>$this->msg
+    
+          $this->data=[
+            "data"=>"encountred Problem With Deleting Book "
           ];
-          return new ViewDTO(
-            "app/view/authordash","AuthorMessage.html.twig",$data
-          );
+          return $this->displayMesage();
       }
-      //echo "<h1 style='font-size:50px;'> from delete book controller</h1>";
-
+   
     }
-    public function displayMesage():void
-    {
-        //$this->msg="your Most Recent Request For Delete Book Was Accomplished";
-        //$this->view->displayAuthorMessage($this->msg);
-    }
+  
 }

@@ -65,7 +65,7 @@ class AccountsDTO
         return new self(
           $data["email"],
           $data["password"],
-          $data["'securityquestion'"]
+          $data["securityquestion"]
         );
     }
 

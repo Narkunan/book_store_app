@@ -1,5 +1,7 @@
 <?php
 namespace App\Controller\authordash;
+use App\View\ViewDTO;
+
 /**
  * AuthorDashBase contains all commonly
  * 
@@ -9,6 +11,12 @@ namespace App\Controller\authordash;
  */
 abstract class AuthorDashBase
 {
-    protected string $msg;
-    abstract protected function displayMesage():void;
+    protected array $data;
+    protected function displayMesage():ViewDTO{
+    
+        return new ViewDTO(
+            "app/view/authordash","Authormessage.html.twig",$this->data
+         ); 
+    }
+
 }

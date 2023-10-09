@@ -119,4 +119,20 @@ class checkOutDTO
 
         return $this;
     }
+
+    /**
+     * Get the value of bookid
+     */ 
+    public function getBookid()
+    {
+        return $this->bookid;
+    }
+
+    /**
+     * Get the value of userid
+     */ 
+    public function getUserid()
+    {
+        return $this->userid;
+    }
 }

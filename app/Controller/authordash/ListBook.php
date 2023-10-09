@@ -3,7 +3,6 @@ namespace App\Controller\authordash;
 use App\Controller\authordash\AuthorDashBase;
 use App\Model\authordash\AuthordashDTO;
 use App\Model\authordash\ListBookModel;
-//use App\View\authordash\AuthorDashView;
 use App\View\ViewDTO;
 
 /**
@@ -13,8 +12,6 @@ use App\View\ViewDTO;
 class ListBook extends AuthorDashBase implements DisplayDataI
 {
    private ListBookModel $model;
-   //private AuthordashDTO $dto;
-   //private AuthorDashView $view;
    public function __construct(ListBookModel $model)
    {
        $this->model= $model;
@@ -35,33 +32,27 @@ class ListBook extends AuthorDashBase implements DisplayDataI
     *
     * @return void
     */
-   public function listBookManager():ViewDTO
+   public function listBookManager(array $value):ViewDTO
    {
       $dto = new AuthordashDTO();
       $dto->setAuthorid($_SESSION['Userid']);
       $bookFound=$this->model->fetchBooksByAuthorId($dto);
       if($bookFound)
       {
-         $data = [
+         $this->data = [
             "data"=>$dto->getBook()
          ];
-         return new ViewDTO(
-            "app/view/authordash","ListBook.html.twig",$data
-         );
+         return $this->displayBook();
      }
      else
      {
-         //$this->displayMesage();
-         $this->msg="You Have Not published Any Book";
-         $data=[
-            "data"=>$this->msg
+        
+         $this->data=[
+            "data"=>"You Have Not published Any Book"
          ];
-         return new ViewDTO(
-            "app/view/authordash","AuthorMessage.html.twig",$data
-         );
+         return $this->displayMesage();
 
      }
-     //echo "<h1 style='font-size:50px;'> from list book controller</h1>";
 
    }
    /**
@@ -73,14 +64,11 @@ class ListBook extends AuthorDashBase implements DisplayDataI
     *
     * @return void
     */
-   public function displayBook():void
+   public function displayBook():ViewDTO
    {
-      //$book=$this->dto->getBook();
-      //$this->view->displayEditBookView($book);
+      return new ViewDTO(
+         "app/view/authordash","ListBook.html.twig",$this->data
+      );
    }
-   public function displayMesage():void
-   {
-         //$this->msg="You have not published yet";
-         //$this->view->displayAuthorMessage($this->msg);
-   }
+  
 }

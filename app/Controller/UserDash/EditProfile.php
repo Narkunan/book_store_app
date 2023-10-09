@@ -4,17 +4,18 @@ use App\Model\UserDash\EditProfileModel;
 use App\Controller\UserDash\UserDashBase;
 use App\Model\UserDash\UserDashDTO;
 use App\View\ViewDTO;
+use App\Controller\UserDash\UserdashI;
 /**
  * editprofile class will fetch already existing
  * 
  * data and display to user.
  * 
  */
-class editprofile extends UserDashBase
+class editprofile extends UserDashBase implements UserdashI
 {
-    private $model;
+    private EditProfileModel $model;
 
-    public function __construct($model)
+    public function __construct(EditProfileModel $model)
     {
         $this->model = $model;
     }
@@ -35,24 +36,23 @@ class editprofile extends UserDashBase
         if($returnvalue)
         {
         
-            $data=[
+            $this->data=[
                 "data"=>$userdashDTO->getUserData()
             ];
-           // $this->view->editProfile($data ,$this->loggeduser,$this->name);
-           return new ViewDTO(
-                 "app/view/UserDash","EditProfileView.html.twig",$data
-           );
-            
+           
+            return $this->displayData();
         }
         else
         {
-            $msg = "something happened";
-            $data=[
-                "data"=>$msg
+            $this->data=[
+                "data"=>"something happened"
             ];
-            return new ViewDTO(
-                "app/view/UserDash","UserMessage.html.twig",$data
-            );
+           return $this->displayMessage();
         }
+    }
+    public function displayData():ViewDTO{
+        return new ViewDTO(
+            "app/view/UserDash","EditProfileView.html.twig",$this->data
+      );
     }
 }

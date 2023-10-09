@@ -5,7 +5,7 @@ use App\View\ViewDTO;
 
 class CreateBookForm
 {
-    public function createBookFormController()
+    public function createBookFormController(array $value)
     {
         $data =[];
         return new ViewDTO(

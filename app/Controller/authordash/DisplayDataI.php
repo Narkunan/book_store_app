@@ -1,6 +1,9 @@
 <?php
 namespace App\Controller\authordash;
+
+use App\View\ViewDTO;
+
  interface DisplayDataI
  {
-    public function displayBook():void;
+    public function displayBook():ViewDTO;
  }

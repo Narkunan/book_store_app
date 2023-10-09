@@ -9,11 +9,8 @@ use App\Model\Connection;
  */
 class HomeAbstractModel
 {
-    public  $conn;
+    protected $conn;
     
-    
-    
-
     /**
      * Constructor will establish connection
      */
@@ -21,6 +18,34 @@ class HomeAbstractModel
     {
         $this->conn = Connection::getInstance();
         $this->conn=$this->conn->getConnection();
+    }
+
+    protected function retrieveBook(string $sql,array $args,HomeDTO $dto):bool{
+
+        try
+        {
+        $stm = $this->conn->prepare($sql);
+        foreach($args as $key=>$value)
+        {
+            $stm->bindValue(":".$key,$value);
+        }
+        $stm->execute();
+        if($stm->rowCount()>0)
+        {
+            $dto->setFetchBook($stm->fetchAll(\PDO::FETCH_ASSOC));
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+         }
+        catch(\PDOException $e)
+        {
+           $e->getMessage();
+           return false;
+        }
+
     }
     
 }

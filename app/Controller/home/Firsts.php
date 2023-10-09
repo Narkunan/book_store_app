@@ -6,23 +6,17 @@ use App\View\ViewDTO;
 use App\Model\Home\category;
 class Firsts 
 {
-    //private $homeDTo;
-    private $indexmodel;
-    private $category;
-    public function __construct()
+    private IndexModel $indexmodel;
+    private category $category;
+    public function __construct(IndexModel $indexModel , category $category)
     {
-        $this->category= new category();
-        $this->indexmodel=new IndexModel();
-        //$this->homeDTo = new HomeDTO();
+        $this->category = $category;
+        $this->indexmodel = $indexModel;
     }
-    public function displayBook(array $value)
+    public function displayBook(array $value):ViewDTO
     {
-        //$loggeduser = $_SESSION['loggedUser']??"login";
-        //$name = $_SESSION['UserName']??"login";
+
         $homeDto = new HomeDTO();
-        //$loader = new FilesystemLoader('public/assets/html');
-        //$twig=new Environment($loader);
-        //$template=$twig->load('home.html.twig');
         $categorys = $this->category->category(); 
         $this->indexmodel->fetchBook($homeDto);
         $product=$homeDto->getFetchBook();
@@ -30,7 +24,7 @@ class Firsts
             "category"=>$categorys,
             "book"=>$product
         ];
-        //echo $template->render(['session'=>$loggeduser,'name'=>$name,'category'=>$categorys,'book'=>$product]);
+       
         return new ViewDTO(
             "app/view/home","SearchByTitleView.html.twig",$data
         );

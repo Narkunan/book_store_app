@@ -1,13 +1,12 @@
 <?php
 namespace App\Controller\accounts;
 use App\Model\accounts\ForgetModel;
-use App\Controller\accounts\InputInterface;
 use App\Model\accounts\AccountsDTO;
 use App\view\ViewDTO;
 /**
  * Forget class is for forget password
  */
-class Forget implements InputInterface
+class Forget
 {
     private ForgetModel $forgetModel;
     /**
@@ -23,74 +22,75 @@ class Forget implements InputInterface
     }
 
     /**
-     * process input
-     * 
-     * @access public
-     *
-     * @return void
-     */
-    public function inputData(array $value):void
-    {
-        $forgetDTO = AccountsDTO::fromMethod($value);
-        $this->forgetController($forgetDTO);
-    }
-
-    /**
      * ForgetController will controll things like retrieve password 
      * 
      * and pass it to the Forgetview.
      *
      * @return void
      */
-    public function forgetController(AccountsDTO $accountsDTO):ViewDTO
+    public function inputData(array $value):ViewDTO
     {
+
+        $forgetDTO = AccountsDTO::fromMethod($value);
         
-        if($this->forgetModel->checkAccountExsits($accountsDTO))
+        if($this->forgetModel->checkAccountExsits($forgetDTO))
         {
-            
-           
-            if($this->forgetModel->checkSecurityQuestion($accountsDTO))
+            if($this->forgetModel->checkSecurityQuestion($forgetDTO))
             {
-                
-                 if($this->forgetModel->updatePassword($accountsDTO))
-                 {
-                    $data=[
-                        "msg"=>"Password Updated"
-                    ];
-                    return new ViewDTO(
-                        "app/View/accounts","login.html.twig",$data
-                           
-                    );
+                 if($this->forgetModel->updatePassword($forgetDTO))
+                 {  
+                         return $this->passwordUpdate();  
                  }
                  else
-                 {
-                    $data=[
-                        "msg"=>"problem with updating password"
-                    ];
-                    return new ViewDTO("app/view/accounts","forget.html.twig",$data);
+                 {  
+                      return $this->problemWithUpdate();
                  }
             }
             else
             {  
-                $data = [
-                    'msg'=>"security question wrong"
-                    ];
-                    return new ViewDTO(
-                        "app/View/accounts","forget.html.twig",$data
-                    );
-                
+                return $this->wrongSecurityQuestion();
             }
-            
         }
         else
         {  
-            $data =[
-                'msg' =>"Account does not exist"
+            return $this->accountDoesNotExist();
+        }
+    }
+
+    
+    private function passwordUpdate():ViewDTO
+    {
+        $data=[
+            "msg"=>"Password Updated"
+        ];
+        return new ViewDTO(
+            "app/View/accounts","login.html.twig",$data
+               
+        );
+    }
+    private function wrongSecurityQuestion():ViewDTO
+    {
+        $data = [
+            'msg'=>"security question wrong"
             ];
             return new ViewDTO(
-                "app/view/accounts","register.htnl.twig",$data
+                "app/View/accounts","forget.html.twig",$data
             );
-        }
-        
+    }
+    private function accountDoesNotExist():ViewDTO
+    {
+        $data =[
+            'msg' =>"Account does not exist"
+        ];
+        return new ViewDTO(
+            "app/view/accounts","register.html.twig",$data
+        );
+    }
+    private function problemWithUpdate():ViewDTO
+    {
+        $data=[
+            "msg"=>"problem with updating password"
+        ];
+        return new ViewDTO("app/view/accounts","forget.html.twig",$data);
     }
 }

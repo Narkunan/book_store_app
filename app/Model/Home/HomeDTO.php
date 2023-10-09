@@ -125,4 +125,12 @@ class HomeDTO
 
         return $this;
     }
+
+    /**
+     * Get the value of bookId
+     */ 
+    public function getBookId()
+    {
+        return $this->bookId;
+    }
 }

@@ -15,15 +15,15 @@ class BecomeAuthorModel extends UserDashModelBase
      * 
      * @return boolean
      */
-    public function updateRole():bool
+    public function updateRole(UserDashDTO $dto):bool
     {
-        try
-        {
+        
             $sql="INSERT INTO user_role (user_id,roleid) VALUES (:user_id,1);";
-            $stm= $this->conn->prepare($sql);
-            $stm->bindParam("user_id",$this->userid);
-            $stm->execute();
-            if($stm)
+            $args=[
+                "user_id"=>$dto->getUserId()
+            ];
+            $result = $this->saveData($sql,$args);
+            if($result)
             {
                 return true;
             }
@@ -31,11 +31,5 @@ class BecomeAuthorModel extends UserDashModelBase
             {
                 return false;
             }
-      }
-      catch(\PDOException $e)
-      {
-            echo $e->getMessage();
-            return false;
-      }
     }
 }

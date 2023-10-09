@@ -26,25 +26,57 @@ abstract class abstarctModel
      *
      * @return boolean
      */
-    public function checkAccountExsits(AccountsDTO $accountsDTO):bool
+    public function checkExsits(string $sql,array $args):bool
     {
-            $sql="SELECT * FROM users where email= :email;";
-            $reult=$this->conn->prepare($sql);
-            $email = $accountsDTO->getEmail();
-            $reult->bindParam("email",$email);
-            $reult->execute();
+        $stm = $this->conn->prepare($sql);
+        foreach($args as $key=>$value)
+        {
+            $stm->bindValue(":".$key,$value);
+        }
+        $stm->execute();
+        if($stm->rowCount()>=1)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
             
-            if($reult->rowCount()>0)
-            {    
-                return false;
-            }
-            else
-            {
-                
-                return true;
-            }
-        
     }
 
+    protected function save(string $sql,array $args)
+    {
+        $stm = $this->conn->prepare($sql);
+        foreach($args as $key=>$value)
+        {
+            $stm->bindValue(":".$key,$value);
+        }
+        $stm->execute();
+        if($stm)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public function checkAccountExsits(AccountsDTO $accountsDTO):bool{
+        
+        $sql="SELECT * FROM users where email= :email;";
+        $value=[
+            "email"=>$accountsDTO->getEmail()
+        ];
+        $result = $this->checkExsits($sql,$value);
+        if($result)
+        {    
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 }

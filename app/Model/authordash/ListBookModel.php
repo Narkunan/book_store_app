@@ -17,31 +17,24 @@ class ListBookModel extends authordashAbstract
      */
     public function fetchBooksByAuthorId(AuthordashDTO $authordashDTO):bool
     {
-       try
-       {
+  
             $sql="SELECT * FROM BOOKs 
             INNER JOIN category as cate ON books.categoryid = cate.categoryid
             INNER JOIN subcategory as sub ON books.subcategoryid = sub.subcategoryid
             where books.authorid = :authorID";
-            $result=$this->connection->prepare($sql);
-            $authorid = $authordashDTO->getAuthorid();
-            $result->bindParam("authorID",$authorid);
-            $result->execute();
-            if($result->rowCount()>0)
+            $args = [
+               "authorID"=>$authordashDTO->getAuthorid()
+            ];
+            $result = $this->retrieveBook($sql,$args,$authordashDTO);
+            if($result)
             {
-               $authordashDTO->setBook($result->fetchAll(\PDO::FETCH_ASSOC));
                return true;
             }
             else
             {
                return false;
             }
-      }
-      catch(\PDOException $e)
-      {
-            echo $e->getMessage();
-            return false;
-      }
+   
     }
    
 }

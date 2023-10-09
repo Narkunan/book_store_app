@@ -8,18 +8,13 @@ use App\Model\Connection;
  */
 class ordersModel
 {
-    
-    private  $conn;
-
-    
+    private  $conn;   
     public function __construct()
     {
        $this->conn = Connection::getInstance();
        $this->conn=$this->conn->getConnection();
     }
     
-
-   
     /**
      * placeorder will create order
      * 
@@ -74,11 +69,12 @@ class ordersModel
     public function updateStockCount(checkOutDTO $checkOutDTO):bool
     {
         $sql="UPDATE book SET stock=stock-:quantity where bookid=:bookid;";
-        $stm=$this->conn->prepare($sql);
-        $stm->bindParam("quantity",$checkOutDTO->quantity);
-        $stm->bindParam("bookid",$checkOutDTO->bookid);
-        $stm->execute();
-        if($stm)
+        $args=[
+            "quantity"=>$checkOutDTO->getQuantity(),
+            "bookid"=>$checkOutDTO->getBookid()
+        ];
+        $result = $this->saveOrder($sql,$args);
+        if($result)
         {
             return true;
         }
@@ -98,14 +94,15 @@ class ordersModel
     {
         
         $sql="INSERT INTO ORDERS (user_id,bookid,order_date,ordervalue) values(:userid,:bookid,:orderdate,:ordervalue);";
-        $stm=$this->conn->prepare($sql);
-        $stm->bindParam("userid",$checkOutDTO->userid);
-        $stm->bindParam("bookid",$checkOutDTO->bookid);
         $date=date("Y-m-d");
-        $stm->bindParam("orderdate",$date);
-        $stm->bindParam("ordervalue",$checkOutDTO->finalprice);
-        $stm->execute();
-        if($stm)
+        $args=[
+            "userid"=>$checkOutDTO->getUserid(),
+            "bookid"=>$checkOutDTO->getBookid(),
+            "orderdate"=>$date,
+            "ordervalue"=>$checkOutDTO->getFinalprice()
+        ];
+        $result = $this->saveOrder($sql,$args);
+        if($result)
         {
             return true;
         }
@@ -125,16 +122,14 @@ class ordersModel
      */
     public function updateSaleCount(checkOutDTO $checkOutDTO):bool
     {
-        try
-        {
+       
             $sql="UPDATE book SET sales_count=sales_count+:quantity where bookid=:bookid;";
-            $stm=$this->conn->prepare($sql);
-            $quantity=$checkOutDTO->quantity;
-            $bookid=$checkOutDTO->bookid;
-            $stm->bindParam("quantity",$quantity);
-            $stm->bindParam("bookid",$bookid);
-            $stm->execute();
-            if($stm)
+            $args=[
+                "quantity"=>$checkOutDTO->getQuantity(),
+                "bookid"=>$checkOutDTO->getBookid()
+            ];
+            $result = $this->saveOrder($sql,$args);
+            if($result)
             {
                 return true;
             }
@@ -142,12 +137,33 @@ class ordersModel
             {
                 return false;
             }
-        }
-        catch(\PDOException $e)
+       
+    }
+    private function saveOrder(string $sql,array $args):bool{
+
+        try
         {
-            echo $e->getMessage();
+        $stm = $this->conn->prepare($sql);
+        foreach($args as $key=>$value)
+        {
+            $stm->bindValue(":".$key,$value);
+        }
+        $stm->execute();
+        if($stm)
+        {
+            return true;
+        }
+        else
+        {
             return false;
         }
+         }
+        catch(\PDOException $e)
+        {
+           $e->getMessage();
+           return false;
+        }
+
     }
 
     
